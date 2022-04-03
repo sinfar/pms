@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.user.RoleMapper">
+    <select id="list" resultType="jxf.pms.dbo.RoleDO">
+        select id, name, status from "role" where status != '删除'
+    </select>
+</mapper>

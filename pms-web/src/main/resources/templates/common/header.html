@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/lib/zui/css/zui.min.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+</head>
+<body class="m-my-index">
+<header id="header">
+    <div id="mainHeader">
+        <div class="container">
+            <hgroup id="heading">
+                <h1 id="companyname" title="IT项目管理系统"><a href="/templates/index.html">IT项目管理系统</a>
+                </h1>
+            </hgroup>
+            <nav id="navbar"><ul class="nav nav-default">
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 0}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li class="divider" th:if="${menus1.size() > 1}"></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 1}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li class="divider" th:if="${menus1.size() > 2}"></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 2}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li class="divider" th:if="${menus1.size() > 3}"></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 3}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+            </ul>
+            </nav>
+            <div id="toolbar">
+                <div id="userMenu">
+                    <div id="searchbox"><div class="input-group"><div class="input-group-btn"><a data-toggle="dropdown" class="btn btn-link" style="border-radius: 2px 0px 0px 2px;"><span id="searchTypeName">Bug</span> <span class="caret"></span></a><input type="hidden" name="searchType" id="searchType" value="bug">
+                        <ul id="searchTypeMenu" class="dropdown-menu"><li class="selected"><a href="javascript:$.setSearchType(&quot;bug&quot;);" data-value="bug">Bug</a></li><li><a href="javascript:$.setSearchType(&quot;story&quot;);" data-value="story">需求</a></li><li><a href="javascript:$.setSearchType(&quot;task&quot;);" data-value="task">任务</a></li><li><a href="javascript:$.setSearchType(&quot;testcase&quot;);" data-value="testcase">用例</a></li><li><a href="javascript:$.setSearchType(&quot;project&quot;);" data-value="project">项目</a></li><li><a href="javascript:$.setSearchType(&quot;product&quot;);" data-value="product">产品</a></li><li><a href="javascript:$.setSearchType(&quot;user&quot;);" data-value="user">用户</a></li><li><a href="javascript:$.setSearchType(&quot;build&quot;);" data-value="build">版本</a></li><li><a href="javascript:$.setSearchType(&quot;release&quot;);" data-value="release">发布</a></li><li><a href="javascript:$.setSearchType(&quot;productplan&quot;);" data-value="productplan">产品计划</a></li><li><a href="javascript:$.setSearchType(&quot;testtask&quot;);" data-value="testtask">测试单</a></li><li><a href="javascript:$.setSearchType(&quot;doc&quot;);" data-value="doc">文档</a></li><li><a href="javascript:$.setSearchType(&quot;caselib&quot;);" data-value="caselib">用例库</a></li><li><a href="javascript:$.setSearchType(&quot;testreport&quot;);" data-value="testreport">测试报告</a></li></ul></div><input id="searchInput" class="form-control search-input" type="search" onclick="this.value=&quot;&quot;" onkeydown="if(event.keyCode==13) $.gotoObject();" placeholder="编号(ctrl+g)" style="border-radius: 0px 2px 2px 0px; border-left-color: transparent;"></div><a href="javascript:$.gotoObject();" class="btn btn-link" id="searchGo">GO!</a></div>
+                    <ul id="userNav" class="nav nav-default">
+                        <li><a class="dropdown-toggle" data-toggle="dropdown"><span class="user-name" th:text="${user.name}">guest</span><span class="caret"></span></a>
+                            <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:;" onclick="logout()">退出</a>
+                                <script>
+                                    function logout() {
+                                        $.post('/logout', null, function() {
+                                            location.href = '/login'
+                                        })
+                                    }
+                                </script>
+                            </li></ul></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="subHeader">
+        <div class="container">
+            <div id="pageNav" class="btn-toolbar"></div>
+            <nav id="subNavbar"><ul class="nav nav-default" style="position: static;">
+                <li th:each="menu,i:${menus2}" th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id=""><a th:href="${menu.code}" th:text="${menu.name}">二级菜单</a></li>
+            </ul>
+            </nav>
+            <div id="pageActions"><div class="btn-toolbar"></div></div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
+
+

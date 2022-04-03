@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <link rel="stylesheet" href="/lib/zui/css/zui.min.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+
+    <style>#featurebar ul.nav li .chosen-container a.chosen-single{background:#F8FAFE; border:none; -webkit-box-shadow:none;box-shadow:none; padding-top:5px;}
+    .w-verifyPassword {width: 120px !important;}
+    .w-enVerifyPassword {width: 150px !important;}
+    body {background: #1183fb linear-gradient(-90deg, #0a48d1 0%, #1183fb 100%); background-color: #1183fb;}
+    #login {max-width: 600px!important; margin: 0 auto; margin-top: 5%;}
+    #loginPanel {background: #fff; overflow: hidden; box-shadow: 0 0 20px 0 rgba(0,0,0,.1); border-radius: 3px;}
+    #loginPanel > header {padding: 20px; border-bottom: 1px #eee solid; position: relative;}
+    #loginPanel > header > h2 {font-size: 16px; margin: 0; line-height: 32px; max-width: 83%;}
+    #loginPanel > header > .actions {position: absolute; right: 20px; top: 20px;}
+    #loginPanel > .table-row {margin: 20px 0;}
+    #loginPanel .table-form > tbody > tr > th {width: 60px;}
+    html[lang='en'] #loginPanel .table-form > tbody > tr > th {width: 80px;}
+    #loginPanel form {margin-right: 40px;}
+    #loginPanel > footer {background: #eee; padding: 20px; color: #838a9d}
+    #loginPanel > footer a {display: inline-block; margin-left: 5px;}
+    #info {margin-top: 10px; color: #fff;}
+    #info .btn + .btn {margin-left: 5px;}
+    #langs > .btn,
+    #langs > .dropdown-menu {min-width: 0; width: 85px;}
+
+    #logo-box img{margin-left:40px; width: 100px;}
+
+    .showNotice{color:yellow;}
+    .showNotice:hover{color:yellow;}
+    </style>
+
+    <script>
+        function login() {
+            $.post('/login', {
+                loginName: $('input[name=loginName]').val(),
+                password: $('input[name=password]').val()
+            }, function(data) {
+                location.href = '/index';
+            })
+        }
+    </script>
+</head>
+<body>
+
+<main id="main" class="fade in">
+    <div class="container" id="login" style="margin-top: 10%;">
+        <div id="loginPanel">
+            <header>
+                <h2>IT项目管理系统 PMS</h2>
+            </header>
+            <div class="table-row">
+                <div class="col-4 text-center text-middle">
+                    <img src="/img/logo.png" style="padding-left: 10px;"/>
+                </div>
+                <div class="col-8">
+                    <form method="post" onsubmit="login()" action="javascript:;">
+                        <table class="table table-form">
+                            <tbody>
+                            <tr>
+                                <th>用户名</th>
+                                <td><input class="form-control" type="text" name="loginName" id="loginName" autofocus=""></td>
+                            </tr>
+                            <tr>
+                                <th>密码</th>
+                                <td><input class="form-control" type="password" name="password" id="password" value=""></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="form-actions">
+                                    <button type="submit" id="submit" class="btn btn-primary" data-loading="稍候...">登录</button>
+                                    <input type="hidden" name="referer" id="referer" value="/">
+                                    <a href="javascript:alert('请联系管理员重置密码！')">忘记密码</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+<script src="/lib/zui/js/zui.min.js"></script>
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+
