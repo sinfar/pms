@@ -12,7 +12,7 @@ public class UserDTO {
     private String loginName;
     private String name;
     private String email;
-    private String phone_no;
+    private String phoneNo;
     private List<Integer> roleIds;
     private List<String> roleNames;
     private Date lastLoginTime;

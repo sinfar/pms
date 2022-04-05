@@ -1,7 +1,7 @@
 /*!
  * ZUI: Standard edition - v1.10.0 - 2021-11-04
  * http://openzui.com
- * GitHub: https://github.com/easysoft/zui.git 
+ * GitHub: https://github.com/easysoft/zui.git
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
@@ -3314,7 +3314,7 @@ a .icon-spin {
   content: '\e643';
   }
 .icon-step-backward:before {
-  content: '\e644';
+  content: "\e5dc";
   }
 .icon-fast-backward:before {
   content: '\e645';
@@ -3338,7 +3338,7 @@ a .icon-spin {
   content: '\e64b';
   }
 .icon-step-forward:before {
-  content: '\e64c';
+  content: "\e5dd";
   }
 .icon-eject:before {
   content: '\e64d';
@@ -3701,10 +3701,10 @@ a .icon-spin {
   content: '\e6d5';
   }
 .icon-double-angle-left:before {
-  content: '\e6dc';
+  content: "\e314";
   }
 .icon-double-angle-right:before {
-  content: '\e6dd';
+  content: "\e315";
   }
 .icon-double-angle-up:before {
   content: '\e6de';

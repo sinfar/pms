@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>IT项目管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="/lib/zui/css/zui.min.css">
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
     <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
 
     <style>
-        .search-table input,.search-table select {display: inline;width: 80%;}
+        .search-table input,.search-table select {display: inline;width: 77%;}
     </style>
+    <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
 </head>
 <body>
 <header id="header" th:replace="/common/header::#header"></header>
@@ -39,19 +42,22 @@
                 </tr>
                 <tr>
                     <td colspan="8" class="text-center form-actions">
-                        <button id="submit" class="btn btn-primary" onclick="javascript:getList();return false;" data-loading="稍候...">搜索</button>
+                        <button id="submit" class="btn btn-primary" onclick="javascript:table.getList();return false;" data-loading="稍候...">搜索</button>
                     </td>
                 </tr>
                 </tbody></table>
         </div>
     </div>
     <div class="panel">
+        <div class="btn-toolbar pull-right" style="margin-top: 10px; margin-right: 15px;">
+            <a href="/org/user/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加用户</a>
+        </div>
         <div class="panel-body">
             <table class="table" id="table">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>名称</th>
+                    <th>姓名</th>
                     <th>登录名</th>
                     <th>邮箱</th>
                     <th>手机号</th>
@@ -67,45 +73,53 @@
                     <td>{{i.loginName}}</td>
                     <td>{{i.email}}</td>
                     <td>{{i.phoneNo}}</td>
-                    <td>{{i.roleNames}}</td>
+                    <td><span v-for="roleName in i.roleNames">{{roleName}} </span></td>
                     <td>{{i.status}}</td>
                     <td>{{i.createTime}}</td>
                 </tr>
                 </tbody>
-                <tfoot>
-                <tr>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
-                </tfoot>
             </table>
-            <ul class="pager" data-ride="pager" data-page="2" data-rec-total="89"></ul>
+            <div class="table-footer">
+                <ul class="pager" id="pager"></ul>
+            </div>
         </div>
     </div>
     </form>
 </main>
 
 <script>
-    function getList() {
-        var data = $('#list_form').serializeJson();
-        $.post('/org/user/list', data, function(result) {
-            console.log(result);
-            var table = new Vue({
-                el: '#table',
-                data: {
-                    list: result.data,
-                    pageIndex: result.pageIndex,
-                    pageSize: 10
+    var table = new Vue({
+        el: '#table',
+        data: {
+            list:[]
+        },
+        created: function() {
+            $('#pager').pager({
+                onPageChange: function(state, oldState) {
+                    table.pageIndex = state.page;
+                    table.getList();
                 }
-            })
-        })
-        return false;
-    }
+            });
+        },
+        methods: {
+            getList: function() {
+                var data = $('#list_form').serializeJson();
+                data.pageIndex = table.pageIndex;
+                $.post('/org/user/list', data, function(result) {
+                    console.log(result);
+                    table.list = result.data;
+                    console.log(result.pageIndex + '-' + result.totalCount + '-' + result.pageSize);
+                    $('#pager').data('zui.pager').set(null, result.totalCount, result.pageSize);
+                })
+                return false;
+            }
+        }
+    });
+    $(function () {
+        table.getList();
+    })
 </script>
 
-<script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
-<script src="/lib/zui/js/zui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="/js/common.js"></script>
 </body>
 </html>

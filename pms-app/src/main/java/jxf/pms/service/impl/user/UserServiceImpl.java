@@ -82,9 +82,11 @@ public class UserServiceImpl implements UserServiceI {
 
     @Override
     public PageResponse<UserDTO> list(UserListQry userListQry) {
+        List<RoleDO> roleList = roleMapper.list();
+
         PageHelper.startPage(userListQry.getPageIndex(), userListQry.getPageSize());
         List<UserDO> userList = userMapper.list(userListQry);
-        List<RoleDO> roleList = roleMapper.list();
+        PageInfo<UserDO> page = new PageInfo(userList);
 
         List<UserDTO> userDTOS = new ArrayList<>();
         for(UserDO user: userList) {
@@ -103,7 +105,6 @@ public class UserServiceImpl implements UserServiceI {
             }
             userDTOS.add(userDTO);
         }
-        PageInfo<UserDTO> page = new PageInfo(userDTOS);
 
         return  PageResponse.of(userDTOS, (int)page.getTotal(), page.getPageSize(), page.getPageNum());
     }

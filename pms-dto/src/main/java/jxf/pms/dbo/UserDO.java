@@ -15,6 +15,8 @@ public class UserDO {
     private String status;
     private String phoneNo;
     private Date lastLoginTime;
+    private String loginName;
+    private Date createTime;
     private List<Integer> roles;
 
     public void setRoles(String rolesStr) {

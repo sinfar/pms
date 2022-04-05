@@ -21,4 +21,12 @@ public class UserController {
         model.addAttribute("roles", roles);
         return "user_list";
     }
+
+    @GetMapping("org/user/add")
+    public String add(Model model){
+        // 查询所有角色
+        List<RoleDTO> roles = roleServiceI.list().getData();
+        model.addAttribute("roles", roles);
+        return "user_add";
+    }
 }

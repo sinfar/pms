@@ -70,7 +70,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 二级菜单
         String url = request.getRequestURI();
-        PermissionDTO currMenu = permissions.stream().filter(t->url.equals(t.getCode())).findFirst().orElse(null);
+        PermissionDTO currMenu = permissions.stream().filter(t->url.startsWith(t.getCode())).findFirst().orElse(null);
         if (currMenu == null) {
             currMenu = permissions.stream().filter(t->t.getLevel() == 2).findFirst().orElseGet(null);
         }
