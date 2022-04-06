@@ -3,9 +3,11 @@ package jxf.pms.service.impl.user;
 import com.alibaba.cola.catchlog.CatchAndLog;
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jxf.pms.cmd.UserAddCmd;
 import jxf.pms.cmd.UserLoginCmd;
 import jxf.pms.cmd.PermissionListQry;
 import jxf.pms.cmd.UserListQry;
@@ -107,5 +109,13 @@ public class UserServiceImpl implements UserServiceI {
         }
 
         return  PageResponse.of(userDTOS, (int)page.getTotal(), page.getPageSize(), page.getPageNum());
+    }
+
+    @Override
+    public Response add(UserAddCmd userAddCmd) {
+        UserDO userDO = new UserDO();
+        BeanUtils.copyProperties(userAddCmd, userDO);
+        userMapper.add(userDO);
+        return  Response.buildSuccess();
     }
 }

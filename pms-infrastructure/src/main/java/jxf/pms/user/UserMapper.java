@@ -12,4 +12,6 @@ public interface UserMapper {
     LoginUserDO getByLoginName(String loginName);
 
     List<UserDO> list(UserListQry userListQry);
+
+    void add(UserDO userDO);
 }

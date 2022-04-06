@@ -16,6 +16,7 @@ public class UserDO {
     private String phoneNo;
     private Date lastLoginTime;
     private String loginName;
+    private Integer createBy;
     private Date createTime;
     private List<Integer> roles;
 

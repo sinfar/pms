@@ -22,4 +22,8 @@
             and #{roleId} = any(roles)
         </if>
     </select>
+    <insert id="add">
+        INSERT INTO "public"."user" ("name", "email", "password", "login_times", "last_login_time", "phone_no", "roles", "status", "create_by", "create_time", "login_name")
+        VALUES ( #{name}, #{email}, #{password}, 0, NULL, #{phoneNo}, #{roleIds}, '正常', #{create_by}, #{create_time}, #{loginName});
+    </insert>
 </mapper>
