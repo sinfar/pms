@@ -14,4 +14,10 @@ public interface UserMapper {
     List<UserDO> list(UserListQry userListQry);
 
     void add(UserDO userDO);
+
+    UserDO getByPhoneNo(String phoneNo);
+
+    UserDO getByName(String phoneNo);
+
+    UserDO getById(Integer userId);
 }

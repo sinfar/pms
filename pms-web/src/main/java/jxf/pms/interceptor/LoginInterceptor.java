@@ -2,22 +2,30 @@ package jxf.pms.interceptor;
 
 import com.alibaba.cola.dto.Response;
 import com.alibaba.fastjson.JSON;
+import jxf.pms.cmd.BaseCmd;
 import jxf.pms.data.LoginUserDTO;
 import jxf.pms.data.ErrorCode;
 import jxf.pms.data.PermissionDTO;
+import jxf.pms.data.UserThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.MethodParameter;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Parameter;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
+
+    static final ThreadLocal<Integer> localUserId = new ThreadLocal<>();
 
     /**
      * 在请求处理之前进行调用（Controller方法调用之前）
@@ -28,6 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             //统一拦截（查询当前session是否存在user）(这里user会在每次登陆成功后，写入session)
             LoginUserDTO user=(LoginUserDTO)request.getSession().getAttribute("user");
             if(user!=null){
+                UserThreadLocal.set(user);
                 return true;
             }
 
@@ -70,9 +79,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 二级菜单
         String url = request.getRequestURI();
-        PermissionDTO currMenu = permissions.stream().filter(t->url.startsWith(t.getCode())).findFirst().orElse(null);
+        PermissionDTO currMenu = permissions.stream().filter(t->url.equals(t.getCode())).findFirst().orElse(null);
         if (currMenu == null) {
             currMenu = permissions.stream().filter(t->t.getLevel() == 2).findFirst().orElseGet(null);
+        }
+        if (currMenu.getLevel() == 3) {
+            PermissionDTO finalCurrMenu1 = currMenu;
+            currMenu = permissions.stream().filter(t->t.getId().equals(finalCurrMenu1.getParentId())).findFirst().orElseGet(null);
         }
         PermissionDTO finalCurrMenu = currMenu;
         List<PermissionDTO> menus2 = permissions.stream().filter(t-> finalCurrMenu.getParentId() != null && finalCurrMenu.getParentId().equals(t.getParentId())).collect(Collectors.toList());

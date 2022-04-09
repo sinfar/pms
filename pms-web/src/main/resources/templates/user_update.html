@@ -26,30 +26,31 @@
                 <h2>添加用户</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <input type="hidden" name="id" th:value="${updateUser.id}">
                 <table class="table table-form" style="width: 400px;">
                     <tbody>
                     <tr>
                         <th>姓名</th>
                         <td class="required">
-                            <input type="text" class="form-control" name="name" required maxlength="10">
+                            <input type="text" class="form-control" name="name" required maxlength="10" th:value="${updateUser.name}">
                         </td>
                     </tr>
                     <tr>
                         <th>登录名</th>
                         <td class="required">
-                            <input type="text" class="form-control" name="loginName" required maxlength="10">
+                            <input type="text" class="form-control" name="loginName" required maxlength="10" th:value="${updateUser.loginName}">
                         </td>
                     </tr>
                     <tr>
                         <th>邮箱</th>
                         <td class="required">
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="email" class="form-control" name="email" required  th:value="${updateUser.email}">
                         </td>
                     </tr>
                     <tr>
                         <th>手机号</th>
                         <td class="required">
-                            <input type="text" class="form-control" name="phoneNo" mobile="true" required>
+                            <input type="text" class="form-control" name="phoneNo" mobile="true" required  th:value="${updateUser.phoneNo}">
                         </td>
                     </tr>
                     <tr>
@@ -57,7 +58,7 @@
                         <td class="">
                             <div>
                             <select name="roleIds" class="form-control" multiple data-multi="true">
-                                <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                                <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${updateUser.roleIds}"></option>
                             </select>
                             </div>
                         </td>
@@ -78,7 +79,7 @@
 
         var data = $('#dataform').serializeJson();
         if (data.roleIds && !Array.isArray(data.roleIds)) data.roleIds = [data.roleIds];
-        $.post('/org/user/add', data, function(result) {
+        $.post('/org/user/update', data, function(result) {
             alert('添加成功！');
             location.href = '/org/user';
         })

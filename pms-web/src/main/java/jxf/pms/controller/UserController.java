@@ -1,11 +1,14 @@
 package jxf.pms.controller;
 
 import jxf.pms.data.RoleDTO;
+import jxf.pms.data.UserDTO;
 import jxf.pms.service.RoleServiceI;
+import jxf.pms.service.UserServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -13,6 +16,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private RoleServiceI roleServiceI;
+    @Autowired
+    private UserServiceI userService;
 
     @GetMapping("org/user")
     public String list(Model model){
@@ -28,5 +33,19 @@ public class UserController {
         List<RoleDTO> roles = roleServiceI.list().getData();
         model.addAttribute("roles", roles);
         return "user_add";
+    }
+
+
+    @GetMapping("org/user/update")
+    public String update(@RequestParam Integer userId, Model model){
+        // 查询所有角色
+        List<RoleDTO> roles = roleServiceI.list().getData();
+        model.addAttribute("roles", roles);
+
+        // 查询用户
+        UserDTO user = userService.getById(userId).getData();
+        model.addAttribute("updateUser", user);
+
+        return "user_update";
     }
 }

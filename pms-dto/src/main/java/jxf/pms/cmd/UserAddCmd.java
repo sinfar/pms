@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserAddCmd {
+public class UserAddCmd extends  BaseCmd {
     private String name;
     private String loginName;
-    private String status;
     private List<Integer> roleIds;
     private String phoneNo;
+    private String email;
 }

@@ -11,26 +11,28 @@ import jxf.pms.cmd.UserAddCmd;
 import jxf.pms.cmd.UserLoginCmd;
 import jxf.pms.cmd.PermissionListQry;
 import jxf.pms.cmd.UserListQry;
-import jxf.pms.data.LoginResultDTO;
-import jxf.pms.data.LoginUserDTO;
-import jxf.pms.data.PermissionDTO;
-import jxf.pms.data.UserDTO;
+import jxf.pms.data.*;
 import jxf.pms.dbo.LoginUserDO;
 import jxf.pms.dbo.PermissionDO;
 import jxf.pms.dbo.RoleDO;
 import jxf.pms.dbo.UserDO;
+import jxf.pms.domain.user.PasswordChecker;
 import jxf.pms.service.UserServiceI;
 import jxf.pms.service.impl.customer.executor.UserLoginCheckCmdExe;
 import jxf.pms.domain.user.LoginToken;
 import jxf.pms.user.PermissionMapper;
 import jxf.pms.user.RoleMapper;
 import jxf.pms.user.UserMapper;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -112,10 +114,43 @@ public class UserServiceImpl implements UserServiceI {
     }
 
     @Override
-    public Response add(UserAddCmd userAddCmd) {
+    public SingleResponse<String> add(UserAddCmd userAddCmd) {
+        // 校验手机号是否重复
+        UserDO user = userMapper.getByPhoneNo(userAddCmd.getPhoneNo());
+        if (user != null) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "手机号已存在");
+        }
+
+        // 校验登录名是否重复
+        LoginUserDO loginUser = userMapper.getByLoginName(userAddCmd.getLoginName());
+        if (loginUser != null) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "登录名已存在");
+        }
+
+        // 校验姓名是否重复
+        UserDO user2 = userMapper.getByName(userAddCmd.getName());
+        if (user2 != null) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "姓名已存在");
+        }
+
+        String password = PasswordChecker.randomPassword();
+        String passwordEncrypt = PasswordChecker.encrypt(password);
+
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(userAddCmd, userDO);
+        userDO.setCreateTime(new Date());
+        userDO.setCreateBy(userAddCmd.getLoginUserId());
+        userDO.setPassword(passwordEncrypt);
         userMapper.add(userDO);
-        return  Response.buildSuccess();
+        return  SingleResponse.of(password);
+    }
+
+    @Override
+    public SingleResponse<UserDTO> getById(Integer userId) {
+        UserDO user = userMapper.getById(userId);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
+        userDTO.setRoleIds(user.getRoles());
+        return SingleResponse.of(userDTO);
     }
 }

@@ -2,6 +2,7 @@ package jxf.pms.controller;
 
 import com.alibaba.cola.dto.PageResponse;
 import com.alibaba.cola.dto.Response;
+import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.UserAddCmd;
 import jxf.pms.cmd.UserListQry;
 import jxf.pms.data.UserDTO;
@@ -24,7 +25,7 @@ public class UserRestController {
 
 
     @PostMapping("/org/user/add")
-    public Response add(@RequestBody UserAddCmd userAddCmd){
+    public SingleResponse<String> add(@RequestBody UserAddCmd userAddCmd){
         return userService.add(userAddCmd);
     }
 

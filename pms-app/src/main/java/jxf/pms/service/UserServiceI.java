@@ -2,7 +2,6 @@ package jxf.pms.service;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
-import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.PermissionListQry;
 import jxf.pms.cmd.UserAddCmd;
@@ -20,5 +19,7 @@ public interface UserServiceI {
 
     PageResponse<UserDTO> list(UserListQry userListQry);
 
-    Response add(UserAddCmd userAddCmd);
+    SingleResponse<String> add(UserAddCmd userAddCmd);
+
+    SingleResponse<UserDTO> getById(Integer userId);
 }

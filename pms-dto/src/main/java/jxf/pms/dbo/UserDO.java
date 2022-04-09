@@ -11,7 +11,6 @@ public class UserDO {
     private String name;
     private String password;
     private String email;
-    private String mobile;
     private String status;
     private String phoneNo;
     private Date lastLoginTime;
@@ -19,6 +18,7 @@ public class UserDO {
     private Integer createBy;
     private Date createTime;
     private List<Integer> roles;
+    private List<Integer> roleIds;
 
     public void setRoles(String rolesStr) {
         if (rolesStr == null)
