@@ -1,9 +1,11 @@
 package jxf.pms.user;
 
 import jxf.pms.cmd.UserListQry;
+import jxf.pms.dbo.UserBaseDO;
 import jxf.pms.dbo.UserDO;
 import jxf.pms.dbo.LoginUserDO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +22,12 @@ public interface UserMapper {
     UserDO getByName(String phoneNo);
 
     UserDO getById(Integer userId);
+
+    void update(UserDO userDO);
+
+    void updateStatus(@Param("id") Integer userId, @Param("status") String status);
+
+    void updatePassword(@Param("id") Integer userId, @Param("password") String password);
+
+    List<UserBaseDO> all();
 }

@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/lib/zui/css/zui.css">
     <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
 
     <style>
         .search-table input,.search-table select {display: inline;width: 77%;}
@@ -35,7 +36,6 @@
                     <td>
                         角色：
                         <select name="roleId" class="form-control">
-                        <option value="">请选择</option>
                         <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
                         </select>
                     </td>
@@ -78,8 +78,11 @@
                     <td>{{i.status}}</td>
                     <td>{{i.createTime}}</td>
                     <td>
-                        <a :href="'/org/user/update?userId=' + i.id" >修改</a>
-                        <a onclick="javascript:del({{i.id}});">删除</a>
+                        <a v-if="i.id != 1" :href="'/org/user/update?userId=' + i.id" >修改</a>
+                        <a v-if="i.id != 1 && i.status=='禁用'" :href="'javascript:enabled(' + i.id + ');'">启用</a>
+                        <a v-if="i.id != 1 && i.status=='正常'" :href="'javascript:disabled(' + i.id + ');'">禁用</a>
+                        <a v-if="i.id != 1" :href="'javascript:resetPassword(' + i.id + ', \'' + i.name + '\');'">重置密码</a>
+                        <a v-if="i.id != 1" :href="'javascript:del(' + i.id + ', \'' + i.name + '\');'">删除</a>
                     </td>
                 </tr>
                 </tbody>
@@ -111,21 +114,51 @@
                 var data = $('#list_form').serializeJson();
                 data.pageIndex = table.pageIndex;
                 $.post('/org/user/list', data, function(result) {
-                    console.log(result);
                     table.list = result.data;
-                    console.log(result.pageIndex + '-' + result.totalCount + '-' + result.pageSize);
                     $('#pager').data('zui.pager').set(null, result.totalCount, result.pageSize);
                 })
                 return false;
             }
         }
     });
+
+    function disabled(userId) {
+        $.post('/org/user/disabled', {userId:userId}, function(result) {
+            table.getList();
+        })
+    }
+
+    function enabled(userId) {
+        $.post('/org/user/enabled', {userId:userId}, function(result) {
+            table.getList();
+        })
+    }
+
+    function del(userId, name) {
+        var r = confirm('确定删除用户“' + name + '”?');
+        if (r) {
+            $.post('/org/user/delete', {userId: userId}, function (result) {
+                table.getList();
+            })
+        }
+    }
+
+    function resetPassword(userId, name) {
+        var r = confirm('确定重置用户“' + name + '”密码?');
+        if (r) {
+            $.post('/org/user/resetPassword', {userId: userId}, function (result) {
+                alert('重置密码成功！新密码：' + result.data);
+            })
+        }
+    }
+
     $(function () {
         table.getList();
     })
 </script>
 
 <script src="/js/common.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
 </body>
 </html>
 

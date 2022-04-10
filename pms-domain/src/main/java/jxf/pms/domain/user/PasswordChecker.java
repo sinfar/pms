@@ -16,6 +16,6 @@ public class PasswordChecker {
     }
 
     public static String randomPassword() {
-        return RandomStringUtils.random(6);
+        return RandomStringUtils.randomAlphabetic(6);
     }
 }

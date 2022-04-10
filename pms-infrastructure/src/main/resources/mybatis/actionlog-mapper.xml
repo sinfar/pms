@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.user.ActionLogMapper">
+    <select id="getObjectNameByObjectId" resultType="String">
+        <if test="operateObject == '用户'">
+            select name  from "user" where id = #{objectId}
+        </if>
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "action_log" ("operate_by", "operate_object", "action_type", "object_name", "object_id", "create_time")
+        VALUES (#{operateBy}, #{operateObject}, #{actionType}, #{objectName}, #{objectId}, #{createTime});
+    </insert>
+
+    <select id="list" resultType="jxf.pms.dbo.ActionLogDO">
+        select
+        a.create_time, a.action_type, a.object_id, a.operate_by, a.operate_object, a.object_name, b.name operate_by_name
+        from "action_log" a
+            join "user" b on b.id = a.operate_by
+        where status != '删除'
+        <if test="actionType != null and actionType != ''">
+            and a.action_type = #{actionType}
+        </if>
+        <if test="objectId != null">
+            and a.object_id = #{objectId}
+        </if>
+        <if test="operateBy != null">
+            and a.operate_by = #{operateBy}
+        </if>
+        <if test="operateObject != null and operateObject != ''">
+            and a.operate_object = #{operateObject}
+        </if>
+        <if test="objectName != null and objectName != ''">
+            and a.object_name = #{objectName}
+        </if>
+        order by a.id desc
+    </select>
+</mapper>

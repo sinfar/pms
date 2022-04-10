@@ -1,4 +1,4 @@
-package jxf.pms.service.impl.user;
+package jxf.pms.service.impl;
 
 import com.alibaba.cola.catchlog.CatchAndLog;
 import com.alibaba.cola.dto.MultiResponse;

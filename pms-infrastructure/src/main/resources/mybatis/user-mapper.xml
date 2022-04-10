@@ -21,6 +21,7 @@
         <if test="roleId != null">
             and #{roleId} = any(roles)
         </if>
+        order by id desc
     </select>
     <select id="getByName" resultType="jxf.pms.dbo.UserDO">
         select id, name, email, password, phone_no, status, last_login_time, roles, login_name, create_time from "user" where status != '删除'
@@ -34,8 +35,29 @@
         select id, name, email, password, phone_no, status, last_login_time, roles, login_name, create_time from "user" where status != '删除'
         and id = #{userId}
     </select>
-    <insert id="add">
-        INSERT INTO "public"."user" ("name", "email", "password", "login_times", "last_login_time", "phone_no", "roles", "status", "create_by", "create_time", "login_name")
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "user" ("name", "email", "password", "login_times", "last_login_time", "phone_no", "roles", "status", "create_by", "create_time", "login_name")
         VALUES ( #{name}, #{email}, #{password}, 0, NULL, #{phoneNo}, #{roleIds,typeHandler=jxf.pms.mybatis.IntegerArrayTypeHandler}, '正常', #{createBy}, #{createTime}, #{loginName});
     </insert>
+
+    <update id="update">
+        update "user" set name = #{name}, email = #{email}, phone_no = #{phoneNo}, roles =  #{roleIds,typeHandler=jxf.pms.mybatis.IntegerArrayTypeHandler}, login_name = #{loginName}
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update "user" set status = '${status}'
+        where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update "user" set password = #{password}
+        where id = #{id}
+    </update>
+
+    <select id="all" resultType="jxf.pms.dbo.UserBaseDO">
+        select id, name from "user" where status != '删除'
+        order by id desc
+    </select>
 </mapper>

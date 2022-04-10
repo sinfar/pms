@@ -23,7 +23,7 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>添加用户</h2>
+                <h2>修改用户</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
                 <input type="hidden" name="id" th:value="${updateUser.id}">
@@ -58,7 +58,7 @@
                         <td class="">
                             <div>
                             <select name="roleIds" class="form-control" multiple data-multi="true">
-                                <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${updateUser.roleIds}"></option>
+                                <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${updateUser.roleIds != null && updateUser.roleIds.contains(role.id)}"></option>
                             </select>
                             </div>
                         </td>
@@ -75,12 +75,12 @@
 
 <script>
     function save() {
-        if (!$('#dataform').valid('novalidate')) return;
+        if (!$('#dataform').valid()) return;
 
         var data = $('#dataform').serializeJson();
         if (data.roleIds && !Array.isArray(data.roleIds)) data.roleIds = [data.roleIds];
         $.post('/org/user/update', data, function(result) {
-            alert('添加成功！');
+            alert('修改成功！');
             location.href = '/org/user';
         })
     }

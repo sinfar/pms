@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -70,9 +71,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         for (PermissionDTO menu : menus1) {
             // 一级菜单路径为空，默认使用首个子菜单路径
             if (StringUtils.isEmpty(menu.getCode())) {
-                PermissionDTO firstChild = permissions.stream().filter(t-> menu.getId().equals(t.getParentId())).findFirst().orElseGet(null);
-                if (firstChild != null)
-                    menu.setCode(firstChild.getCode());
+                Optional<PermissionDTO> firstChild = permissions.stream().filter(t-> menu.getId().equals(t.getParentId())).findFirst();
+                if (firstChild.isPresent())
+                    menu.setCode(firstChild.get().getCode());
             }
         }
         modelAndView.addObject("menus1", menus1);

@@ -1,4 +1,4 @@
-package jxf.pms.service.impl.user;
+package jxf.pms.service.impl;
 
 import com.alibaba.cola.catchlog.CatchAndLog;
 import com.alibaba.cola.dto.MultiResponse;
@@ -7,15 +7,9 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import jxf.pms.cmd.UserAddCmd;
-import jxf.pms.cmd.UserLoginCmd;
-import jxf.pms.cmd.PermissionListQry;
-import jxf.pms.cmd.UserListQry;
+import jxf.pms.cmd.*;
 import jxf.pms.data.*;
-import jxf.pms.dbo.LoginUserDO;
-import jxf.pms.dbo.PermissionDO;
-import jxf.pms.dbo.RoleDO;
-import jxf.pms.dbo.UserDO;
+import jxf.pms.dbo.*;
 import jxf.pms.domain.user.PasswordChecker;
 import jxf.pms.service.UserServiceI;
 import jxf.pms.service.impl.customer.executor.UserLoginCheckCmdExe;
@@ -114,7 +108,7 @@ public class UserServiceImpl implements UserServiceI {
     }
 
     @Override
-    public SingleResponse<String> add(UserAddCmd userAddCmd) {
+    public SingleResponse<UserAddResult> add(UserAddCmd userAddCmd) {
         // 校验手机号是否重复
         UserDO user = userMapper.getByPhoneNo(userAddCmd.getPhoneNo());
         if (user != null) {
@@ -142,7 +136,11 @@ public class UserServiceImpl implements UserServiceI {
         userDO.setCreateBy(userAddCmd.getLoginUserId());
         userDO.setPassword(passwordEncrypt);
         userMapper.add(userDO);
-        return  SingleResponse.of(password);
+
+        UserAddResult result = new UserAddResult();
+        result.setId(userDO.getId());
+        result.setPassword(password);
+        return  SingleResponse.of(result);
     }
 
     @Override
@@ -152,5 +150,72 @@ public class UserServiceImpl implements UserServiceI {
         BeanUtils.copyProperties(user, userDTO);
         userDTO.setRoleIds(user.getRoles());
         return SingleResponse.of(userDTO);
+    }
+
+    @Override
+    public Response update(UserUpdateCmd userUpdateCmd) {
+        // 校验手机号是否重复
+        UserDO user = userMapper.getByPhoneNo(userUpdateCmd.getPhoneNo());
+        if (user != null && !user.getId().equals(userUpdateCmd.getId())) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "手机号已存在");
+        }
+
+        // 校验登录名是否重复
+        LoginUserDO loginUser = userMapper.getByLoginName(userUpdateCmd.getLoginName());
+        if (loginUser != null && !loginUser.getId().equals(userUpdateCmd.getId())) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "登录名已存在");
+        }
+
+        // 校验姓名是否重复
+        UserDO user2 = userMapper.getByName(userUpdateCmd.getName());
+        if (user2 != null && !user2.getId().equals(userUpdateCmd.getId())) {
+            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "姓名已存在");
+        }
+
+        UserDO userDO = new UserDO();
+        BeanUtils.copyProperties(userUpdateCmd, userDO);
+        userMapper.update(userDO);
+
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response disabled(UserDisabledCmd cmd) {
+        userMapper.updateStatus(cmd.getUserId(), "禁用");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response enabled(UserEnabledCmd cmd) {
+        userMapper.updateStatus(cmd.getUserId(), "正常");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response delete(UserDeleteCmd cmd) {
+        userMapper.updateStatus(cmd.getUserId(), "删除");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public SingleResponse<String> resetPassword(UserResetPasswordCmd cmd) {
+        String password = PasswordChecker.randomPassword();
+        String passwordEncrypt = PasswordChecker.encrypt(password);
+
+        userMapper.updatePassword(cmd.getUserId(), passwordEncrypt);
+
+        return SingleResponse.of(password);
+    }
+
+    @Override
+    public MultiResponse<UserBaseDTO> all() {
+        List<UserBaseDO> userBaseDOS = userMapper.all();
+        List<UserBaseDTO> userBaseDTOList = new ArrayList<>();
+        for (UserBaseDO o : userBaseDOS) {
+            UserBaseDTO t = new UserBaseDTO();
+            BeanUtils.copyProperties(o, t);
+            userBaseDTOList.add(t);
+        }
+        return MultiResponse.of(userBaseDTOList);
     }
 }

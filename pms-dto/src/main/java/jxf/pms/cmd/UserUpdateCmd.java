@@ -7,7 +7,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserAddCmd extends BaseCmd {
+public class UserUpdateCmd extends  BaseCmd {
+    @ActionLogObjectId
+    private Integer id;
     @ActionLogObjectName
     private String name;
     private String loginName;

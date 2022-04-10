@@ -74,12 +74,12 @@
 
 <script>
     function save() {
-        if (!$('#dataform').valid('novalidate')) return;
+        if (!$('#dataform').valid()) return;
 
         var data = $('#dataform').serializeJson();
         if (data.roleIds && !Array.isArray(data.roleIds)) data.roleIds = [data.roleIds];
         $.post('/org/user/add', data, function(result) {
-            alert('添加成功！');
+            alert('添加成功！用户登陆密码为：' + result.data.password);
             location.href = '/org/user';
         })
     }
