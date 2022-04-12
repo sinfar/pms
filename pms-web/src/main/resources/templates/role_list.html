@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <style>
+    </style>
+    <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <form id="list_form">
+    <div class="panel">
+        <div class="btn-toolbar pull-right" style="margin-top: 10px; margin-right: 15px;">
+            <a href="/org/role/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加角色</a>
+        </div>
+        <div class="panel-body">
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>角色名称</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="i in list">
+                    <td>{{i.id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.createByName}}</td>
+                    <td>{{i.createTime}}</td>
+                    <td>
+                        <a :href="'/org/role/info?userId=' + i.id" >查看权限</a>
+                        <a :href="'/org/role/update?userId=' + i.id" >配置角色</a>
+                        <a v-if="i.id != 1" :href="'javascript:del(' + i.id + ', \'' + i.name + '\');'">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <ul class="pager" id="pager"></ul>
+            </div>
+        </div>
+    </div>
+    </form>
+</main>
+
+<script>
+    var table = new Vue({
+        el: '#table',
+        data: {
+            list:[]
+        },
+        created: function() {
+            $('#pager').pager({
+                onPageChange: function(state, oldState) {
+                    table.pageIndex = state.page;
+                    table.getList();
+                }
+            });
+        },
+        methods: {
+            getList: function() {
+                var data = $('#list_form').serializeJson();
+                data.pageIndex = table.pageIndex;
+                $.post('/org/role/list', data, function(result) {
+                    table.list = result.data;
+                    $('#pager').data('zui.pager').set(null, result.totalCount, result.pageSize);
+                })
+                return false;
+            }
+        }
+    });
+
+    $(function () {
+        $('select').picker();
+        table.getList();
+    })
+</script>
+
+<script src="/js/common.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+</body>
+</html>
+
+

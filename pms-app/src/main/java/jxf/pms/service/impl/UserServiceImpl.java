@@ -17,9 +17,6 @@ import jxf.pms.domain.user.LoginToken;
 import jxf.pms.user.PermissionMapper;
 import jxf.pms.user.RoleMapper;
 import jxf.pms.user.UserMapper;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -80,7 +77,7 @@ public class UserServiceImpl implements UserServiceI {
 
     @Override
     public PageResponse<UserDTO> list(UserListQry userListQry) {
-        List<RoleDO> roleList = roleMapper.list();
+        List<RoleBaseDO> roleList = roleMapper.all();
 
         PageHelper.startPage(userListQry.getPageIndex(), userListQry.getPageSize());
         List<UserDO> userList = userMapper.list(userListQry);
@@ -96,7 +93,7 @@ public class UserServiceImpl implements UserServiceI {
             if (!CollectionUtils.isEmpty(user.getRoles())) {
                 List<String> roleNames = new ArrayList<>();
                 for(Integer role: user.getRoles()) {
-                    RoleDO r =  roleList.stream().filter(t->t.getId().equals(role)).findFirst().get();
+                    RoleBaseDO r =  roleList.stream().filter(t->t.getId().equals(role)).findFirst().get();
                     roleNames.add(r.getName());
                 }
                 userDTO.setRoleNames(roleNames);

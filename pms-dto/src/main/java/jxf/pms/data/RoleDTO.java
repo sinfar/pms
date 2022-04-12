@@ -2,10 +2,13 @@ package jxf.pms.data;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Data
 public class RoleDTO {
-    private Integer id;
+    private Integer Id;
     private String name;
+    private String status;
+    private String createByName;
+    private Date createTime;
 }

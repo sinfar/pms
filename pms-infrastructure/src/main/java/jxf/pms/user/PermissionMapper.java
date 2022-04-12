@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface PermissionMapper {
     List<PermissionDO> getPermissionList(@Param("userId")Integer userId);
+
+    List<PermissionDO> all();
 }

@@ -3,7 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jxf.pms.user.RoleMapper">
-    <select id="list" resultType="jxf.pms.dbo.RoleDO">
+    <select id="all" resultType="jxf.pms.dbo.RoleBaseDO">
         select id, name, status from "role" where status != '删除'
+    </select>
+    <select id="list" resultType="jxf.pms.dbo.RoleDO">
+        select a.id, a.name, a.status,  a.create_time, b.name create_by_name from "role" a
+         join  "user" b on b.id = a.create_by
+         where a.status != '删除'
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "role" (name, status, create_by, create_time )
+        VALUES ( #{name}, '正常', #{createBy}, #{createTime});
+    </insert>
+
+    <select id="info" resultType="jxf.pms.dbo.RoleBaseDO">
+        select id, name, status from "role" where status != '删除'
+        and id = #{id}
     </select>
 </mapper>

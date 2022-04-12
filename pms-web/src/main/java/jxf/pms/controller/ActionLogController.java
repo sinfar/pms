@@ -1,8 +1,6 @@
 package jxf.pms.controller;
 
-import jxf.pms.data.RoleDTO;
 import jxf.pms.data.UserBaseDTO;
-import jxf.pms.data.UserDTO;
 import jxf.pms.domain.log.ActionType;
 import jxf.pms.domain.log.OperateObject;
 import jxf.pms.service.UserServiceI;
@@ -20,7 +18,7 @@ public class ActionLogController {
     @Autowired
     private UserServiceI userService;
 
-    @GetMapping("org/log")
+    @GetMapping("/org/log")
     public String list(Model model){
         // 对象类型
         List<OperateObject> operateObjects = EnumUtils.getEnumList(OperateObject.class);
@@ -32,7 +30,6 @@ public class ActionLogController {
         model.addAttribute("operateObjects", operateObjects);
         model.addAttribute("actionTypes", actionTypes);
         model.addAttribute("users", users);
-
 
         return "log_list";
     }

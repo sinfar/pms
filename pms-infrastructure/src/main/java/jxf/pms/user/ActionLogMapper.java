@@ -2,7 +2,6 @@ package jxf.pms.user;
 
 import jxf.pms.cmd.ActionLogListQry;
 import jxf.pms.dbo.ActionLogDO;
-import jxf.pms.dbo.RoleDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

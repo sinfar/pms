@@ -23,6 +23,10 @@ public class UserDO {
     public void setRoles(String rolesStr) {
         if (rolesStr == null)
             return;
+        if (rolesStr.equals("{}")) {
+            roles = new ArrayList<>();
+            return;
+        }
         String array = rolesStr.substring(1, rolesStr.length() -1);
         String[] strArray = array.split(",");
         roles = new ArrayList<>();

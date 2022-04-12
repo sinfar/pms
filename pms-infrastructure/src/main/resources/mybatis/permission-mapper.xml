@@ -10,4 +10,9 @@
         </if>
         order by a.order_no asc
     </select>
+
+    <select id="all" resultType="jxf.pms.dbo.PermissionDO">
+        select id, name, code, parent_id, level from permission a
+        order by a.order_no asc
+    </select>
 </mapper>

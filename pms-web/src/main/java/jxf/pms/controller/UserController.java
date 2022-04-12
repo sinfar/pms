@@ -1,5 +1,6 @@
 package jxf.pms.controller;
 
+import jxf.pms.data.RoleBaseDTO;
 import jxf.pms.data.RoleDTO;
 import jxf.pms.data.UserDTO;
 import jxf.pms.service.RoleServiceI;
@@ -22,7 +23,7 @@ public class UserController {
     @GetMapping("org/user")
     public String list(Model model){
         // 查询所有角色
-        List<RoleDTO> roles = roleServiceI.list().getData();
+        List<RoleBaseDTO> roles = roleServiceI.all().getData();
         model.addAttribute("roles", roles);
         return "user_list";
     }
@@ -30,16 +31,15 @@ public class UserController {
     @GetMapping("org/user/add")
     public String add(Model model){
         // 查询所有角色
-        List<RoleDTO> roles = roleServiceI.list().getData();
+        List<RoleBaseDTO> roles = roleServiceI.all().getData();
         model.addAttribute("roles", roles);
         return "user_add";
     }
 
-
     @GetMapping("org/user/update")
     public String update(@RequestParam Integer userId, Model model){
         // 查询所有角色
-        List<RoleDTO> roles = roleServiceI.list().getData();
+        List<RoleBaseDTO> roles = roleServiceI.all().getData();
         model.addAttribute("roles", roles);
 
         // 查询用户

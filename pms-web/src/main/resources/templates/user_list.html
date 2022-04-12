@@ -9,7 +9,6 @@
     <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
 
     <style>
-        .search-table input,.search-table select {display: inline;width: 77%;}
     </style>
     <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -25,18 +24,18 @@
                 <tbody>
                 <tr class="input-control has-label-left">
                     <td>
-                        用户ID：<input type="text" name="userId" class="form-control">
+                        <input type="text" name="userId" class="form-control" placeholder="用户ID">
                     </td>
                     <td>
-                        登录名：<input type="text" name="loginName" class="form-control">
+                        <input type="text" name="loginName" class="form-control" placeholder="登录名">
                     </td>
                     <td>
-                        姓名：<input type="text" name="name" class="form-control">
+                        <input type="text" name="name" class="form-control" placeholder="姓名">
                     </td>
                     <td>
-                        角色：
-                        <select name="roleId" class="form-control">
-                        <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                        <select name="roleId" class="form-control" data-placeholder="角色">
+                            <option value=""></option>
+                            <option th:each="role,i:${roles}" th:value="${role.id}" th:text="${role.name}"></option>
                         </select>
                     </td>
                 </tr>
@@ -154,6 +153,7 @@
 
     $(function () {
         table.getList();
+        $('select').picker();
     })
 </script>
 
