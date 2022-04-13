@@ -21,4 +21,19 @@
         select id, name, status from "role" where status != '删除'
         and id = #{id}
     </select>
+
+    <select id="getByName" resultType="jxf.pms.dbo.RoleBaseDO">
+        select id, name, status from "role" where status != '删除'
+        and name = #{name}
+    </select>
+
+    <update id="updateStatus">
+        update "role" set status = '${status}'
+        where id = #{id}
+    </update>
+
+    <update id="update">
+        update "role" set name = '${name}'
+        where id = #{id}
+    </update>
 </mapper>

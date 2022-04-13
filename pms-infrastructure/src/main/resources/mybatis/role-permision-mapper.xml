@@ -14,4 +14,8 @@
     <select id="getByRoleId" resultType="jxf.pms.dbo.RolePermissionDO">
         select role_id, permission_id from "role_permission"
     </select>
+
+    <delete id="deleteByRoleId">
+        delete  from role_permission where role_id = #{roleId}
+    </delete>
 </mapper>

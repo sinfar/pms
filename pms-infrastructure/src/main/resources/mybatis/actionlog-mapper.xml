@@ -7,6 +7,9 @@
         <if test="operateObject == '用户'">
             select name  from "user" where id = #{objectId}
         </if>
+        <if test="operateObject == '角色'">
+            select name  from "role" where id = #{objectId}
+        </if>
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

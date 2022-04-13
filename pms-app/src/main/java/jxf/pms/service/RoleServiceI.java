@@ -2,11 +2,9 @@ package jxf.pms.service;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
-import jxf.pms.cmd.ActionLogListQry;
-import jxf.pms.cmd.RoleAddCmd;
-import jxf.pms.cmd.RoleListQry;
-import jxf.pms.cmd.RolePermissionsQry;
+import jxf.pms.cmd.*;
 import jxf.pms.data.*;
 
 import java.awt.color.ICC_Profile;
@@ -17,11 +15,15 @@ public interface RoleServiceI {
 
     MultiResponse<RoleBaseDTO> all();
 
-    MultiResponse<PermissionDTO> getAllPermissions();
+    MultiResponse<PermissionDTO> getAllPermissions(RolePermissionsQry qry);
 
     SingleResponse<RoleAddResult> add(RoleAddCmd cmd);
 
     SingleResponse<RoleBaseDTO> info(Integer roleId);
 
     MultiResponse<RolePermissionDTO> rolePermissions(RolePermissionsQry qry);
+
+    Response delete(RoleDeleteCmd cmd);
+
+    Response update(RoleUpdateCmd cmd);
 }

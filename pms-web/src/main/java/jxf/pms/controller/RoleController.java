@@ -29,17 +29,23 @@ public class RoleController {
         return "role_list";
     }
 
-    @GetMapping("org/role/add")
+    @GetMapping("/org/role/add")
     public String add(Model model){
         return "role_add";
     }
 
-    @GetMapping("org/role/update")
+    @GetMapping("/org/role/update")
     public String update(@RequestParam Integer roleId, Model model){
         SingleResponse<RoleBaseDTO> role = roleService.info(roleId);
-
         model.addAttribute("role", role.getData());
         return "role_update";
+    }
+
+    @GetMapping("/org/role/info")
+    public String info(@RequestParam Integer roleId, Model model){
+        SingleResponse<RoleBaseDTO> role = roleService.info(roleId);
+        model.addAttribute("role", role.getData());
+        return "role_info";
     }
 
 }

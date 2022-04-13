@@ -11,4 +11,6 @@ public interface RolePermissionMapper {
     void add(RolePermissionAddDO rolePermissionAddDO);
 
     List<RolePermissionDO> getByRoleId(Integer roleId);
+
+    void deleteByRoleId(Integer roleId);
 }

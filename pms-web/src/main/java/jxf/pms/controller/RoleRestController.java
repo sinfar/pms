@@ -2,6 +2,7 @@ package jxf.pms.controller;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.PageResponse;
+import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.*;
 import jxf.pms.data.*;
@@ -11,9 +12,7 @@ import jxf.pms.interceptor.ActionLog;
 import jxf.pms.service.ActionLogServiceI;
 import jxf.pms.service.RoleServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RoleRestController {
@@ -27,8 +26,8 @@ public class RoleRestController {
     }
 
     @PostMapping("/org/role/permissions")
-    public MultiResponse<PermissionDTO> permissions(){
-        return roleService.getAllPermissions();
+    public MultiResponse<PermissionDTO> permissions(@RequestBody RolePermissionsQry qry){
+        return roleService.getAllPermissions(qry);
     }
 
     @PostMapping("/org/role/add")
@@ -37,8 +36,20 @@ public class RoleRestController {
         return roleService.add(cmd);
     }
 
+    @PostMapping("/org/role/update")
+    @ActionLog(operateObject= OperateObject.role,actionType = ActionType.update)
+    public Response update(@RequestBody RoleUpdateCmd cmd){
+        return roleService.update(cmd);
+    }
+
     @PostMapping("/org/role/info")
     public MultiResponse<RolePermissionDTO> rolePermissions(@RequestBody RolePermissionsQry qry){
         return roleService.rolePermissions(qry);
+    }
+
+    @PostMapping("/org/role/delete")
+    @ActionLog(operateObject= OperateObject.role,actionType = ActionType.delete)
+    public Response delete(@RequestBody RoleDeleteCmd cmd){
+        return roleService.delete(cmd);
     }
 }

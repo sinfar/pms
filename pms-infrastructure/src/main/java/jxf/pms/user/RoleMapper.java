@@ -18,4 +18,10 @@ public interface RoleMapper {
     void add(RoleDO roleDO);
 
     RoleBaseDO info(Integer roleId);
+
+    void updateStatus(@Param("id") Integer roleId, @Param("status") String status);
+
+    void update(RoleDO roleDO);
+
+    RoleBaseDO getByName(String name);
 }

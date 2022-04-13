@@ -26,6 +26,7 @@
     <select id="getByName" resultType="jxf.pms.dbo.UserDO">
         select id, name, email, password, phone_no, status, last_login_time, roles, login_name, create_time from "user" where status != '删除'
         and name = #{name}
+        where name != '删除'
     </select>
     <select id="getByPhoneNo" resultType="jxf.pms.dbo.UserDO">
         select id, name, email, password, phone_no, status, last_login_time, roles, login_name, create_time from "user" where status != '删除'
