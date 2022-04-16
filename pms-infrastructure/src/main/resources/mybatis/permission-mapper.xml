@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jxf.pms.user.PermissionMapper">
     <select id="getPermissionList" resultType="jxf.pms.dbo.PermissionDO">
-        select id, name, code, parent_id, level from permission a
+        select id, name, code, parent_id, level, url from permission a
         <if test="userId != 1">
         where a.id in (select permission_id from role_permission where role_id in(select unnest(roles) from "user" where id = #{userId}))
         </if>
@@ -12,7 +12,7 @@
     </select>
 
     <select id="all" resultType="jxf.pms.dbo.PermissionDO">
-        select id, name, code, parent_id, level from permission a
+        select id, name, code, url, parent_id, level from permission a
         order by a.order_no asc
     </select>
 </mapper>

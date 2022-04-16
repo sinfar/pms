@@ -21,6 +21,7 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -64,23 +65,26 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 权限
         List<PermissionDTO> permissions =(List<PermissionDTO>)request.getSession().getAttribute("permissions");
+        Set<String> permissionCodes = permissions.stream().map(PermissionDTO::getCode).collect(Collectors.toSet());
         modelAndView.addObject("permissions", permissions);
+        modelAndView.addObject("permissionCodes", permissionCodes);
+
 
         // 一级菜单
         List<PermissionDTO> menus1 = permissions.stream().filter(t->t.getLevel() == 1).collect(Collectors.toList());
         for (PermissionDTO menu : menus1) {
             // 一级菜单路径为空，默认使用首个子菜单路径
-            if (StringUtils.isEmpty(menu.getCode())) {
+            if (StringUtils.isEmpty(menu.getUrl())) {
                 Optional<PermissionDTO> firstChild = permissions.stream().filter(t-> menu.getId().equals(t.getParentId())).findFirst();
                 if (firstChild.isPresent())
-                    menu.setCode(firstChild.get().getCode());
+                    menu.setUrl(firstChild.get().getUrl());
             }
         }
         modelAndView.addObject("menus1", menus1);
 
         // 二级菜单
         String url = request.getRequestURI();
-        PermissionDTO currMenu = permissions.stream().filter(t->url.equals(t.getCode())).findFirst().orElse(null);
+        PermissionDTO currMenu = permissions.stream().filter(t->url.equals(t.getUrl())).findFirst().orElse(null);
         if (currMenu == null) {
             currMenu = permissions.stream().filter(t->t.getLevel() == 2).findFirst().orElseGet(null);
         }

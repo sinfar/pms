@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserServiceI {
             d.setName(o.getName());
             d.setLevel(o.getLevel());
             d.setParentId(o.getParentId());
+            d.setUrl(o.getUrl());
             permissionDTOS.add(d);
         }
         return MultiResponse.of(permissionDTOS);

@@ -53,7 +53,6 @@ public class LoginRestController {
     public Response logout(HttpServletRequest request, HttpServletResponse response){
         request.getSession().removeAttribute("permissions");
         request.getSession().removeAttribute("user");
-
         return Response.buildSuccess();
 
     }

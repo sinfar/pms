@@ -9,4 +9,5 @@ public class PermissionDO {
     private String code;
     private Integer level;
     private Integer parentId;
+    private String url;
 }

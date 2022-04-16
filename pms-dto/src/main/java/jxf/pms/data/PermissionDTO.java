@@ -13,4 +13,5 @@ public class PermissionDTO implements Serializable {
     private Integer level;
     private Integer parentId;
     private Boolean isChecked;
+    private String url;
 }

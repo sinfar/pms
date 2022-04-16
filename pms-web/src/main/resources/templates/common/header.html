@@ -16,13 +16,13 @@
                 </h1>
             </hgroup>
             <nav id="navbar"><ul class="nav nav-default">
-                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 0}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 0}"><a th:href="${menu.url}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
                 <li class="divider" th:if="${menus1.size() > 1}"></li>
-                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 1}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 1}"><a th:href="${menu.url}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
                 <li class="divider" th:if="${menus1.size() > 2}"></li>
-                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 2}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 2}"><a th:href="${menu.url}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
                 <li class="divider" th:if="${menus1.size() > 3}"></li>
-                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 3}"><a th:href="${menu.code}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
+                <li th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id="" th:each="menu,i:${menus1}" th:if="${i.index == 3}"><a th:href="${menu.url}"><span th:text="${menu.name}"> 一级菜单</span></a></li>
             </ul>
             </nav>
             <div id="toolbar">
@@ -50,7 +50,7 @@
         <div class="container">
             <div id="pageNav" class="btn-toolbar"></div>
             <nav id="subNavbar"><ul class="nav nav-default" style="position: static;">
-                <li th:each="menu,i:${menus2}" th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id=""><a th:href="${menu.code}" th:text="${menu.name}">二级菜单</a></li>
+                <li th:each="menu,i:${menus2}" th:class="${menu.id == currMenu.parentId ||  menu.id == currMenu.id ? 'active':''}" data-id=""><a th:href="${menu.url}" th:text="${menu.name}">二级菜单</a></li>
             </ul>
             </nav>
             <div id="pageActions"><div class="btn-toolbar"></div></div>
