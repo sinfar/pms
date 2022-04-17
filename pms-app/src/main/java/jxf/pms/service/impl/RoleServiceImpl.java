@@ -10,10 +10,10 @@ import com.github.pagehelper.PageInfo;
 import jxf.pms.cmd.*;
 import jxf.pms.data.*;
 import jxf.pms.dbo.*;
-import jxf.pms.service.RoleServiceI;
-import jxf.pms.user.PermissionMapper;
-import jxf.pms.user.RoleMapper;
-import jxf.pms.user.RolePermissionMapper;
+import jxf.pms.service.RoleService;
+import jxf.pms.mapper.PermissionMapper;
+import jxf.pms.mapper.RoleMapper;
+import jxf.pms.mapper.RolePermissionMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @CatchAndLog
-public class RoleServiceImpl implements RoleServiceI {
+public class RoleServiceImpl implements RoleService {
 
     @Resource
     private RoleMapper roleMapper;

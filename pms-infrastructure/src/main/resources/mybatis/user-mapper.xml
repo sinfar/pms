@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jxf.pms.user.UserMapper">
+<mapper namespace="jxf.pms.mapper.UserMapper">
     <select id="getByLoginName" resultType="jxf.pms.dbo.LoginUserDO">
         select id, name, email, password, phone_no, status from "user" where status != '删除' and login_name = #{loginName}
     </select>

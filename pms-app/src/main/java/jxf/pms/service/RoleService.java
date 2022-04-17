@@ -10,7 +10,7 @@ import jxf.pms.data.*;
 import java.awt.color.ICC_Profile;
 import java.util.List;
 
-public interface RoleServiceI {
+public interface RoleService {
     PageResponse<RoleDTO> list(RoleListQry roleListQry);
 
     MultiResponse<RoleBaseDTO> all();

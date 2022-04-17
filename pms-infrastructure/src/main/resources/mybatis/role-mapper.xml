@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jxf.pms.user.RoleMapper">
+<mapper namespace="jxf.pms.mapper.RoleMapper">
     <select id="all" resultType="jxf.pms.dbo.RoleBaseDO">
         select id, name, status from "role" where status != '删除'
     </select>

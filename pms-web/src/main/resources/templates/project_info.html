@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <div id="mainContent" class="main-content">
+        <div class="center-block">
+            <div class="main-header">
+                <h2>项目信息</h2>
+            </div>
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <table class="table table-form" style="width: 400px;">
+                    <tbody>
+                    <tr>
+                        <th>项目名称</th>
+                        <td class="required" th:text="${project.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>项目代号</th>
+                        <td class=""  th:text="${project.code}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>开始时间</th>
+                        <td class="" th:text="${#dates.format(project.beginDate, 'yyyy-MM-dd')}">/td>
+                    </tr>
+                    <tr>
+                        <th>结束时间</th>
+                        <td class="" th:text="${#dates.format(project.endDate, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                    <tr>
+                        <th>可用工作日</th>
+                        <td class="" th:text="${project.workingDays}"></td>
+                    </tr>
+                    <tr>
+                        <th>负责人</th>
+                        <td class="" th:text="${project.leaderName}"></td>
+                    </tr>
+                    <tr>
+                        <th>项目描述</th>
+                        <td th:text="${project.describe}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>项目状态</th>
+                        <td th:text="${project.projectStatus}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>预估工时</th>
+                        <td th:html="${project.estimateHours}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>已消耗工时</th>
+                        <td th:html="${project.costHours}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>剩余工时</th>
+                        <td th:html="${project.leftHours}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>完成进度</th>
+                        <td th:text="${project.rateOfProgress}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+
+</script>
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jxf.pms.user.PermissionMapper">
+<mapper namespace="jxf.pms.mapper.PermissionMapper">
     <select id="getPermissionList" resultType="jxf.pms.dbo.PermissionDO">
         select id, name, code, parent_id, level, url from permission a
         <if test="userId != 1">

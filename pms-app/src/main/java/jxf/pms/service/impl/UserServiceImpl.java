@@ -11,12 +11,11 @@ import jxf.pms.cmd.*;
 import jxf.pms.data.*;
 import jxf.pms.dbo.*;
 import jxf.pms.domain.user.PasswordChecker;
-import jxf.pms.service.UserServiceI;
-import jxf.pms.service.impl.customer.executor.UserLoginCheckCmdExe;
+import jxf.pms.service.UserService;
 import jxf.pms.domain.user.LoginToken;
-import jxf.pms.user.PermissionMapper;
-import jxf.pms.user.RoleMapper;
-import jxf.pms.user.UserMapper;
+import jxf.pms.mapper.PermissionMapper;
+import jxf.pms.mapper.RoleMapper;
+import jxf.pms.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,10 +28,10 @@ import java.util.List;
 
 @Service
 @CatchAndLog
-public class UserServiceImpl implements UserServiceI {
+public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserLoginCheckCmdExe userLoginCheckCmdExe;
+    private ActionLogServiceImpl.UserLoginCheckCmdExe userLoginCheckCmdExe;
     @Resource
     private PermissionMapper permissionMapper;
     @Resource

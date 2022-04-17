@@ -1,4 +1,4 @@
-package jxf.pms.user;
+package jxf.pms.mapper;
 
 import jxf.pms.dbo.RolePermissionAddDO;
 import jxf.pms.dbo.RolePermissionDO;

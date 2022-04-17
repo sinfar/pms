@@ -1,4 +1,4 @@
-package jxf.pms.user;
+package jxf.pms.mapper;
 
 import jxf.pms.cmd.ActionLogListQry;
 import jxf.pms.dbo.ActionLogDO;

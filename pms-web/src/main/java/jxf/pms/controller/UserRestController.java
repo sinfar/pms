@@ -9,7 +9,7 @@ import jxf.pms.data.UserDTO;
 import jxf.pms.domain.log.ActionType;
 import jxf.pms.domain.log.OperateObject;
 import jxf.pms.interceptor.ActionLog;
-import jxf.pms.service.UserServiceI;
+import jxf.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestController {
 
     @Autowired
-    private UserServiceI userService;
+    private UserService userService;
 
     @PostMapping("/org/user/list")
     public PageResponse<UserDTO> list(@RequestBody UserListQry userListQry){

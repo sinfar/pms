@@ -1,4 +1,4 @@
-package jxf.pms.user;
+package jxf.pms.mapper;
 
 import jxf.pms.cmd.UserListQry;
 import jxf.pms.dbo.UserBaseDO;

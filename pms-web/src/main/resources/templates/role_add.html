@@ -70,7 +70,7 @@
     }
 
     function getPermissions() {
-        $.post('/org/role/permissions', null, function(result) {
+        $.post('/org/role/permissions', {}, function(result) {
             var permissions = result.data;
 
             var nodes = [];

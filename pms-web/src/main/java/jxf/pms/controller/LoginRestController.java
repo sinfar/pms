@@ -8,7 +8,7 @@ import jxf.pms.cmd.UserLoginCmd;
 import jxf.pms.data.LoginResultDTO;
 import jxf.pms.data.LoginUserDTO;
 import jxf.pms.data.PermissionDTO;
-import jxf.pms.service.UserServiceI;
+import jxf.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginRestController {
 
     @Autowired
-    private UserServiceI userService;
+    private UserService userService;
 
     @PostMapping("login")
     public Response login(@RequestBody UserLoginCmd loginCmd, HttpServletRequest request, HttpServletResponse response){

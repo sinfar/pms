@@ -1,4 +1,4 @@
-package jxf.pms.user;
+package jxf.pms.mapper;
 
 import jxf.pms.dbo.PermissionDO;
 import org.apache.ibatis.annotations.Mapper;

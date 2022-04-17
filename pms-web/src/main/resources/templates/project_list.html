@@ -4,32 +4,141 @@
     <meta charset="UTF-8">
     <title>IT项目管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="/lib/zui/css/zui.min.css">
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
     <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
 
-    <style>.dropdown-menu.with-search {padding: 0; min-width: 150px; overflow: hidden; max-height: 302px;}
-    .dropdown-menu > .menu-search .input-group {width:100%;}
-    .dropdown-menu > .menu-search .input-group-addon {position: absolute; right: 10px; top: 0; z-index: 10; background: none; border: none; color: #666}
-    .dropdown-menu > .menu-search .form-control {border: none!important; box-shadow: none!important; border-top: 1px solid #ddd!important;}
-    .dropdown-list {display: block; padding: 0; max-height: 270px; overflow-y: auto;}
-    .dropdown-list > li > a {display: block; padding: 3px 20px; clear: both; font-weight: normal; line-height: 1.53846154; color: #141414; white-space: nowrap;}
-    .dropdown-list > li > a:hover,
-    .dropdown-list > li > a:focus {color: #1a4f85;text-decoration: none;background-color: #ddd;}
-
-    .btn-toolbar .nav-title{float:left; display:inline-block; padding: 6px 12px; margin-bottom: 0; font-size: 13px; font-weight: bolder; line-height: 18px; text-align: center; white-space: nowrap; vertical-align: middle;}
+    <style>
     </style>
+    <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
 </head>
-<body class="m-my-index">
-<style>
-    .picker-single .picker-selection-remove{z-index: 1000;}
-    .picker-selection-single:after, .picker-multi.picker-focus .picker-selections:before{font-family: zenicon !important; content: '\f0d7' !important;}
-</style>
+<body>
 <header id="header" th:replace="/common/header::#header"></header>
 <main id="main" class="in">
+    <form id="list_form">
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-form table-fixed search-table">
+                <tbody>
+                <tr class="input-control has-label-left">
+                    <td>
+                        <input type="text" name="id" class="form-control" placeholder="项目ID">
+                    </td>
+                    <td>
+                        <input type="text" name="code" class="form-control" placeholder="项目代号">
+                    </td>
+                    <td>
+                        <input type="text" name="name" class="form-control" placeholder="项目名称">
+                    </td>
+                    <td>
+                        <select name="projectStatus" class="form-control" data-placeholder="项目状态">
+                            <option value=""></option>
+                            <option value="未开始">未开始</option>
+                            <option value="进行中">进行中</option>
+                            <option value="已关闭">已关闭</option>
+                            <option value="挂起">挂起</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-center form-actions">
+                        <button id="submit" class="btn btn-primary" onclick="javascript:table.getList();return false;" data-loading="稍候...">搜索</button>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="btn-toolbar pull-right" style="margin-top: 10px; margin-right: 15px;">
+            <a th:if="${permissionCodes.contains('project_add')}"  href="/project/project/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加项目</a>
+        </div>
+        <div class="panel-body">
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>项目名称</th>
+                    <th>项目代号</th>
+                    <th>结束时间</th>
+                    <th>负责人</th>
+                    <th>项目状态</th>
+                    <th>预估工时</th>
+                    <th>已消耗工时</th>
+                    <th>剩余工时</th>
+                    <th>完成进度</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="i in list">
+                    <td>{{i.id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.code}}</td>
+                    <td>{{i.endDate}}</td>
+                    <td>{{i.leaderName}}</td>
+                    <td>{{i.projectStatus}}</td>
+                    <td>{{i.estimateHours}}</td>
+                    <td>{{i.costHours}}</td>
+                    <td>{{i.leftHours}}</td>
+                    <td>{{i.rateOfProgress}}%</td>
+                    <td>
+                        <a th:if="${permissionCodes.contains('project_info')}"  :href="'/project/project/info?id=' + i.id" >查看</a>
+                        <a th:if="${permissionCodes.contains('project_update')}"  :href="'/project/project/update?id=' + i.id" >修改</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <ul class="pager" id="pager"></ul>
+            </div>
+        </div>
+    </div>
+    </form>
 </main>
 
-<script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
-<script src="/lib/zui/js/zui.min.js"></script>
+<script>
+    var table = new Vue({
+        el: '#table',
+        data: {
+            list:[]
+        },
+        created: function() {
+            $('#pager').pager({
+                onPageChange: function(state, oldState) {
+                    table.pageIndex = state.page;
+                    table.getList();
+                }
+            });
+        },
+        methods: {
+            getList: function() {
+                var data = $('#list_form').serializeJson();
+                data.pageIndex = table.pageIndex;
+                $.post('/project/project/list', data, function(result) {
+                    table.list = result.data;
+                    $('#pager').data('zui.pager').set(null, result.totalCount, result.pageSize);
+                })
+                return false;
+            }
+        }
+    });
+
+    function disabled(userId) {
+        $.post('/org/user/disabled', {userId:userId}, function(result) {
+            table.getList();
+        })
+    }
+
+    $(function () {
+        table.getList();
+        $('select').picker();
+    })
+</script>
+
+<script src="/js/common.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
 </body>
 </html>
 

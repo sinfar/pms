@@ -1,7 +1,5 @@
-package jxf.pms.user;
+package jxf.pms.mapper;
 
-import jxf.pms.cmd.ActionLogListQry;
-import jxf.pms.dbo.ActionLogDO;
 import jxf.pms.dbo.RoleBaseDO;
 import jxf.pms.dbo.RoleDO;
 import org.apache.ibatis.annotations.Mapper;

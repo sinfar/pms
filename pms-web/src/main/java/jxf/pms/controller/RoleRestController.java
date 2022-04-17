@@ -9,8 +9,7 @@ import jxf.pms.data.*;
 import jxf.pms.domain.log.ActionType;
 import jxf.pms.domain.log.OperateObject;
 import jxf.pms.interceptor.ActionLog;
-import jxf.pms.service.ActionLogServiceI;
-import jxf.pms.service.RoleServiceI;
+import jxf.pms.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoleRestController {
 
     @Autowired
-    private RoleServiceI roleService;
+    private RoleService roleService;
 
     @PostMapping("/org/role/list")
     public PageResponse<RoleDTO> list(RoleListQry roleListQry){

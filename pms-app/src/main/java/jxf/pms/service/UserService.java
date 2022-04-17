@@ -9,7 +9,7 @@ import jxf.pms.data.*;
 
 import java.util.List;
 
-public interface UserServiceI {
+public interface UserService {
 
     SingleResponse<LoginResultDTO> login(UserLoginCmd userLoginCmd);
 

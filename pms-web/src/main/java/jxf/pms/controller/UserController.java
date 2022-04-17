@@ -1,10 +1,9 @@
 package jxf.pms.controller;
 
 import jxf.pms.data.RoleBaseDTO;
-import jxf.pms.data.RoleDTO;
 import jxf.pms.data.UserDTO;
-import jxf.pms.service.RoleServiceI;
-import jxf.pms.service.UserServiceI;
+import jxf.pms.service.RoleService;
+import jxf.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +15,9 @@ import java.util.List;
 @Controller
 public class UserController {
     @Autowired
-    private RoleServiceI roleServiceI;
+    private RoleService roleServiceI;
     @Autowired
-    private UserServiceI userService;
+    private UserService userService;
 
     @GetMapping("org/user")
     public String list(Model model){
