@@ -66,4 +66,9 @@
         ) c on c.project_id = a.id
         where a.id=#{id}
     </select>
+
+    <update id="updateProjectStatus">
+        update "project" set project_status = '${projectStatus}'
+        where id = #{id}
+    </update>
 </mapper>

@@ -86,6 +86,10 @@
                     <td>
                         <a th:if="${permissionCodes.contains('project_info')}"  :href="'/project/project/info?id=' + i.id" >查看</a>
                         <a th:if="${permissionCodes.contains('project_update')}"  :href="'/project/project/update?id=' + i.id" >修改</a>
+                        <a th:if="${permissionCodes.contains('project_start')}" v-if="i.status=='未开始'" :href="'javascript:start(' + i.id + ', \'' + i.name + '\');'">开始</a>
+                        <a th:if="${permissionCodes.contains('project_block')}" v-if="i.status=='进行中'" :href="'javascript:block(' + i.id + ', \'' + i.name + '\');'">挂起</a>
+                        <a th:if="${permissionCodes.contains('project_close')}" v-if="i.status=='进行中'" :href="'javascript:close(' + i.id + ', \'' + i.name + '\');'">关闭</a>
+                        <a th:if="${permissionCodes.contains('project_active')}" v-if="i.status=='挂起' || i.status=='已关闭'" :href="'javascript:active(' + i.id + ', \'' + i.name + '\');'">激活</a>
                     </td>
                 </tr>
                 </tbody>
@@ -125,8 +129,26 @@
         }
     });
 
-    function disabled(userId) {
-        $.post('/org/user/disabled', {userId:userId}, function(result) {
+    function start(id, name) {
+        $.post('/project/project/start', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function block(id, name) {
+        $.post('/project/project/block', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function close(id, name) {
+        $.post('/project/project/close', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function active(id, name) {
+        $.post('/project/project/active', {id:id}, function(result) {
             table.getList();
         })
     }

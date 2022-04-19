@@ -75,4 +75,32 @@ public class ProjectServiceImpl implements ProjectService {
         BeanUtils.copyProperties(projectDO, projectDTO);
         return SingleResponse.of(projectDTO);
     }
+
+    @Override
+    public Response start(OperateBaseCmd cmd) {
+        updateProjectStatus(cmd.getId(), "进行中");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response block(OperateBaseCmd cmd) {
+        updateProjectStatus(cmd.getId(), "挂起");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response close(OperateBaseCmd cmd) {
+        updateProjectStatus(cmd.getId(), "已关闭");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public Response active(OperateBaseCmd cmd) {
+        updateProjectStatus(cmd.getId(), "进行中");
+        return Response.buildSuccess();
+    }
+
+    private void updateProjectStatus(Integer id, String projectStatus) {
+        projectMapper.updateProjectStatus(id, projectStatus);
+    }
 }

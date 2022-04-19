@@ -15,4 +15,12 @@ public interface ProjectService {
     Response update(ProjectUpdateCmd cmd);
 
     SingleResponse<ProjectDTO> getById(Integer id);
+
+    Response start(OperateBaseCmd cmd);
+
+    Response block(OperateBaseCmd cmd);
+
+    Response close(OperateBaseCmd cmd);
+
+    Response active(OperateBaseCmd cmd);
 }
