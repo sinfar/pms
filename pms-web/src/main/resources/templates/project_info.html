@@ -62,6 +62,10 @@
                         <td class="" th:text="${project.leaderName}"></td>
                     </tr>
                     <tr>
+                        <th>团队成员</th>
+                        <td class=""><span th:each="user,i:${project.members}" th:text="${user.name}"></span></td>
+                    </tr>
+                    <tr>
                         <th>项目描述</th>
                         <td th:text="${project.describe}">
                         </td>

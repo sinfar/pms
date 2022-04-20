@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class ProjectUpdateCmd extends BaseCmd {
     @ActionLogObjectId
-    private Integer roleId;
+    private Integer id;
     @ActionLogObjectName
     private String name;
     private String code;
@@ -23,4 +23,5 @@ public class ProjectUpdateCmd extends BaseCmd {
     private Integer leader;
     private String describe;
     private String projectStatus;
+    private List<Integer> members;
 }

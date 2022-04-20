@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.ProjectMemberMapper">
+    <select id="getProjectMembers" resultType="jxf.pms.dbo.UserBaseDO">
+        select id, name from "user" where status != '删除'
+        and id in (select user_id from project_member where project_id = #{project_id})
+        order by id desc
+    </select>
+
+    <insert id="addProjectMembers">
+        INSERT INTO "project_member" (user_id, project_id, create_by, create_time)
+        VALUES
+        <foreach collection ="members" item="userId" separator =",">
+            ( #{userId}, #{projectId}, #{createBy}, #{createTime})
+        </foreach>
+    </insert>
+
+    <delete id="delete">
+        delete from project_member where project_id = #{projectId}
+    </delete>
+</mapper>

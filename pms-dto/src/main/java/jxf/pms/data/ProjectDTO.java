@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ProjectDTO {
@@ -23,5 +24,11 @@ public class ProjectDTO {
     private Integer leftHours;
     private Integer rateOfProgress;
     private String describe;
+    private List<UserBaseDTO> members;
+
+    public boolean hasMember(Integer userId) {
+        if (members == null) return false;
+        return members.stream().anyMatch(t->t.getId().equals(userId));
+    }
 
 }

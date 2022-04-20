@@ -19,4 +19,5 @@ public class ProjectAddCmd extends BaseCmd {
     private Integer workingDays;
     private Integer leader;
     private String describe;
+    private List<Integer> members;
 }

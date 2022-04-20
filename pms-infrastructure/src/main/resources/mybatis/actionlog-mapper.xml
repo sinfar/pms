@@ -10,6 +10,9 @@
         <if test="operateObject == '角色'">
             select name  from "role" where id = #{objectId}
         </if>
+        <if test="operateObject == '项目'">
+            select name  from "project" where id = #{objectId}
+        </if>
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
