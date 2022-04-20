@@ -82,7 +82,6 @@
                         <td class="required">
                             <div>
                                 <select name="members" class="form-control" multiple data-multi="true" required>
-                                    <option></option>
                                     <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
                                 </select>
                             </div>
