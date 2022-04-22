@@ -19,7 +19,9 @@ public enum ActionType {
     delete("删除"),
     disabled("禁用"),
     enabled("启用"),
-    resetpassword("重置密码");
+    resetpassword("重置密码"),
+
+    rename("重命名");
 
     public String name;
 

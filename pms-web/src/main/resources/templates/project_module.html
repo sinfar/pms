@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+    <script type="text/javascript" src="/lib/ztree/js/jquery.ztree.core.min.js"></script>
+    <script type="text/javascript" src="/lib/ztree/js/jquery.ztree.excheck.min.js"></script>
+
+
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <div id="mainContent" class="main-content">
+        <div class="center-block">
+            <div class="main-header">
+                <h2>模块管理</h2>
+            </div>
+            <div class="main-form">
+                <ul id="moduleTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</main>
+<input type="hidden" name="projectName" th:value="${project.name}">
+<script>
+    var moduleTree = null;
+
+    function getModules() {
+        $.post('/project/module/list', {}, function(result) {
+            var modules = result.data;
+            var projectName = $('input[name=projectName]').val();
+            var rootNode = { id: 0, pId:item.parentId, name:projectName, open:true}
+            var nodes = [rootNode];
+            for (var i = 0; i < modules.length; i++) {
+                var item = modules[i];
+                var node = { id: item.id, pId:item.parentId, name:item.name, open:true};
+                nodes.push(node);
+            }
+
+            var setting = {
+                check: {
+                    enable: true,
+                    chkboxType : { "Y" : "ps", "N" : "s" }
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+            };
+
+            $(document).ready(function(){
+                moduleTree = $.fn.zTree.init($("#moduleTree"), setting, nodes);
+            });
+        })
+    }
+
+    $(function () {
+        getModules();
+    })
+</script>
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

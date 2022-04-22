@@ -86,6 +86,7 @@
                     <td>
                         <a th:if="${permissionCodes.contains('project_info')}"  :href="'/project/project/info?id=' + i.id" >查看</a>
                         <a th:if="${permissionCodes.contains('project_update')}"  :href="'/project/project/update?id=' + i.id" >修改</a>
+                        <a th:if="${permissionCodes.contains('project_module')}"  :href="'/project/project/module?id=' + i.id" >模块管理</a>
                         <a th:if="${permissionCodes.contains('project_start')}" v-if="i.projectStatus=='未开始'" :href="'javascript:start(' + i.id + ', \'' + i.name + '\');'">开始</a>
                         <a th:if="${permissionCodes.contains('project_block')}" v-if="i.projectStatus=='进行中'" :href="'javascript:block(' + i.id + ', \'' + i.name + '\');'">挂起</a>
                         <a th:if="${permissionCodes.contains('project_close')}" v-if="i.projectStatus=='进行中'" :href="'javascript:close(' + i.id + ', \'' + i.name + '\');'">关闭</a>
