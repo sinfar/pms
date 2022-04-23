@@ -11,5 +11,6 @@ public class ModuleDTO {
     private Integer Id;
     private String name;
     private Integer parentId;
+    private String parentName;
 
 }

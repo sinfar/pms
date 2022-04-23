@@ -5,9 +5,13 @@
 <mapper namespace="jxf.pms.mapper.ModuleMapper">
 
     <select id="list" resultType="jxf.pms.dbo.ModuleDO">
-        select id, name, parent_id from module
-        where status != '删除'
-        order by id asc
+        select a.id, a.name, a.parent_id, b.name parent_name from module a
+        left join  module b on b.id = a.parent_id
+        where a.status != '删除'
+        <if test="projectId != null">
+            and a.project_id = #{projectId}
+        </if>
+        order by b.id asc, a.id asc
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

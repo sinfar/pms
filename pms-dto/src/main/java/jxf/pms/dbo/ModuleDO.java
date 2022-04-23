@@ -13,5 +13,6 @@ public class ModuleDO {
     private Date createTime;
     private Integer createBy;
     private Integer projectId;
+    private String parentName;
 
 }

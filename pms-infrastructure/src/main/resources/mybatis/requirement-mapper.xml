@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.RequirementMapper">
+
+    <select id="list" resultType="jxf.pms.dbo.RequirementDO">
+        <bind name="name" value="'%' + name + '%'" />
+        select
+            a.id, a.name, a.requirement_phase, a.requirement_status, a.create_time, a.priority, b.name create_by_name, a.handle_by, b.name handle_by_name
+            from "requirement" a
+            join  "user" b on b.id = a.create_by
+            left join  "user" c on c.id = a.handle_by
+         where 1 = 1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+        <if test="createBy != null">
+            and a.create_by = #{createBy}
+        </if>
+        <if test="name != null and name != ''">
+            and a.name like #{name}
+        </if>
+        <if test="requirementStatus != null and requirementStatus != ''">
+            and a.requirement_status = '${requirementStatus}'
+        </if>
+        <if test="requirementPhase != null and requirementPhase != ''">
+            and a.requirement_phase = '${requirementPhase}'
+        </if>
+        order by a.id desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into requirement(name, project_id, module_id, plan_id, "describe", acceptance_criteria, priority,
+            create_by, create_time, requirement_phase, requirement_status, handle_by)
+        VALUES ( #{name},  #{projectId}, #{moduleId}, #{planId}, #{describe}, #{acceptanceCriteria}, #{priority},
+            #{createBy}, #{createTime},'${requirementPhase}','${requirementStatus}', #{handleBy})
+    </insert>
+
+    <update id="update">
+        update "requirement" set
+        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, plan_id = #{planId}, describe = #{describe}, acceptance_criteria = #{acceptanceCriteria},
+        priority = #{priority}, requirement_phase = '${requirementPhase}',  handle_by=#{handleBy}
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultType="jxf.pms.dbo.RequirementDO">
+        select
+            id, name, project_id, module_id, plan_id, "describe", acceptance_criteria, priority,
+            create_by, create_time, requirement_phase, requirement_status
+        from "requirement" a
+        where a.id=#{id}
+    </select>
+
+    <update id="updateRequirementStatus">
+        update "requirement" set requirement_status = '${requirementStatus}'
+        <if test="requirementStatus = '已关闭'">requirement_phase='已关闭'</if>
+        where id = #{id}
+    </update>
+</mapper>

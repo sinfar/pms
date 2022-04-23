@@ -7,6 +7,8 @@ import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.*;
 import jxf.pms.data.*;
 
+import java.util.List;
+
 public interface ProjectService {
     PageResponse<ProjectDTO> list(ProjectListQry qry);
 
@@ -23,4 +25,6 @@ public interface ProjectService {
     Response close(OperateBaseCmd cmd);
 
     Response active(OperateBaseCmd cmd);
+
+    List<ProjectDTO> all();
 }

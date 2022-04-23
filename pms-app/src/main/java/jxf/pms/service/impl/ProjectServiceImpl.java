@@ -134,6 +134,13 @@ public class ProjectServiceImpl implements ProjectService {
         return Response.buildSuccess();
     }
 
+    @Override
+    public List<ProjectDTO> all() {
+        List<ProjectDO> projectDOS = projectMapper.all();
+        List<ProjectDTO> list = ObjectUtils.copyList(projectDOS, ProjectDTO.class);
+        return list;
+    }
+
     private void updateProjectStatus(Integer id, String projectStatus) {
         projectMapper.updateProjectStatus(id, projectStatus);
     }

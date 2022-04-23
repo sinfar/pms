@@ -19,4 +19,6 @@ public interface ProjectMapper {
     ProjectDO getById(Integer id);
 
     void updateProjectStatus(@Param("id") Integer id, @Param("projectStatus") String projectStatus);
+
+    List<ProjectDO> all();
 }

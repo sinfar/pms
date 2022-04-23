@@ -37,6 +37,14 @@
         order by a.id desc
     </select>
 
+    <select id="all" resultType="jxf.pms.dbo.ProjectDO">
+        select
+            a.id, a.code, a.name, a.project_status,  a.begin_date, a.end_date,
+            a.working_days, a.describe
+            from "project" a
+        order by a.id desc
+    </select>
+
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO "project" (code, name, begin_date, end_date, working_days, leader, "describe", create_time, create_by, project_status)
         VALUES ( #{code},  #{name}, #{beginDate}, #{endDate}, #{workingDays}, #{leader}, #{describe}, #{createTime}, #{createBy},

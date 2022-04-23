@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.PlanMapper">
+
+    <select id="list" resultType="jxf.pms.dbo.PlanDO">
+        <bind name="name" value="'%' + name + '%'" />
+        select
+            a.id, a.name, a.plan_phase, a.plan_status, a.create_time, a.priority, b.name create_by_name, a.handle_by, b.name handle_by_name
+            from "plan" a
+            join  "user" b on b.id = a.create_by
+            left join  "user" c on c.id = a.handle_by
+         where 1 = 1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+        <if test="createBy != null">
+            and a.create_by = #{createBy}
+        </if>
+        <if test="name != null and name != ''">
+            and a.name like #{name}
+        </if>
+        <if test="planStatus != null and planStatus != ''">
+            and a.plan_status = '${planStatus}'
+        </if>
+        <if test="planPhase != null and planPhase != ''">
+            and a.plan_phase = '${planPhase}'
+        </if>
+        order by a.id desc
+    </select>
+
+    <select id="all" resultType="jxf.pms.dbo.PlanDO">
+        select id, name from plan
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into plan(name, project_id, module_id, plan_id, "describe", acceptance_criteria, priority,
+            create_by, create_time, plan_phase, plan_status, handle_by)
+        VALUES ( #{name},  #{projectId}, #{moduleId}, #{planId}, #{describe}, #{acceptanceCriteria}, #{priority},
+            #{createBy}, #{createTime},'${planPhase}','${planStatus}', #{handleBy})
+    </insert>
+
+    <update id="update">
+        update "plan" set
+        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, plan_id = #{planId}, describe = #{describe}, acceptance_criteria = #{acceptanceCriteria},
+        priority = #{priority}, plan_phase = '${planPhase}',  handle_by=#{handleBy}
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultType="jxf.pms.dbo.PlanDO">
+        select
+            id, name, project_id, module_id, plan_id, "describe", acceptance_criteria, priority,
+            create_by, create_time, plan_phase, plan_status
+        from "plan" a
+        where a.id=#{id}
+    </select>
+
+    <update id="updatePlanStatus">
+        update "plan" set plan_status = '${planStatus}'
+        <if test="planStatus = '已关闭'">plan_phase='已关闭'</if>
+        where id = #{id}
+    </update>
+</mapper>
