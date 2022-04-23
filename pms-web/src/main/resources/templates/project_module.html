@@ -18,7 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="/lib/zui/js/zui.min.js"></script>
     <script type="text/javascript" src="/lib/ztree/js/jquery.ztree.core.min.js"></script>
-    <script type="text/javascript" src="/lib/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/lib/ztree/js/jquery.ztree.exedit.min.js"></script>
 
 
 </head>
@@ -37,6 +37,7 @@
     </div>
 </main>
 <input type="hidden" name="projectName" th:value="${project.name}">
+<input type="hidden" name="projectId" th:value="${project.id}">
 <script>
     var moduleTree = null;
 
@@ -44,7 +45,7 @@
         $.post('/project/module/list', {}, function(result) {
             var modules = result.data;
             var projectName = $('input[name=projectName]').val();
-            var rootNode = { id: 0, pId:item.parentId, name:projectName, open:true}
+            var rootNode = { id: null, pId:null, name:projectName, open:true,enable:false,chkDisabled:true}
             var nodes = [rootNode];
             for (var i = 0; i < modules.length; i++) {
                 var item = modules[i];
@@ -53,20 +54,61 @@
             }
 
             var setting = {
-                check: {
+                view: {
+                    addHoverDom: addHoverDom
+                },
+                edit: {
                     enable: true,
-                    chkboxType : { "Y" : "ps", "N" : "s" }
+                    renameTitle: "重命名",
+                    RemoveTitle: "删除模块",
+                    showBtn: true,
+
                 },
                 data: {
                     simpleData: {
                         enable: true
                     }
+                },
+                callback: {
+                    onRemove: onRemove,
+                    onRename: onRename
                 }
             };
 
             $(document).ready(function(){
                 moduleTree = $.fn.zTree.init($("#moduleTree"), setting, nodes);
             });
+        })
+    }
+
+    var newCount = 1;
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+            + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_"+treeNode.tId);
+        if (btn) btn.bind("click", function(){
+            var node = {id:null, pId:treeNode.id, name:"新增模块" + + (newCount++)}
+            $.post('/project/module/add', {
+                projectId:$('input[name=projectId]').val(),
+                parentId:treeNode.id,
+                name:node.name}, function(result) {
+                var zTree = $.fn.zTree.getZTreeObj("moduleTree");
+                zTree.addNodes(treeNode, node);
+            })
+            return false;
+        });
+    };
+
+    function onRemove(e, treeId, treeNode) {
+        $.post('/project/module/delete', {id:treeNode.id}, function(result) {
+        })
+    }
+
+    function onRename(e, treeId, treeNode, isCancel) {
+        $.post('/project/module/rename', {id:treeNode.id, name:treeNode.name}, function(result) {
         })
     }
 

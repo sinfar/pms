@@ -13,6 +13,24 @@
         <if test="operateObject == '项目'">
             select name  from "project" where id = #{objectId}
         </if>
+        <if test="operateObject == '模块'">
+            select name  from "module" where id = #{objectId}
+        </if>
+        <if test="operateObject == '需求'">
+            select name  from "requirement" where id = #{objectId}
+        </if>
+        <if test="operateObject == '计划'">
+            select name  from "plan" where id = #{objectId}
+        </if>
+        <if test="operateObject == '任务'">
+            select name  from "task" where id = #{objectId}
+        </if>
+        <if test="operateObject == '测试单'">
+            select name  from "test_sheet" where id = #{objectId}
+        </if>
+        <if test="operateObject == 'BUG'">
+            select name  from "bug" where id = #{objectId}
+        </if>
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

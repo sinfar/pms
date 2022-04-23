@@ -12,5 +12,6 @@ public class ModuleDO {
     private String status;
     private Date createTime;
     private Integer createBy;
+    private Integer projectId;
 
 }

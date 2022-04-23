@@ -110,6 +110,7 @@
         // 同步编辑器内容
         myEditor.sync();
         var data = $('#dataform').serializeJson();
+        if (data.members && !Array.isArray(data.members)) data.members = [data.members];
         $.post('/project/project/add', data, function(result) {
             location.href = '/project/project';
         })

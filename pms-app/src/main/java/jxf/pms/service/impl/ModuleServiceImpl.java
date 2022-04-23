@@ -47,13 +47,14 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public SingleResponse<ModuleAddResult> add(ModuleAddCmd cmd) {
         // 校验模块名重复
-        ModuleDO other = moduleMapper.getByName(cmd.getName());
-        if (other != null) {
-            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "名称重复");
-        }
+//        ModuleDO other = moduleMapper.getByName(cmd.getName());
+//        if (other != null) {
+//            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "名称重复");
+//        }
 
         ModuleDO module = new ModuleDO();
         module.setName(cmd.getName());
+        module.setProjectId(cmd.getProjectId());
         module.setParentId(cmd.getParentId());
         module.setCreateBy(cmd.getLoginUserId());
         module.setCreateTime(new Date());
@@ -67,10 +68,10 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public Response rename(ModuleRenameCmd cmd) {
         // 校验模块名重复
-        ModuleDO other = moduleMapper.getByName(cmd.getName());
-        if (other != null && !other.getId().equals(cmd.getId())) {
-            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "名称重复");
-        }
+//        ModuleDO other = moduleMapper.getByName(cmd.getName());
+//        if (other != null && !other.getId().equals(cmd.getId())) {
+//            return SingleResponse.buildFailure(ErrorCode.b_error.getErrCode(), "名称重复");
+//        }
 
         moduleMapper.rename(cmd.getId(), cmd.getName());
 

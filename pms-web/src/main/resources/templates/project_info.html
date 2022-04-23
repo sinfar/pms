@@ -34,11 +34,12 @@
                 <h2>项目信息</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
-                <table class="table table-form" style="width: 400px;">
+                <table class="table table-form" style="width: 100%;">
                     <tbody>
                     <tr>
                         <th>项目名称</th>
                         <td class="required" th:text="${project.name}"></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>项目代号</th>
@@ -67,7 +68,7 @@
                     </tr>
                     <tr>
                         <th>项目描述</th>
-                        <td th:text="${project.describe}">
+                        <td th:utext="${project.describe}" colspan="2">
                         </td>
                     </tr>
                     <tr>

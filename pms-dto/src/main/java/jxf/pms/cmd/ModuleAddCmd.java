@@ -12,4 +12,5 @@ public class ModuleAddCmd extends BaseCmd {
     @ActionLogObjectName
     private String name;
     private Integer parentId;
+    private Integer projectId;
 }
