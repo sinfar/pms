@@ -10,4 +10,6 @@ public class RequirementListQry extends PageQuery {
     private String name;
     private String requirementStatus;
     private String requirementPhase;
+    private Integer projectId;
+    private Integer handleBy;
 }

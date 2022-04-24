@@ -42,7 +42,9 @@
     var moduleTree = null;
 
     function getModules() {
-        $.post('/project/module/list', {}, function(result) {
+        $.post('/project/module/list', {
+            projectId: $("input[name=projectId]").val()
+        }, function(result) {
             var modules = result.data;
             var projectName = $('input[name=projectName]').val();
             var rootNode = { id: null, pId:null, name:projectName, open:true,enable:false,chkDisabled:true}
