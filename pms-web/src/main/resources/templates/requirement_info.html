@@ -31,107 +31,70 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>修改需求</h2>
+                <h2>查看需求</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
-                <input type="hidden" name="id" th:value="${requirement.id}">
                 <table class="table table-form">
                     <tbody>
                     <tr>
                         <th>需求名称</th>
-                        <td class="required">
-                            <input type="text" class="form-control" name="name" required maxlength="20" th:value="${requirement.name}">
+                        <td  th:text="${requirement.name}">
                         </td>
                     </tr>
                     <tr>
                         <th>优先级</th>
-                        <td class="required">
-                            <div>
-                                <select id="priority_select" name="priority" class="form-control" data-multi="false" required>
-                                    <option th:selected="${requirement.priority==1}">1</option>
-                                    <option th:selected="${requirement.priority==2}">2</option>
-                                    <option th:selected="${requirement.priority==3}">3</option>
-                                </select>
-                            </div>
+                        <td  th:text="${requirement.priority}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属项目</th>
-                        <td class="required">
-                            <div>
-                                <select id="project_select" name="projectId" class="form-control" data-multi="false" required>
-                                    <option></option>
-                                    <option th:each="project,i:${projects}" th:value="${project.id}" th:text="${project.name}" th:selected="${requirement.projectId==project.id}"></option>
-                                </select>
-                            </div>
+                        <td  th:text="${requirement.projectName}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属模块</th>
-                        <td class="required">
-                            <div>
-                                <select id="module_select" name="moduleId" class="form-control" data-multi="false" required>
-                                    <option></option>
-                                    <option th:each="module,i:${modules}" th:value="${module.id}" th:text="${module.name}" th:selected="${requirement.moduleId==module.id}"></option>
-                                </select>
-                            </div>
+                        <td  th:text="${requirement.moduleName}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属计划</th>
-                        <td class="">
-                            <div>
-                                <select id="plan_select" name="planId" class="form-control" data-multi="false">
-                                    <option></option>
-                                    <option th:each="plan,i:${plans}" th:value="${plan.id}" th:text="${plan.name}" th:selected="${requirement.planId==plan.id}"></option>
-                                </select>
-                            </div>
+                        <td class="" th:text="${requirement.planName}">
                         </td>
                     </tr>
                     <tr>
                         <th>指派人</th>
-                        <td class="required">
-                            <div>
-                            <select name="handleBy" class="form-control" data-multi="false" required>
-                                <option></option>
-                                <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}" th:selected="${requirement.handleBy == user.id}"></option>
-                            </select>
-                            </div>
+                        <td  th:text="${requirement.handleByName}">
                         </td>
                     </tr>
                     <tr>
-                        <td>需求阶段</td>
-                        <td class="required">
-                            <div>
-                                <select name="requirementPhase" class="form-control" data-multi="false" required>
-                                    <option></option>
-                                    <option th:selected="${requirement.requirementPhase=='未开始'}">未开始</option>
-                                    <option th:selected="${requirement.requirementPhase=='已计划'}">已计划</option>
-                                    <option th:selected="${requirement.requirementPhase=='已立项'}">已立项</option>
-                                    <option th:selected="${requirement.requirementPhase=='研发中'}">研发中</option>
-                                    <option th:selected="${requirement.requirementPhase=='研发完毕'}">研发完毕</option>
-                                    <option th:selected="${requirement.requirementPhase=='测试中'}">测试中</option>
-                                    <option th:selected="${requirement.requirementPhase=='测试完毕'}">测试完毕</option>
-                                    <option th:selected="${requirement.requirementPhase=='已验收'}">已验收</option>
-                                </select>
-                            </div>
+                        <th>需求阶段</th>
+                        <td  th:text="${requirement.requirementPhase}">
                         </td>
                     </tr>
                     <tr>
-                        <td>需求描述</td>
-                        <td class="required">
-                            <textarea name="describe" class="form-control kindeditorSimple" th:text="${requirement.describe}"></textarea>
+                        <td>需求状态</td>
+                        <td  th:text="${requirement.requirementStatus}">
                         </td>
                     </tr>
                     <tr>
-                        <td>验收标准</td>
-                        <td class="required">
-                            <textarea name="acceptanceCriteria" class="form-control kindeditorSimple"  th:text="${requirement.acceptanceCriteria}"></textarea>
+                        <th>需求描述</th>
+                        <td  th:utext="${requirement.describe}">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="text-center form-actions">
-                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候...">保存</button><input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                        <th>验收标准</th>
+                        <td   th:utext="${requirement.acceptanceCriteria}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>创建人</th>
+                        <td   th:utext="${requirement.createByName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>创建时间</th>
+                        <td   th:text="${#dates.format(requirement.createTime, 'yyyy-MM-dd')}">
+                        </td>
                     </tr>
                     </tbody></table>
             </form>

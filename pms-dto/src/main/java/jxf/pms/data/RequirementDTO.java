@@ -23,5 +23,7 @@ public class RequirementDTO {
     private String createByName;
     private Integer handleBy;
     private String handleByName;
-
+    private String projectName;
+    private String planName;
+    private String moduleName;
 }
