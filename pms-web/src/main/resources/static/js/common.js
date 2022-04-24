@@ -56,3 +56,17 @@ function listToTree(oldArr){
     console.log(oldArr)
     return oldArr;
 }
+
+var simpleEditor = {
+    basePath: '/lib/zui/lib/kindeditor/',
+    bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
+    cssPath: '/lib/zui/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
+    resizeType : 1,
+    allowPreviewEmoticons : false,
+    allowImageUpload : false,
+    items : [
+        'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+        'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+        'insertunorderedlist', '|', 'emoticons', 'image', 'link'
+    ]
+}

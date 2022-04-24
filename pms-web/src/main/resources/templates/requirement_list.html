@@ -152,7 +152,7 @@
 
     function review(id, name) {
         var rst = confirm(name + ' 项目是否评审通过？')
-        $.post('/project/requirement/review', {id:id,isReview:rst}, function(result) {
+        $.post('/project/requirement/review', {id:id,ok:rst}, function(result) {
             table.getList();
         })
     }

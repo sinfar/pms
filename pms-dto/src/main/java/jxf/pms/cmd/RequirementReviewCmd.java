@@ -8,5 +8,5 @@ import lombok.Data;
 public class RequirementReviewCmd extends BaseCmd {
     @ActionLogObjectId
     private Integer id;
-    private boolean isOk;
+    private boolean ok;
 }

@@ -7,7 +7,7 @@
     <select id="list" resultType="jxf.pms.dbo.RequirementDO">
         <bind name="name" value="'%' + name + '%'" />
         select
-            a.id, a.name, a.requirement_phase, a.requirement_status, a.create_time, a.priority, b.name create_by_name, a.handle_by, b.name handle_by_name
+            a.id, a.name, a.requirement_phase, a.requirement_status, a.create_time, a.priority, b.name create_by_name, a.handle_by, c.name handle_by_name
             from "requirement" a
             join  "user" b on b.id = a.create_by
             left join  "user" c on c.id = a.handle_by
@@ -47,7 +47,7 @@
     <select id="getById" resultType="jxf.pms.dbo.RequirementDO">
         select
             a.id, a.name, a.project_id, a.module_id, a.plan_id, a."describe", a.acceptance_criteria, a.priority,
-            a.create_by, a.create_time, a.requirement_phase, a.requirement_status, b.name project_name, c.name moduleName, d.name planName,
+            a.create_by, a.handle_by, a.create_time, a.requirement_phase, a.requirement_status, b.name project_name, c.name moduleName, d.name planName,
             e.name handle_by_name, f.name create_by_name
         from "requirement" a
         left join  project b on a.project_id = b.id
@@ -60,7 +60,7 @@
 
     <update id="updateRequirementStatus">
         update "requirement" set requirement_status = '${requirementStatus}'
-        <if test="requirementStatus = '已关闭'">requirement_phase='已关闭'</if>
+        <if test="requirementStatus = '已关闭'">,requirement_phase='已关闭'</if>
         where id = #{id}
     </update>
 </mapper>

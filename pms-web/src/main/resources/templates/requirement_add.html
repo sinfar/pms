@@ -131,12 +131,14 @@
 </main>
 
 <script>
-    var myEditor = null;
+    var myEditor1 = null;
+    var myEditor2 = null;
     function save() {
         if (!$('#dataform').valid()) return;
 
         // 同步编辑器内容
-        myEditor.sync();
+        myEditor1.sync();
+        myEditor2.sync();
         var data = $('#dataform').serializeJson();
         $.post('/project/requirement/add', data, function(result) {
             location.href = '/project/requirement';
@@ -175,19 +177,8 @@
         $("#dataform").validate();
 
         // editor
-        myEditor = KindEditor.create('textarea.kindeditorSimple', {
-            basePath: '/lib/zui/lib/kindeditor/',
-            bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
-            cssPath: '/lib/zui/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
-            ]
-        });
+        myEditor1 = KindEditor.create('textarea[name=acceptanceCriteria]', simpleEditor);
+        myEditor2 = KindEditor.create('textarea[name=describe]', simpleEditor);
     })
 </script>
 

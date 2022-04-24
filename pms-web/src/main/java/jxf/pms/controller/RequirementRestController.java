@@ -40,7 +40,7 @@ public class RequirementRestController {
 
     @PostMapping("/project/requirement/review")
     @ActionLog(operateObject = OperateObject.requirement, actionType = ActionType.review)
-    public Response start(@RequestBody RequirementReviewCmd cmd) {
+    public Response review(@RequestBody RequirementReviewCmd cmd) {
         return requirementService.review(cmd);
     }
 
