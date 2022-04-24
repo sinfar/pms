@@ -4,19 +4,16 @@ import jxf.pms.annotation.ActionLogObjectId;
 import jxf.pms.annotation.ActionLogObjectName;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class PlanUpdateCmd extends BaseCmd {
     @ActionLogObjectId
     private Integer id;
     @ActionLogObjectName
     private String name;
-    private Integer projectId;
-    private Integer moduleId;
-    private Integer planId;
+    private Date beginDate;
+    private Date endDate;
     private String describe;
-    private String acceptanceCriteria;
-    private Integer priority;
-    private String requirementPhase;
-    private String requirementStatus;
-    private Integer handleBy;
+    private Integer projectId;
 }

@@ -50,11 +50,7 @@ public class PlanController {
         // 所有项目
         List<ProjectDTO> projects = projectService.all();
 
-        // 所有计划
-
-
         model.addAttribute("users", users);
-        model.addAttribute("projects", projects);
         return "plan_add";
     }
 
@@ -68,26 +64,12 @@ public class PlanController {
         List<ProjectDTO> projects = projectService.all();
         model.addAttribute("projects", projects);
 
-        // 需求
-        PlanDTO plan = planService.getById(id).getData();
-        model.addAttribute("plan", plan);
-
-        // 当前模块
-        ModuleListQry qry = new ModuleListQry();
-        qry.setProjectId(plan.getProjectId());
-        List<ModuleDTO> modules = moduleService.list(qry).getData();
-        model.addAttribute("modules", modules);
-
         return "plan_update";
     }
 
 
     @GetMapping("/project/plan/info")
     public String info(@RequestParam Integer id, Model model){
-        // 所有用户
-        List<UserBaseDTO>  users =  userService.all().getData();
-        model.addAttribute("users", users);
-
         PlanDTO plan = planService.getById(id).getData();
         model.addAttribute("plan", plan);
 

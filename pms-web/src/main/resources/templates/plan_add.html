@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <div id="mainContent" class="main-content">
+        <div class="center-block">
+            <div class="main-header">
+                <h2>添加计划</h2>
+            </div>
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <table class="table table-form" style="width: 400px;">
+                    <tbody>
+                    <tr>
+                        <th>项目名称</th>
+                        <td class="required">
+                            <input type="text" class="form-control" name="name" required maxlength="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>项目代号</th>
+                        <td class="required">
+                            <input type="text" class="form-control" name="code" required maxlength="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>开始时间</th>
+                        <td class="required">
+                            <input type="text" class="form-control form-date" name="beginDate" readonly required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>结束时间</th>
+                        <td class="required">
+                            <input type="text" class="form-control form-date" name="endDate" readonly required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>可用工作日</th>
+                        <td class="required">
+                            <input type="number" class="form-control" name="workingDays" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>负责人</th>
+                        <td class="required">
+                            <div>
+                            <select name="leader" class="form-control" data-multi="false" required>
+                                <option></option>
+                                <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                            </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>团队成员</th>
+                        <td class="required">
+                            <div>
+                                <select name="members" class="form-control" multiple data-multi="true" required>
+                                    <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>项目描述</td>
+                        <td>
+                            <textarea id="contentSimple" name="describe" class="form-control kindeditorSimple" style="height:150px;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候...">保存</button><input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    var myEditor = null;
+    function save() {
+        if (!$('#dataform').valid()) return;
+
+        // 同步编辑器内容
+        myEditor.sync();
+        var data = $('#dataform').serializeJson();
+        if (data.members && !Array.isArray(data.members)) data.members = [data.members];
+        $.post('/project/project/add', data, function(result) {
+            location.href = '/project/project';
+        })
+    }
+
+    $(function () {
+        $('select').picker();
+        $("#dataform").validate();
+
+        // 仅选择日期
+        $(".form-date").datetimepicker(
+            {
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            }
+        );
+
+        // editor
+        myEditor = KindEditor.create('textarea.kindeditorSimple', {
+            basePath: '/lib/zui/lib/kindeditor/',
+            bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
+            cssPath: '/lib/zui/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
+            resizeType : 1,
+            allowPreviewEmoticons : false,
+            allowImageUpload : false,
+            items : [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
+            ]
+        });
+    })
+</script>
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

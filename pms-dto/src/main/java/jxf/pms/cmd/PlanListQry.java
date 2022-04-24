@@ -8,6 +8,6 @@ public class PlanListQry extends PageQuery {
     private Integer id;
     private Integer createBy;
     private String name;
-    private String requirementStatus;
-    private String requirementPhase;
+    private String planStatus;
+    private Integer projectId;
 }

@@ -20,7 +20,5 @@ public interface PlanService {
 
     SingleResponse<PlanDTO> getById(Integer id);
 
-    Response close(OperateBaseCmd cmd);
-
-    Response review(PlanReviewCmd cmd);
+    Response delete(OperateBaseCmd cmd);
 }

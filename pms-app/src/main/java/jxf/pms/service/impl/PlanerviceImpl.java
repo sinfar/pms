@@ -13,6 +13,7 @@ import jxf.pms.dbo.PlanDO;
 import jxf.pms.mapper.PlanMapper;
 import jxf.pms.service.PlanService;
 import jxf.pms.util.ObjectUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class PlanerviceImpl implements PlanService {
         BeanUtils.copyProperties(cmd, planDO);
         planDO.setCreateTime(new Date());
         planDO.setCreateBy(cmd.getLoginUserId());
+        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "过期":"未过期");
         planMapper.add(planDO);
 
         AddResult result = new AddResult();
@@ -63,6 +65,7 @@ public class PlanerviceImpl implements PlanService {
     public Response update(PlanUpdateCmd cmd) {
         PlanDO planDO = new PlanDO();
         BeanUtils.copyProperties(cmd, planDO);
+        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "过期":"未过期");
         planMapper.update(planDO);
 
         return Response.buildSuccess();
@@ -78,17 +81,8 @@ public class PlanerviceImpl implements PlanService {
     }
 
     @Override
-    public Response review(PlanReviewCmd cmd) {
-        if (cmd.isOk())
-            updatePlanStatus(cmd.getId(), "已激活");
-        else
-            updatePlanStatus(cmd.getId(), "草稿");
-        return Response.buildSuccess();
-    }
-
-    @Override
-    public Response close(OperateBaseCmd cmd) {
-        updatePlanStatus(cmd.getId(), "已关闭");
+    public Response delete(OperateBaseCmd cmd) {
+        updatePlanStatus(cmd.getId(), "删除");
         return Response.buildSuccess();
     }
 

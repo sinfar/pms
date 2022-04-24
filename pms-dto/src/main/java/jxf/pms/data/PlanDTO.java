@@ -8,18 +8,16 @@ import java.util.Date;
 public class PlanDTO {
     private Integer id;
     private String name;
-    private Integer projectId;
-    private Integer moduleId;
-    private Integer planId;
+    private Date beginDate;
+    private Date endDate;
+    private Integer bugCnt;
+    private Integer requirementCnt;
     private String describe;
-    private String acceptanceCriteria;
-    private Integer priority;
-    private Integer createBy;
     private Date createTime;
-    private String requirementPhase;
-    private String requirementStatus;
+    private String planStatus;
+    private Integer createBy;
     private String createByName;
-    private Integer handleBy;
-    private String handleByName;
+    private Integer projectId;
+    private String projectName;
 
 }

@@ -3,16 +3,14 @@ package jxf.pms.cmd;
 import jxf.pms.annotation.ActionLogObjectName;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class PlanAddCmd extends BaseCmd {
     @ActionLogObjectName
     private String name;
-    private Integer projectId;
-    private Integer moduleId;
-    private Integer planId;
+    private Date beginDate;
+    private Date endDate;
     private String describe;
-    private String acceptanceCriteria;
-    private Integer priority;
-    private Boolean isReview;
-    private Integer handleBy;
+    private Integer projectId;
 }

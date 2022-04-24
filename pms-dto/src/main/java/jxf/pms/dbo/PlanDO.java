@@ -10,10 +10,13 @@ public class PlanDO {
     private String name;
     private Date beginDate;
     private Date endDate;
-    private Integer bugs;
-    private Integer requirements;
-    private String planStatus;
+    private Integer bugCnt;
+    private Integer requirementCnt;
     private String describe;
     private Date createTime;
+    private String planStatus;
     private Integer createBy;
+    private String createByName;
+    private Integer projectId;
+    private String projectName;
 }
