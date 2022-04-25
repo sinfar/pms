@@ -41,14 +41,19 @@
 
     <update id="update">
         update "plan" set
-        name = #{name}, begin_date = #{beginDate}, end_date = #{endDate}, plan_status = #{planStatus}, describe = #{describe}, project_id = #{projectId}
+        name = #{name}, begin_date = #{beginDate}, end_date = #{endDate}, plan_status = '${planStatus}', describe = #{describe}, project_id = #{projectId}
+        where id = #{id}
+    </update>
+
+    <update id="updatePlanStatus">
+        update "plan" set plan_status = '${planStatus}'
         where id = #{id}
     </update>
 
     <select id="getById" resultType="jxf.pms.dbo.PlanDO">
         select
-            a.id, a.name, a.begin_date, a.end_date, a.plan_status, a.create_time, b.name create_by_name,
-            array_length(bugs, 1) bug_cnt, array_length(requirements, 1) requirement_cnt, c.name project_name
+            a.id, a.name, a.begin_date, a.end_date, a.plan_status, a.create_time, b.name create_by_name, a.describe,
+            array_length(bugs, 1) bug_cnt, array_length(requirements, 1) requirement_cnt, c.name project_name, a.project_id
             from "plan" a
             join  "user" b on b.id = a.create_by
             join project c on c.id = a.project_id

@@ -5,6 +5,7 @@ import jxf.pms.data.ModuleDTO;
 import jxf.pms.data.ProjectDTO;
 import jxf.pms.data.PlanDTO;
 import jxf.pms.data.UserBaseDTO;
+import jxf.pms.dbo.PlanDO;
 import jxf.pms.service.ModuleService;
 import jxf.pms.service.ProjectService;
 import jxf.pms.service.PlanService;
@@ -31,34 +32,24 @@ public class PlanController {
 
     @GetMapping("/project/plan")
     public String list(Model model){
-        // 所有用户
-        List<UserBaseDTO>  users =  userService.all().getData();
-
         // 所有项目
         List<ProjectDTO> projects = projectService.all();
-
-        model.addAttribute("users", users);
         model.addAttribute("projects", projects);
         return "plan_list";
     }
 
     @GetMapping("/project/plan/add")
     public String add(Model model){
-        // 所有用户
-        List<UserBaseDTO>  users =  userService.all().getData();
-
         // 所有项目
         List<ProjectDTO> projects = projectService.all();
-
-        model.addAttribute("users", users);
+        model.addAttribute("projects", projects);
         return "plan_add";
     }
 
     @GetMapping("/project/plan/update")
     public String update(@RequestParam Integer id, Model model){
-        // 所有用户
-        List<UserBaseDTO>  users =  userService.all().getData();
-        model.addAttribute("users", users);
+        PlanDTO plan = planService.getById(id).getData();
+        model.addAttribute("plan", plan);
 
         // 所有项目
         List<ProjectDTO> projects = projectService.all();

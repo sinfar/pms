@@ -1,5 +1,6 @@
 package jxf.pms.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,7 +9,9 @@ import java.util.Date;
 public class PlanDTO {
     private Integer id;
     private String name;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date beginDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date endDate;
     private Integer bugCnt;
     private Integer requirementCnt;

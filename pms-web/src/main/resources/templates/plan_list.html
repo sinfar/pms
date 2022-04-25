@@ -36,7 +36,7 @@
                         </select>
                     </td>
                     <td>
-                        <select name="requirementStatus" class="form-control" data-placeholder="计划状态">
+                        <select name="planStatus" class="form-control" data-placeholder="计划状态">
                             <option value=""></option>
                             <option value="未过期">未过期</option>
                             <option value="已过期">已过期</option>
@@ -53,7 +53,7 @@
     </div>
     <div class="panel">
         <div class="btn-toolbar pull-right" style="margin-top: 10px; margin-right: 15px;">
-            <a th:if="${permissionCodes.contains('requirement_add')}"  href="/project/requirement/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加需求</a>
+            <a th:if="${permissionCodes.contains('requirement_add')}"  href="/project/plan/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加计划</a>
         </div>
         <div class="panel-body">
             <table class="table" id="table">
@@ -75,16 +75,16 @@
                 <tr v-for="i in list">
                     <td>{{i.id}}</td>
                     <td>{{i.name}}</td>
-                    <td>{{i.begin_date}}</td>
-                    <td>{{i.end_date}}</td>
+                    <td>{{i.beginDate}}</td>
+                    <td>{{i.endDate}}</td>
                     <td>{{i.planStatus}}</td>
                     <td>{{i.requirementCnt}}</td>
                     <td>{{i.bugCnt}}</td>
                     <td>{{i.createByName}}</td>
                     <td>{{i.createTime}}</td>
                     <td>
-                        <a th:if="${permissionCodes.contains('plan_info')}"  :href="'/project/requirement/info?id=' + i.id" >查看</a>
-                        <a th:if="${permissionCodes.contains('plan_update')}"  :href="'/project/requirement/update?id=' + i.id" >修改</a>
+                        <a th:if="${permissionCodes.contains('plan_info')}"  :href="'/project/plan/info?id=' + i.id" >查看</a>
+                        <a th:if="${permissionCodes.contains('plan_update')}"  :href="'/project/plan/update?id=' + i.id" >修改</a>
                         <a th:if="${permissionCodes.contains('plan_delete')}"  :href="'javascript:del(' + i.id + ', \'' + i.name + '\');'">删除</a>
                     </td>
                 </tr>

@@ -37,15 +37,20 @@
                 <table class="table table-form" style="width: 400px;">
                     <tbody>
                     <tr>
-                        <th>项目名称</th>
+                        <th>计划名称</th>
                         <td class="required">
                             <input type="text" class="form-control" name="name" required maxlength="20">
                         </td>
                     </tr>
                     <tr>
-                        <th>项目代号</th>
+                        <th>所属项目</th>
                         <td class="required">
-                            <input type="text" class="form-control" name="code" required maxlength="20">
+                            <div>
+                                <select id="project_select" name="projectId" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="project,i:${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -61,34 +66,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>可用工作日</th>
-                        <td class="required">
-                            <input type="number" class="form-control" name="workingDays" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>负责人</th>
-                        <td class="required">
-                            <div>
-                            <select name="leader" class="form-control" data-multi="false" required>
-                                <option></option>
-                                <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
-                            </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>团队成员</th>
-                        <td class="required">
-                            <div>
-                                <select name="members" class="form-control" multiple data-multi="true" required>
-                                    <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>项目描述</td>
+                        <td>计划描述</td>
                         <td>
                             <textarea id="contentSimple" name="describe" class="form-control kindeditorSimple" style="height:150px;"></textarea>
                         </td>
@@ -111,9 +89,8 @@
         // 同步编辑器内容
         myEditor.sync();
         var data = $('#dataform').serializeJson();
-        if (data.members && !Array.isArray(data.members)) data.members = [data.members];
-        $.post('/project/project/add', data, function(result) {
-            location.href = '/project/project';
+        $.post('/project/plan/add', data, function(result) {
+            location.href = '/project/plan';
         })
     }
 
@@ -136,19 +113,7 @@
         );
 
         // editor
-        myEditor = KindEditor.create('textarea.kindeditorSimple', {
-            basePath: '/lib/zui/lib/kindeditor/',
-            bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
-            cssPath: '/lib/zui/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
-            ]
-        });
+        myEditor = KindEditor.create('textarea.kindeditorSimple', simpleEditor);
     })
 </script>
 

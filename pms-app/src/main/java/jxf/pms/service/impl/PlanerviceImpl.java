@@ -53,7 +53,7 @@ public class PlanerviceImpl implements PlanService {
         BeanUtils.copyProperties(cmd, planDO);
         planDO.setCreateTime(new Date());
         planDO.setCreateBy(cmd.getLoginUserId());
-        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "过期":"未过期");
+        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "未过期":"已过期");
         planMapper.add(planDO);
 
         AddResult result = new AddResult();
@@ -65,7 +65,7 @@ public class PlanerviceImpl implements PlanService {
     public Response update(PlanUpdateCmd cmd) {
         PlanDO planDO = new PlanDO();
         BeanUtils.copyProperties(cmd, planDO);
-        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "过期":"未过期");
+        planDO.setPlanStatus(cmd.getEndDate().after(new Date()) ? "未过期":"已过期");
         planMapper.update(planDO);
 
         return Response.buildSuccess();

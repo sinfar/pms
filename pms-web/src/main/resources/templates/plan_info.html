@@ -31,71 +31,43 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>添加项目</h2>
+                <h2>计划详情</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
-                <table class="table table-form" style="width: 400px;">
+                <input type="hidden" name="id" th:value="${plan.id}">
+                <table class="table table-form" style="width: 100%;">
                     <tbody>
                     <tr>
-                        <th>项目名称</th>
-                        <td class="required">
-                            <input type="text" class="form-control" name="name" required maxlength="20">
+                        <th>计划名称</th>
+                        <td class="required" th:text="${plan.name}">
                         </td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <th>项目代号</th>
-                        <td class="required">
-                            <input type="text" class="form-control" name="code" required maxlength="20">
+                        <th>所属项目</th>
+                        <td class="required" th:text="${plan.projectName}">
                         </td>
                     </tr>
                     <tr>
                         <th>开始时间</th>
-                        <td class="required">
-                            <input type="text" class="form-control form-date" name="beginDate" readonly required>
-                        </td>
+                        <td class="required" th:text="${#dates.format(plan.beginDate, 'yyyy-MM-dd')}"></td>
                     </tr>
                     <tr>
                         <th>结束时间</th>
-                        <td class="required">
-                            <input type="text" class="form-control form-date" name="endDate" readonly required>
+                        <td class="required" th:text="${#dates.format(plan.endDate, 'yyyy-MM-dd')}">
                         </td>
                     </tr>
                     <tr>
-                        <th>可用工作日</th>
-                        <td class="required">
-                            <input type="number" class="form-control" name="workingDays" required>
-                        </td>
+                        <th>计划状态</th>
+                        <td th:text="${plan.planStatus}"></td>
                     </tr>
                     <tr>
-                        <th>负责人</th>
-                        <td class="required">
-                            <div>
-                            <select name="leader" class="form-control" data-multi="false" required>
-                                <option></option>
-                                <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
-                            </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>团队成员</th>
-                        <td class="required">
-                            <div>
-                                <select name="members" class="form-control" multiple data-multi="true" required>
-                                    <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>项目描述</td>
-                        <td>
-                            <textarea id="contentSimple" name="describe" class="form-control kindeditorSimple" style="height:150px;"></textarea>
-                        </td>
+                        <th>计划描述</th>
+                        <td th:utext="${plan.describe}" colspan="2"></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center form-actions">
-                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候...">保存</button><input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
                     </tr>
                     </tbody></table>
             </form>
@@ -111,9 +83,8 @@
         // 同步编辑器内容
         myEditor.sync();
         var data = $('#dataform').serializeJson();
-        if (data.members && !Array.isArray(data.members)) data.members = [data.members];
-        $.post('/project/project/add', data, function(result) {
-            location.href = '/project/project';
+        $.post('/project/plan/update', data, function(result) {
+            location.href = '/project/plan';
         })
     }
 
