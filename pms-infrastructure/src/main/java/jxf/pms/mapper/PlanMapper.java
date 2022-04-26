@@ -1,7 +1,9 @@
 package jxf.pms.mapper;
 
 import jxf.pms.cmd.PlanListQry;
+import jxf.pms.cmd.ProjectRequirementAddCmd;
 import jxf.pms.dbo.PlanDO;
+import jxf.pms.dbo.RequirementDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +23,8 @@ public interface PlanMapper {
     PlanDO getById(Integer id);
 
     void updatePlanStatus(@Param("id") Integer id, @Param("planStatus") String planStatus);
+
+    List<RequirementDO> getRequirements(Integer id);
+
+    void addRequirements(ProjectRequirementAddCmd cmd);
 }

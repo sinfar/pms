@@ -80,7 +80,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                     menu.setUrl(firstChild.get().getUrl());
             }
         }
-        modelAndView.addObject("menus1", menus1);
+            modelAndView.addObject("menus1", menus1);
 
         // 二级菜单
         String url = request.getRequestURI();

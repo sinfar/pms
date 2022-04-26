@@ -1,15 +1,10 @@
 package jxf.pms.controller;
 
 import jxf.pms.cmd.ModuleListQry;
-import jxf.pms.data.ModuleDTO;
-import jxf.pms.data.ProjectDTO;
-import jxf.pms.data.PlanDTO;
-import jxf.pms.data.UserBaseDTO;
+import jxf.pms.cmd.RequirementListQry;
+import jxf.pms.data.*;
 import jxf.pms.dbo.PlanDO;
-import jxf.pms.service.ModuleService;
-import jxf.pms.service.ProjectService;
-import jxf.pms.service.PlanService;
-import jxf.pms.service.UserService;
+import jxf.pms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +23,7 @@ public class PlanController {
     @Autowired
     private UserService userService;
     @Autowired
-    private ModuleService moduleService;
+    private RequirementService requirementService;
 
     @GetMapping("/project/plan")
     public String list(Model model){
@@ -58,13 +53,33 @@ public class PlanController {
         return "plan_update";
     }
 
-
     @GetMapping("/project/plan/info")
     public String info(@RequestParam Integer id, Model model){
         PlanDTO plan = planService.getById(id).getData();
         model.addAttribute("plan", plan);
 
         return "plan_info";
+    }
+
+    @GetMapping("/project/plan/requirement")
+    public String requirement(@RequestParam Integer id, Model model){
+        PlanDTO plan = planService.getById(id).getData();
+        model.addAttribute("plan", plan);
+
+        // 项目需求
+        List<RequirementDTO> requirements = planService.getRequirements(id);
+        model.addAttribute("requirements", requirements);
+
+        // 所有需求
+        RequirementListQry qry = new RequirementListQry();
+        qry.setPageIndex(1);
+        qry.setPageSize(Integer.MAX_VALUE);
+        qry.setProjectId(plan.getProjectId());
+        List<RequirementDTO> allRrequirements = requirementService.list(qry).getData();
+        allRrequirements.removeAll(requirements);
+        model.addAttribute("allRrequirements", allRrequirements);
+
+        return "plan_requirement";
     }
 
 }

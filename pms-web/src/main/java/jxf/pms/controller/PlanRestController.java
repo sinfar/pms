@@ -37,9 +37,16 @@ public class PlanRestController {
     public Response update(@RequestBody PlanUpdateCmd cmd) {
         return planService.update(cmd);
     }
+
     @PostMapping("/project/plan/delete")
     @ActionLog(operateObject = OperateObject.plan, actionType = ActionType.delete)
     public Response delete(@RequestBody OperateBaseCmd cmd) {
         return planService.delete(cmd);
+    }
+
+    @PostMapping("/project/plan/addRequirements")
+    @ActionLog(operateObject = OperateObject.plan, actionType = ActionType.delete)
+    public Response addRequirements(@RequestBody ProjectRequirementAddCmd cmd) {
+        return planService.addRequirements(cmd);
     }
 }

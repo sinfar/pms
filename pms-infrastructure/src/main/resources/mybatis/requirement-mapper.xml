@@ -5,7 +5,9 @@
 <mapper namespace="jxf.pms.mapper.RequirementMapper">
 
     <select id="list" resultType="jxf.pms.dbo.RequirementDO">
-        <bind name="name" value="'%' + name + '%'" />
+        <if test="name != null and name != ''">
+            <bind name="name" value="'%' + name + '%'" />
+        </if>
         select
             a.id, a.name, a.requirement_phase, a.requirement_status, a.create_time, a.priority, b.name create_by_name, a.handle_by, c.name handle_by_name
             from "requirement" a

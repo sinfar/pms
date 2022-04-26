@@ -59,4 +59,17 @@
             join project c on c.id = a.project_id
         where a.id=#{id}
     </select>
+
+    <select id="getRequirements" resultType="jxf.pms.dbo.RequirementDO">
+        select
+            a.id, a.name
+            from "requirement" a
+        where a.id in (select unnest(x.requirements) from plan x where x.id = #{id})
+    </select>
+
+    <update id="addRequirements">
+        update "plan" set
+        requirements = requirements||#{requirementIds,typeHandler=jxf.pms.mybatis.IntegerArrayTypeHandler}
+        where id = #{id}
+    </update>
 </mapper>

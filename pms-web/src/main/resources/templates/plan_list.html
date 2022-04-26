@@ -83,6 +83,8 @@
                     <td>{{i.createByName}}</td>
                     <td>{{i.createTime}}</td>
                     <td>
+                        <a th:if="${permissionCodes.contains('plan_addreq')}"  :href="'/project/plan/requirement?id=' + i.id" >关联需求</a>
+                        <a th:if="${permissionCodes.contains('plan_addbug')}"  :href="'/project/plan/bug?id=' + i.id" >关联BUG</a>
                         <a th:if="${permissionCodes.contains('plan_info')}"  :href="'/project/plan/info?id=' + i.id" >查看</a>
                         <a th:if="${permissionCodes.contains('plan_update')}"  :href="'/project/plan/update?id=' + i.id" >修改</a>
                         <a th:if="${permissionCodes.contains('plan_delete')}"  :href="'javascript:del(' + i.id + ', \'' + i.name + '\');'">删除</a>

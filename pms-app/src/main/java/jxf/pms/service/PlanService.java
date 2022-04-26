@@ -6,6 +6,7 @@ import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.*;
 import jxf.pms.data.AddResult;
 import jxf.pms.data.PlanDTO;
+import jxf.pms.data.RequirementDTO;
 
 import java.util.List;
 
@@ -21,4 +22,8 @@ public interface PlanService {
     SingleResponse<PlanDTO> getById(Integer id);
 
     Response delete(OperateBaseCmd cmd);
+
+    List<RequirementDTO> getRequirements(Integer id);
+
+    Response addRequirements(ProjectRequirementAddCmd cmd);
 }

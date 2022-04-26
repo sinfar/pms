@@ -26,4 +26,12 @@ public class RequirementDTO {
     private String projectName;
     private String planName;
     private String moduleName;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequirementDTO that = (RequirementDTO) o;
+        return that.id.equals(this.id);
+    }
 }

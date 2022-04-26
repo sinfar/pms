@@ -76,39 +76,6 @@
 </main>
 
 <script>
-    var myEditor = null;
-    function save() {
-        if (!$('#dataform').valid()) return;
-
-        // 同步编辑器内容
-        myEditor.sync();
-        var data = $('#dataform').serializeJson();
-        $.post('/project/plan/update', data, function(result) {
-            location.href = '/project/plan';
-        })
-    }
-
-    $(function () {
-        $('select').picker();
-        $("#dataform").validate();
-
-        // 仅选择日期
-        $(".form-date").datetimepicker(
-            {
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            }
-        );
-
-        // editor
-        myEditor = KindEditor.create('textarea.kindeditorSimple', simpleEditor);
-    })
 </script>
 
 <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>

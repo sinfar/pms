@@ -9,11 +9,12 @@ import com.github.pagehelper.PageInfo;
 import jxf.pms.cmd.*;
 import jxf.pms.data.AddResult;
 import jxf.pms.data.PlanDTO;
+import jxf.pms.data.RequirementDTO;
 import jxf.pms.dbo.PlanDO;
+import jxf.pms.dbo.RequirementDO;
 import jxf.pms.mapper.PlanMapper;
 import jxf.pms.service.PlanService;
 import jxf.pms.util.ObjectUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,18 @@ public class PlanerviceImpl implements PlanService {
     @Override
     public Response delete(OperateBaseCmd cmd) {
         updatePlanStatus(cmd.getId(), "删除");
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public List<RequirementDTO> getRequirements(Integer id) {
+        List<RequirementDO> requirementDOS = planMapper.getRequirements(id);
+        return ObjectUtils.copyList(requirementDOS, RequirementDTO.class);
+    }
+
+    @Override
+    public Response addRequirements(ProjectRequirementAddCmd cmd) {
+        planMapper.addRequirements(cmd);
         return Response.buildSuccess();
     }
 
