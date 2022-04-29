@@ -72,4 +72,17 @@
         requirements = requirements||#{requirementIds,typeHandler=jxf.pms.mybatis.IntegerArrayTypeHandler}
         where id = #{id}
     </update>
+
+    <select id="getBus" resultType="jxf.pms.dbo.BugDO">
+        select
+            a.id, a.name
+            from "bug" a
+        where a.id in (select unnest(x.bugs) from plan x where x.id = #{id})
+    </select>
+
+    <update id="addBugs">
+        update "plan" set
+        bugs = bugs||#{bugIds,typeHandler=jxf.pms.mybatis.IntegerArrayTypeHandler}
+        where id = #{id}
+    </update>
 </mapper>

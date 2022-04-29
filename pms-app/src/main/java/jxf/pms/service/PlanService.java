@@ -5,6 +5,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import jxf.pms.cmd.*;
 import jxf.pms.data.AddResult;
+import jxf.pms.data.BugDTO;
 import jxf.pms.data.PlanDTO;
 import jxf.pms.data.RequirementDTO;
 
@@ -26,4 +27,8 @@ public interface PlanService {
     List<RequirementDTO> getRequirements(Integer id);
 
     Response addRequirements(ProjectRequirementAddCmd cmd);
+
+    List<BugDTO> getBugs(Integer id);
+
+    Response addBugs(ProjectBugAddCmd cmd);
 }

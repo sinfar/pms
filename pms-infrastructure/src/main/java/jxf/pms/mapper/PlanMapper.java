@@ -1,7 +1,9 @@
 package jxf.pms.mapper;
 
 import jxf.pms.cmd.PlanListQry;
+import jxf.pms.cmd.ProjectBugAddCmd;
 import jxf.pms.cmd.ProjectRequirementAddCmd;
+import jxf.pms.dbo.BugDO;
 import jxf.pms.dbo.PlanDO;
 import jxf.pms.dbo.RequirementDO;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +29,8 @@ public interface PlanMapper {
     List<RequirementDO> getRequirements(Integer id);
 
     void addRequirements(ProjectRequirementAddCmd cmd);
+
+    List<BugDO> getBugs(Integer id);
+
+    void addBugs(ProjectBugAddCmd cmd);
 }

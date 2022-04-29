@@ -8,8 +8,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jxf.pms.cmd.*;
 import jxf.pms.data.AddResult;
+import jxf.pms.data.BugDTO;
 import jxf.pms.data.PlanDTO;
 import jxf.pms.data.RequirementDTO;
+import jxf.pms.dbo.BugDO;
 import jxf.pms.dbo.PlanDO;
 import jxf.pms.dbo.RequirementDO;
 import jxf.pms.mapper.PlanMapper;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @Service
 @CatchAndLog
-public class PlanerviceImpl implements PlanService {
+public class PlanServiceImpl implements PlanService {
     @Resource
     private PlanMapper planMapper;
 
@@ -96,6 +98,18 @@ public class PlanerviceImpl implements PlanService {
     @Override
     public Response addRequirements(ProjectRequirementAddCmd cmd) {
         planMapper.addRequirements(cmd);
+        return Response.buildSuccess();
+    }
+
+    @Override
+    public List<BugDTO> getBugs(Integer id) {
+        List<BugDO> requirementDOS = planMapper.getBugs(id);
+        return ObjectUtils.copyList(requirementDOS, BugDTO.class);
+    }
+
+    @Override
+    public Response addBugs(ProjectBugAddCmd cmd) {
+        planMapper.addBugs(cmd);
         return Response.buildSuccess();
     }
 

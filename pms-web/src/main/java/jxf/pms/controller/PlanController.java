@@ -21,7 +21,7 @@ public class PlanController {
     @Autowired
     private ProjectService projectService;
     @Autowired
-    private UserService userService;
+    private BugService bugService;
     @Autowired
     private RequirementService requirementService;
 
@@ -80,6 +80,23 @@ public class PlanController {
         model.addAttribute("allRrequirements", allRrequirements);
 
         return "plan_requirement";
+    }
+
+    @GetMapping("/project/plan/bug")
+    public String bug(@RequestParam Integer id, Model model){
+        PlanDTO plan = planService.getById(id).getData();
+        model.addAttribute("plan", plan);
+
+        // 项目bug
+        List<BugDTO> bugs = planService.getBugs(id);
+        model.addAttribute("bugs", bugs);
+
+        // 所有bug
+        List<BugDTO> allBugs = bugService.all(plan.getProjectId());
+        allBugs.removeAll(bugs);
+        model.addAttribute("bugs", bugs);
+
+        return "plan_bug";
     }
 
 }
