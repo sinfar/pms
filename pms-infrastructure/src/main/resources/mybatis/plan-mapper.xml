@@ -73,7 +73,7 @@
         where id = #{id}
     </update>
 
-    <select id="getBus" resultType="jxf.pms.dbo.BugDO">
+    <select id="getBugs" resultType="jxf.pms.dbo.BugDO">
         select
             a.id, a.name
             from "bug" a

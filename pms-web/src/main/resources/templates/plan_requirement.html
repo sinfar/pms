@@ -31,7 +31,7 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>计划需求</h2>
+                <h2>添加需求</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
                 <input type="hidden" name="id" th:value="${plan.id}">
@@ -81,7 +81,7 @@
         var data = $('#dataform').serializeJson();
         if (data.bugIds && !Array.isArray(data.bugIds)) data.bugIds = [data.bugIds];
         $.post('/project/plan/addBugs', data, function(result) {
-            location.href = '/project/plan/list';
+            location.href = '/project/plan';
         })
     }
 

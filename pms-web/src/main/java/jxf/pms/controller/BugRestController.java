@@ -24,42 +24,42 @@ public class BugRestController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/project/project/list")
+    @PostMapping("/test/bug/list")
     public PageResponse<ProjectDTO> list(@RequestBody  ProjectListQry qry) {
         return projectService.list(qry);
     }
 
-    @PostMapping("/project/project/add")
+    @PostMapping("/test/bug/add")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.create)
     public SingleResponse<ProjectAddResult> add(@RequestBody ProjectAddCmd cmd) {
         return projectService.add(cmd);
     }
 
-    @PostMapping("/project/project/update")
+    @PostMapping("/test/bug/update")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.update)
     public Response update(@RequestBody ProjectUpdateCmd cmd) {
         return projectService.update(cmd);
     }
 
-    @PostMapping("/project/project/start")
+    @PostMapping("/test/bug/start")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.start)
     public Response start(@RequestBody OperateBaseCmd cmd) {
         return projectService.start(cmd);
     }
 
-    @PostMapping("/project/project/block")
+    @PostMapping("/test/bug/block")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.block)
     public Response block(@RequestBody OperateBaseCmd cmd) {
         return projectService.block(cmd);
 
     }
-    @PostMapping("/project/project/close")
+    @PostMapping("/test/bug/close")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.close)
     public Response close(@RequestBody OperateBaseCmd cmd) {
         return projectService.close(cmd);
     }
 
-    @PostMapping("/project/project/active")
+    @PostMapping("/test/bug/active")
     @ActionLog(operateObject = OperateObject.project, actionType = ActionType.active)
     public Response active(@RequestBody OperateBaseCmd cmd) {
         return projectService.active(cmd);

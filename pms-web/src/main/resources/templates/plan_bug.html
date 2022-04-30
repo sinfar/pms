@@ -31,7 +31,7 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>计划bug</h2>
+                <h2>添加bug</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
                 <input type="hidden" name="id" th:value="${plan.id}">
@@ -39,9 +39,9 @@
                 <tbody>
                 <tr class="input-control has-label-left">
                     <td width="80%">
-                        <select name="requirementIds" class="form-control" data-placeholder="选择需求" multiple data-multi="true">
+                        <select name="bugIds" class="form-control" data-placeholder="选择bug" multiple data-multi="true">
                             <option value=""></option>
-                            <option th:each="requirement,i:${allRrequirements}" th:value="${requirement.id}" th:text="${requirement.name}"></option>
+                            <option th:each="bug,i:${allBugs}" th:value="${bug.id}" th:text="${bug.name}"></option>
                         </select>
                     </td>
                     <td class="text-center form-actions">
@@ -53,21 +53,21 @@
         </div>
         <div class="center-block">
             <div class="main-header">
-                <h2>计划需求</h2>
+                <h2>计划bug</h2>
             </div>
                 <table class="table table-form" style="width: 100%;">
                     <thead>
                     <tr>
                         <th>序号</th>
                         <th>ID</th>
-                        <th>需求</th>
+                        <th>bug</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="requirement,i:${requirements}" >
+                    <tr th:each="bug,i:${bugs}" >
                         <td><a th:text="${i.index+1}"></a></td>
-                        <td><a th:text="${requirement.id}"</a></td>
-                        <td><a th:text="${requirement.name}"</a></td>
+                        <td><a th:text="${bug.id}"</a></td>
+                        <td><a th:text="${bug.name}"</a></td>
                     </tr>
                     </tbody></table>
         </div>
@@ -79,9 +79,9 @@
         if (!$('#dataform').valid()) return;
 
         var data = $('#dataform').serializeJson();
-        if (data.requirementIds && !Array.isArray(data.requirementIds)) data.requirementIds = [data.requirementIds];
-        $.post('/project/plan/addRequirements', data, function(result) {
-            location.href = '/project/plan/list';
+        if (data.bugIds && !Array.isArray(data.bugIds)) data.bugIds = [data.bugIds];
+        $.post('/project/plan/addBugs', data, function(result) {
+            location.href = '/project/plan';
         })
     }
 

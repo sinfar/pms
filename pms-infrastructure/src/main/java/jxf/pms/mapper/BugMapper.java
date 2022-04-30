@@ -20,5 +20,5 @@ public interface BugMapper {
 
     void updateBugStatus(@Param("id") Integer id, @Param("bugStatus") String bugStatus);
 
-    List<BugDO> all(Integer projectId);
+    List<BugDO> all(@Param("projectId")Integer projectId);
 }

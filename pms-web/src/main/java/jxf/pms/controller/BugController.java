@@ -20,20 +20,20 @@ public class BugController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/project/project")
+    @GetMapping("/test/bug")
     public String list(Model model){
-        return "project_list";
+        return "test_list";
     }
 
-    @GetMapping("/project/project/add")
+    @GetMapping("/test/bug/add")
     public String add(Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
         model.addAttribute("users", users);
-        return "project_add";
+        return "test_add";
     }
 
-    @GetMapping("/project/project/update")
+    @GetMapping("/test/bug/update")
     public String update(@RequestParam Integer id, Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
@@ -42,11 +42,11 @@ public class BugController {
         ProjectDTO project = projectService.getById(id).getData();
         model.addAttribute("project", project);
 
-        return "project_update";
+        return "test_update";
     }
 
 
-    @GetMapping("/project/project/info")
+    @GetMapping("/test/bug/info")
     public String info(@RequestParam Integer id, Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
@@ -55,7 +55,7 @@ public class BugController {
         ProjectDTO project = projectService.getById(id).getData();
         model.addAttribute("project", project);
 
-        return "project_info";
+        return "test_info";
     }
 
 }

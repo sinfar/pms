@@ -42,7 +42,7 @@
             a.id,a.name
             from "bug" a
         <if test="projectId != null">
-            and a.project_id = #{projectId}
+            where a.project_id = #{projectId}
         </if>
         order by a.id desc
     </select>

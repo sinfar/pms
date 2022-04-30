@@ -94,7 +94,7 @@ public class PlanController {
         // 所有bug
         List<BugDTO> allBugs = bugService.all(plan.getProjectId());
         allBugs.removeAll(bugs);
-        model.addAttribute("bugs", bugs);
+        model.addAttribute("allBugs", allBugs);
 
         return "plan_bug";
     }

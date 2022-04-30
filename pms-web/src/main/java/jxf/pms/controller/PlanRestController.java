@@ -45,8 +45,14 @@ public class PlanRestController {
     }
 
     @PostMapping("/project/plan/addRequirements")
-    @ActionLog(operateObject = OperateObject.plan, actionType = ActionType.delete)
+    @ActionLog(operateObject = OperateObject.plan, actionType = ActionType.ref_req)
     public Response addRequirements(@RequestBody ProjectRequirementAddCmd cmd) {
         return planService.addRequirements(cmd);
+    }
+
+    @PostMapping("/project/plan/addBugs")
+    @ActionLog(operateObject = OperateObject.plan, actionType = ActionType.ref_bug)
+    public Response addBugs(@RequestBody ProjectBugAddCmd cmd) {
+        return planService.addBugs(cmd);
     }
 }
