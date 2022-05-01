@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <div id="mainContent" class="main-content">
+        <div class="center-block">
+            <div class="main-header">
+                <h2>修改bug</h2>
+            </div>
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <input type="hidden" name="id" th:value="${bug.id}">
+                <table class="table table-form" style="width: 400px;">
+                    <tbody>
+                    <tr>
+                        <th>bug名称</th>
+                        <td class="required">
+                            <input type="text" class="form-control" name="name" required maxlength="20" th:value="${bug.name}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>bug类型</th>
+                        <td class="required">
+                            <div>
+                                <select id="bug_type_select" name="bugType" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option  th:selected="${bug.bugType=='功能问题'}">功能问题</option>
+                                    <option  th:selected="${bug.bugType=='性能问题'}">性能问题</option>
+                                    <option  th:selected="${bug.bugType=='样式问题'}">样式问题</option>
+                                    <option  th:selected="${bug.bugType=='标准规范'}">标准规范</option>
+                                    <option  th:selected="${bug.bugType=='安全相关'}">安全相关</option>
+                                    <option  th:selected="${bug.bugType=='其他'}">其他</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>严重程度</th>
+                        <td class="required">
+                            <div>
+                                <select id="severity_type_select" name="severityType" class="form-control" data-multi="false" required>
+                                    <option th:selected="${bug.severityType=='致命'}">致命</option>
+                                    <option th:selected="${bug.severityType=='严重'}">严重</option>
+                                    <option th:selected="${bug.severityType=='一般'}">一般</option>
+                                    <option th:selected="${bug.severityType=='建议'}">建议</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属项目</th>
+                        <td class="required">
+                            <div>
+                                <select id="project_select" name="projectId" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="project,i:${projects}" th:value="${project.id}" th:text="${project.name}" th:selected="${bug.projectId==project.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属模块</th>
+                        <td class="required">
+                            <div>
+                                <select id="module_select" name="moduleId" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="module,i:${modules}" th:value="${module.id}" th:text="${module.name}" th:selected="${bug.moduleId==module.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属需求</th>
+                        <td class="required">
+                            <div>
+                                <select id="requirement_select" name="requirementId" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="requirement,i:${requirements}" th:value="${requirement.id}" th:text="${requirement.name}" th:selected="${bug.requirementId==requirement.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属任务</th>
+                        <td class="required">
+                            <div>
+                                <select id="task_select" name="taskId" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="task,i:${tasks}" th:value="${task.id}" th:text="${task.name}" th:selected="${bug.taskId==task.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>指派人</th>
+                        <td class="required">
+                            <div>
+                                <select name="handler" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}" th:selected="${bug.handler == user.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>bug描述</th>
+                        <td class="required">
+                            <textarea name="describe" class="form-control kindeditorSimple" th:text="${bug.describe}"></textarea>
+                        </td>
+                    <tr>
+                        <th>bug状态</th>
+                        <td class="required">
+                            <div>
+                                <select id="bugStatus_select" name="bugStatus" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:selected="${bug.bugStatus=='激活'}">激活</option>
+                                    <option th:selected="${bug.bugStatus=='已解决'}">已解决</option>
+                                    <option th:selected="${bug.bugStatus=='已关闭'}">已关闭</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候...">保存</button><input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    var myEditor1 = null;
+    function save() {
+        if (!$('#dataform').valid()) return;
+
+        // 同步编辑器内容
+        myEditor1.sync();
+        var data = $('#dataform').serializeJson();
+        $.post('/test/bug/update', data, function(result) {
+            location.href = '/test/bug';
+        })
+    }
+
+    $(function () {
+        $('#priority_select').picker();
+        $('#plan_select').picker();
+        $('#module_select').picker();
+        $('#requirement_select').picker();
+        $('#bug_type_select').picker();
+        $('#severity_type_select').picker();
+        $('#task_select').picker();
+
+
+        // 加载模块\需求\任务
+        $('#project_select').picker().on('change', function(e, a) {
+            $.post('/project/module/list',{
+                projectId: a.value
+            }, function(rst) {
+                var data = rst.data;
+                var list = [];
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var name = item.name;
+                    if (item.parentName) {
+                        name = parentName + '/' + name;
+                    }
+                    list.push({text:item.name, value:item.id})
+                }
+
+                $('#module_select').data('zui.picker').destroy();
+                $('#module_select').picker({list:list});
+            })
+
+            $.post('/project/requirement/list',{
+                projectId: a.value
+            }, function(rst) {
+                var data = rst.data;
+                var list = [];
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var name = item.name;
+                    list.push({text:item.name, value:item.id})
+                }
+
+                $('#requirement_select').data('zui.picker').destroy();
+                $('#requirement_select').picker({list:list});
+            })
+
+            $.post('/project/task/list',{
+                projectId: a.value
+            }, function(rst) {
+                var data = rst.data;
+                var list = [];
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var name = item.name;
+                    list.push({text:item.name, value:item.id})
+                }
+
+                $('#task_select').data('zui.picker').destroy();
+                $('#task_select').picker({list:list});
+            })
+        });
+
+
+        $("#dataform").validate();
+
+        // editor
+        myEditor1 = KindEditor.create('textarea[name=describe]', simpleEditor);
+    })
+</script>
+
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

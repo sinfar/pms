@@ -7,6 +7,10 @@ import lombok.Data;
 public class BugListQry extends PageQuery {
     private Integer id;
     private String name;
-    private String projectStatus;
-    private String code;
+    private String bugType;
+    private String bugStatus;
+    private Integer projectId;
+    private Integer handler;
+    private Integer createBy;
+    private Integer severityType;
 }

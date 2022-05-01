@@ -31,91 +31,87 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>查看任务</h2>
+                <h2>查看bug</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
                 <table class="table table-form" style="width: 100%;">
                     <tbody>
                     <tr>
-                        <th>任务名称</th>
-                        <td  th:text="${task.name}">
+                        <th>bug名称</th>
+                        <td  th:text="${bug.name}">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
-                        <th>任务类型</th>
-                        <td  th:text="${task.taskType}">
+                        <th>bug类型</th>
+                        <td  th:text="${bug.bugType}">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
-                        <th>优先级</th>
-                        <td  th:text="${task.priority}">
+                        <th>严重程度</th>
+                        <td  th:text="${bug.severityType}">
                         </td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>所属项目</th>
-                        <td  th:text="${task.projectName}">
+                        <td  th:text="${bug.projectName}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属模块</th>
-                        <td  th:text="${task.moduleName}">
+                        <td  th:text="${bug.moduleName}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属需求</th>
-                        <td  th:text="${task.requirementName}">
+                        <td  th:text="${bug.requirementName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属任务</th>
+                        <td  th:text="${bug.taskName}">
                         </td>
                     </tr>
                     <tr>
                         <th>指派人</th>
-                        <td  th:text="${task.handlerName}">
+                        <td  th:text="${bug.handlerName}">
                         </td>
                     </tr>
                     <tr>
-                        <th>任务状态</th>
-                        <td  th:text="${task.taskStatus}">
+                        <th>bug状态</th>
+                        <td  th:text="${bug.bugStatus}">
                         </td>
                     </tr>
                     <tr>
-                        <th>任务描述</th>
-                        <td  th:utext="${task.describe}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>开始时间</th>
-                        <td  th:utext="${#dates.format(task.beginDate, 'yyyy-MM-dd')}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>结束时间</th>
-                        <td  th:utext="${#dates.format(task.endDate, 'yyyy-MM-dd')}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>预估工时</th>
-                        <td  th:text="${task.estimateHours}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>实际工时</th>
-                        <td  th:text="${task.costHours}">
+                        <th>bug描述</th>
+                        <td  th:utext="${bug.describe}">
                         </td>
                     </tr>
                     <tr>
                         <th>创建人</th>
-                        <td   th:utext="${task.createByName}">
+                        <td   th:utext="${bug.createByName}">
                         </td>
                     </tr>
                     <tr>
                         <th>创建时间</th>
-                        <td   th:text="${#dates.format(task.createTime, 'yyyy-MM-dd HH:mm:dd')}">
+                        <td   th:text="${#dates.format(bug.createTime, 'yyyy-MM-dd HH:mm:dd')}">
                         </td>
                     </tr>
                     <tr>
-                        <th>完成人</th>
-                        <td   th:utext="${task.finisherName}">
+                        <th>解决人</th>
+                        <td   th:utext="${bug.solveByName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>解决时间</th>
+                        <td th:utext="${#dates.format(bug.solveTime, 'yyyy-MM-dd HH:mm:dd')}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>解决方案</th>
+                        <td th:text="${bug.severityType}">
                         </td>
                     </tr>
                     <tr>

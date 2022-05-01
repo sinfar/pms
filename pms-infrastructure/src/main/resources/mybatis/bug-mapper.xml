@@ -4,35 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jxf.pms.mapper.BugMapper">
 
-    <select id="list" resultType="jxf.pms.dbo.ProjectDO">
+    <select id="list" resultType="jxf.pms.dbo.BugDO">
         <bind name="name" value="'%' + name + '%'" />
-        <bind name="code" value="'%' + code + '%'" />
 
         select
-            a.id, a.code, a.name, a.project_status,  a.begin_date, a.end_date, b.name leader_name,
-            a.working_days, a.describe, c.estimate_hours, c.cost_hours
-            from "project" a
-            join  "user" b on b.id = a.leader
-            left join (
-                select
-                project_id,
-                sum(estimate_hours) estimate_hours,
-                 sum(cost_hours) cost_hours
-                 from task where task_status != '已取消'
-                group  by project_id
-            ) c on c.project_id = a.id
-         where 1 = 1
+        a.id, a.name, a.bug_type, a.bug_status, a.create_time,  a.severity_type, b.name create_by_name, c.name handler_name
+        from "bug" a
+        join  "user" b on b.id = a.create_by
+        left join  "user" c on c.id = a.handler
+        where 1 = 1
         <if test="id != null">
             and a.id = #{id}
         </if>
-        <if test="code != null and code != ''">
-            and a.code like #{code}
+        <if test="projectId != null">
+            and a.project_id = #{projectId}
         </if>
         <if test="name != null and name != ''">
             and a.name like #{name}
         </if>
-        <if test="projectStatus != null and projectStatus != ''">
-            and a.project_status = '${projectStatus}'
+        <if test="bugStatus != null and bugStatus != ''">
+            and a.bug_status = '${bugStatus}'
+        </if>
+        <if test="severityType != null and severityType != ''">
+            and a.severity_type = '${severityType}'
+        </if>
+        <if test="bugStatus != null and bugStatus != ''">
+            and a.bug_status = '${bugStatus}'
+        </if>
+        <if test="createBy != null">
+            and a.create_by = #{createBy}
+        </if>
+        <if test="handler != null">
+            and a.handler = #{handler}
         </if>
         order by a.id desc
     </select>
@@ -41,44 +44,50 @@
         select
             a.id,a.name
             from "bug" a
-        <if test="projectId != null">
-            where a.project_id = #{projectId}
+        <if test="bugId != null">
+            where a.bug_id = #{bugId}
         </if>
         order by a.id desc
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO "project" (code, name, begin_date, end_date, working_days, leader, "describe", create_time, create_by, project_status)
-        VALUES ( #{code},  #{name}, #{beginDate}, #{endDate}, #{workingDays}, #{leader}, #{describe}, #{createTime}, #{createBy},
-            '${projectStatus}');
+        INSERT INTO "bug" (name, test_case_id, project_id, module_id, "requirement_id", task_id, handler, "describe",create_by,
+         create_time, bug_type, severity_type, bug_status)
+        VALUES ( #{name},  #{testCaseId}, #{projectId}, #{moduleId}, #{requirementId}, #{taskId}, #{handler}, #{describe}, #{createBy},
+            #{createTime},'${bugType}','${severityType}','${bugStatus}');
     </insert>
 
     <update id="update">
-        update "project" set
-        name = #{name}, code = #{code}, begin_date = #{beginDate}, end_date = #{endDate}, working_days = #{workingDays}, leader = #{leader},
-        describe = #{describe}, project_status = '${projectStatus}'
+        update "bug" set
+        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, requirement_id = #{requirementId}, task_id = #{taskId},
+        handler = #{handler}, describe = #{describe}, bug_status = '${bugStatus}', severity_type='${severityType}'
         where id = #{id}
     </update>
 
-    <select id="getById" resultType="jxf.pms.dbo.ProjectDO">
+    <select id="getById" resultType="jxf.pms.dbo.BugDO">
         select
-        a.id, a.code, a.name, a.project_status,  a.begin_date, a.end_date, a."describe",  a.leader, b.name leader_name,
-        a.working_days, a.describe, c.estimate_hours, c.cost_hours
-        from "project" a
-        join  "user" b on b.id = a.leader
-        left join (
-        select
-        project_id,
-        sum(estimate_hours) estimate_hours,
-        sum(cost_hours) cost_hours
-        from task where task_status != '已取消'
-        group  by project_id
-        ) c on c.project_id = a.id
+            a.id, a.name, a.bug_type, a.project_id, a.module_id, a.requirement_id, a.task_id, a."describe", a.severity_type, a.bug_status, a.handler, a.solve_by,
+            a.create_by, a.create_time, a.solve_time, a.solution_type,a.solve_time,
+            b.name project_name, c.name module_name, g.name requirement_name, i.name task_name,
+            e.name handler_name, f.name create_by_name, h.name solve_by_name
+        from "bug" a
+        left join  project b on a.project_id = b.id
+        left join  module c on c.id = a.module_id
+        left join  requirement g on g.id = a.requirement_id
+        left  join task i on i.id = a.task_id
+        left join  "user" e on e.id = a.handler
+        left join  "user" f on f.id = a.create_by
+        left join  "user" h on h.id = a.solve_by
         where a.id=#{id}
     </select>
 
-    <update id="updateProjectStatus">
-        update "project" set project_status = '${projectStatus}'
+    <update id="updateBugStatus">
+        update "bug" set bug_status = '${bugStatus}'
+        where id = #{id}
+    </update>
+
+    <update id="resolve">
+        update "bug" set bug_status = '已解决', solve_time = now(), solve_by = #{loginUserId}
         where id = #{id}
     </update>
 </mapper>

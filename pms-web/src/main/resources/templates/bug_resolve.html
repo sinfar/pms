@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <span class="label label-id" th:text="${bug.id}"></span>
+                <span th:text="${bug.name}">标题</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <input type="hidden" name="id" th:value="${bug.id}">
+                <table class="table table-form" style="width: 400px;">
+                    <tbody>
+                    <tr>
+                        <th>解决方案</th>
+                        <td class="required">
+                            <div>
+                                <select name="solutionType" class="form-control" data-multi="false" required>
+                                    <option>已解决</option>
+                                    <option>设计如此</option>
+                                    <option>重复bug</option>
+                                    <option>外部原因</option>
+                                    <option>无法重现</option>
+                                    <option>无需解决</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>指派人</th>
+                        <td class="required">
+                            <div>
+                                <select name="handler" class="form-control" data-multi="false" required>
+                                    <option></option>
+                                    <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}" th:selected="${bug.handler == user.id}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候..." data-dismiss="modal">保存</button>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+
+<script>
+    function save() {
+        if (!$('#dataform').valid()) return;
+
+        var data = $('#dataform').serializeJson();
+        $.post('/test/bug/resolve', data, function(result) {
+            window.parent.table.getList();
+        })
+    }
+
+    $(function () {
+        $('select').picker();
+        $("#dataform").validate();
+    })
+</script>
+
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

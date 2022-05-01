@@ -13,10 +13,13 @@ public class BugUpdateCmd extends BaseCmd {
     private Integer id;
     @ActionLogObjectName
     private String name;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date endDate;
-    private String describe;
     private Integer projectId;
+    private Integer requirementId;
+    private Integer moduleId;
+    private Integer taskId;
+    private Integer handler;
+    private String describe;
+    private String bugType;
+    private String severityType;
+    private String bugStatus;
 }

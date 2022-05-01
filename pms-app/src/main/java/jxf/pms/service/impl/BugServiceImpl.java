@@ -6,10 +6,7 @@ import com.alibaba.cola.dto.Response;
 import com.alibaba.cola.dto.SingleResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import jxf.pms.cmd.BugAddCmd;
-import jxf.pms.cmd.BugListQry;
-import jxf.pms.cmd.BugUpdateCmd;
-import jxf.pms.cmd.OperateBaseCmd;
+import jxf.pms.cmd.*;
 import jxf.pms.data.AddResult;
 import jxf.pms.data.BugDTO;
 import jxf.pms.dbo.BugDO;
@@ -82,14 +79,8 @@ public class BugServiceImpl implements BugService {
     }
 
     @Override
-    public Response start(OperateBaseCmd cmd) {
-        updateBugStatus(cmd.getId(), "进行中");
-        return Response.buildSuccess();
-    }
-
-    @Override
-    public Response block(OperateBaseCmd cmd) {
-        updateBugStatus(cmd.getId(), "挂起");
+    public Response resolve(BugResolveCmd cmd) {
+        bugMapper.resolve(cmd);
         return Response.buildSuccess();
     }
 
@@ -101,7 +92,7 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public Response active(OperateBaseCmd cmd) {
-        updateBugStatus(cmd.getId(), "进行中");
+        updateBugStatus(cmd.getId(), "激活");
         return Response.buildSuccess();
     }
 

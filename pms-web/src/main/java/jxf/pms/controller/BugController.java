@@ -1,9 +1,10 @@
 package jxf.pms.controller;
 
-import jxf.pms.data.ProjectDTO;
-import jxf.pms.data.UserBaseDTO;
-import jxf.pms.service.ProjectService;
-import jxf.pms.service.UserService;
+import jxf.pms.cmd.ModuleListQry;
+import jxf.pms.cmd.RequirementListQry;
+import jxf.pms.cmd.TaskListQry;
+import jxf.pms.data.*;
+import jxf.pms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,27 @@ public class BugController {
     private ProjectService projectService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ModuleService moduleService;
+    @Autowired
+    private RequirementService requirementService;
+    @Autowired
+    private BugService bugService;
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping("/test/bug")
     public String list(Model model){
-        return "test_list";
+        // 所有用户
+        List<UserBaseDTO>  users =  userService.all().getData();
+
+        // 所有项目
+        List<ProjectDTO> projects = projectService.all();
+
+        model.addAttribute("users", users);
+        model.addAttribute("projects", projects);
+
+        return "bug_list";
     }
 
     @GetMapping("/test/bug/add")
@@ -30,7 +48,11 @@ public class BugController {
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
         model.addAttribute("users", users);
-        return "test_add";
+
+        // 所有项目
+        List<ProjectDTO> projects = projectService.all();
+        model.addAttribute("projects", projects);
+        return "bug_add";
     }
 
     @GetMapping("/test/bug/update")
@@ -39,10 +61,48 @@ public class BugController {
         List<UserBaseDTO>  users =  userService.all().getData();
         model.addAttribute("users", users);
 
-        ProjectDTO project = projectService.getById(id).getData();
-        model.addAttribute("project", project);
+        // 所有项目
+        List<ProjectDTO> projects = projectService.all();
+        model.addAttribute("projects", projects);
 
-        return "test_update";
+        // 任务
+        BugDTO bug = bugService.getById(id).getData();
+        model.addAttribute("bug", bug);
+
+        // 当前模块
+        ModuleListQry qry = new ModuleListQry();
+        qry.setProjectId(bug.getProjectId());
+        List<ModuleDTO> modules = moduleService.list(qry).getData();
+        model.addAttribute("modules", modules);
+
+        // 当前需求
+        RequirementListQry reqQry = new RequirementListQry();
+        reqQry.setProjectId(bug.getProjectId());
+        List<RequirementDTO> requirements = requirementService.list(reqQry).getData();
+        model.addAttribute("requirements", requirements);
+
+        // 当前任务
+        TaskListQry taskQry = new TaskListQry();
+        taskQry.setProjectId(bug.getProjectId());
+        List<TaskDTO> tasks = taskService.list(taskQry).getData();
+        model.addAttribute("tasks", tasks);
+
+        return "bug_update";
+    }
+
+
+    @GetMapping("/test/bug/resolve")
+    public String resolve(@RequestParam Integer id, Model model){
+
+        // 任务
+        BugDTO bug = bugService.getById(id).getData();
+        model.addAttribute("bug", bug);
+
+        // 所有用户
+        List<UserBaseDTO>  users =  userService.all().getData();
+        model.addAttribute("users", users);
+
+        return "bug_resolve";
     }
 
 
@@ -52,10 +112,10 @@ public class BugController {
         List<UserBaseDTO>  users =  userService.all().getData();
         model.addAttribute("users", users);
 
-        ProjectDTO project = projectService.getById(id).getData();
-        model.addAttribute("project", project);
+        BugDTO bug = bugService.getById(id).getData();
+        model.addAttribute("bug", bug);
 
-        return "test_info";
+        return "bug_info";
     }
 
 }

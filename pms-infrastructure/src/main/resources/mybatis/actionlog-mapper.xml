@@ -28,7 +28,7 @@
         <if test="operateObject == '测试单'">
             select name  from "test_sheet" where id = #{objectId}
         </if>
-        <if test="operateObject == 'BUG'">
+        <if test="operateObject == 'bug'">
             select name  from "bug" where id = #{objectId}
         </if>
     </select>

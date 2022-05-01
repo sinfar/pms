@@ -9,6 +9,7 @@ public enum ActionType {
     block("阻塞"),
     finish("完成"),
     cancel("取消"),
+    resolve("解决"),
 
     ref_bug("关联bug"),
     ref_testcase("关联bug"),

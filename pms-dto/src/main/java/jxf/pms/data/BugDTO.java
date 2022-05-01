@@ -11,16 +11,24 @@ public class BugDTO {
     private Integer testCaseId;
     private Integer projectId;
     private Integer moduleId;
-    private Integer requirement_Id;
+    private Integer requirementId;
     private Integer taskId;
     private Integer handler;
-    private Integer bugType;
-    private Integer describe;
-    private Integer severityType;
-    private Integer solutionType;
+    private String bugType;
+    private String describe;
+    private String severityType;
+    private String solutionType;
     private Integer solveBy;
     private Date solveTime;
     private String bugStatus;
     private Integer createBy;
     private Date createTime;
+
+    private String createByName;
+    private String handlerName;
+    private String solveByName;
+    private String projectName;
+    private String moduleName;
+    private String requirementName;
+    private String taskName;
 }

@@ -11,13 +11,12 @@ import java.util.List;
 public class BugAddCmd extends BaseCmd {
     @ActionLogObjectName
     private String name;
-    private String code;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date endDate;
-    private Integer workingDays;
-    private Integer leader;
+    private Integer projectId;
+    private Integer requirementId;
+    private Integer moduleId;
+    private Integer taskId;
+    private Integer handler;
     private String describe;
-    private List<Integer> members;
+    private String bugType;
+    private String severityType;
 }
