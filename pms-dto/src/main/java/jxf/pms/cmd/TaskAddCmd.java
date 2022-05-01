@@ -5,17 +5,21 @@ import jxf.pms.annotation.ActionLogObjectName;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class RequirementAddCmd extends BaseCmd {
+public class TaskAddCmd extends BaseCmd {
     @ActionLogObjectName
     private String name;
+    private String taskType;
     private Integer projectId;
     private Integer moduleId;
+    private Integer requirementId;
     private String describe;
-    private String acceptanceCriteria;
     private Integer priority;
-    private Boolean isReview;
-    private Integer handleBy;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date beginDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date endDate;
+    private Integer handler;
+    private Integer estimateHours;
 }

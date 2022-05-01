@@ -42,7 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
         for(ProjectDO projectDO : list) {
             ProjectDTO projectDTO = new ProjectDTO();
             BeanUtils.copyProperties(projectDO, projectDTO);
-            if (projectDO.getEstimateHours() != null && projectDO.getEstimateHours() != 0)
+            if (projectDO.getEstimateHours() != null && projectDO.getEstimateHours() != 0 && projectDTO.getCostHours() != null)
                 projectDTO.setRateOfProgress(projectDTO.getCostHours()/projectDO.getEstimateHours());
             projectDTOS.add(projectDTO);
         }

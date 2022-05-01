@@ -31,65 +31,91 @@
     <div id="mainContent" class="main-content">
         <div class="center-block">
             <div class="main-header">
-                <h2>查看需求</h2>
+                <h2>查看任务</h2>
             </div>
             <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
                 <table class="table table-form" style="width: 100%;">
                     <tbody>
                     <tr>
-                        <th>需求名称</th>
-                        <td  th:text="${requirement.name}">
+                        <th>任务名称</th>
+                        <td  th:text="${task.name}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>任务类型</th>
+                        <td  th:text="${task.taskType}">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <th>优先级</th>
-                        <td  th:text="${requirement.priority}">
+                        <td  th:text="${task.priority}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属项目</th>
-                        <td  th:text="${requirement.projectName}">
+                        <td  th:text="${task.projectName}">
                         </td>
                     </tr>
                     <tr>
                         <th>所属模块</th>
-                        <td  th:text="${requirement.moduleName}">
+                        <td  th:text="${task.moduleName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属需求</th>
+                        <td  th:text="${task.requirementName}">
                         </td>
                     </tr>
                     <tr>
                         <th>指派人</th>
-                        <td  th:text="${requirement.handleByName}">
+                        <td  th:text="${task.handlerName}">
                         </td>
                     </tr>
                     <tr>
-                        <th>需求阶段</th>
-                        <td  th:text="${requirement.requirementPhase}">
+                        <th>任务状态</th>
+                        <td  th:text="${task.taskStatus}">
                         </td>
                     </tr>
                     <tr>
-                        <th>需求状态</th>
-                        <td  th:text="${requirement.requirementStatus}">
+                        <th>任务描述</th>
+                        <td  th:utext="${task.describe}">
                         </td>
                     </tr>
                     <tr>
-                        <th>需求描述</th>
-                        <td  th:utext="${requirement.describe}">
+                        <th>开始时间</th>
+                        <td  th:utext="${#dates.format(task.beginDate, 'yyyy-MM-dd')}">
                         </td>
                     </tr>
                     <tr>
-                        <th>验收标准</th>
-                        <td   th:utext="${requirement.acceptanceCriteria}">
+                        <th>结束时间</th>
+                        <td  th:utext="${#dates.format(task.endDate, 'yyyy-MM-dd')}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>预估工时</th>
+                        <td  th:text="${task.estimateHours}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>实际工时</th>
+                        <td  th:text="${task.costHours}">
                         </td>
                     </tr>
                     <tr>
                         <th>创建人</th>
-                        <td   th:utext="${requirement.createByName}">
+                        <td   th:utext="${task.createByName}">
                         </td>
                     </tr>
                     <tr>
                         <th>创建时间</th>
-                        <td   th:text="${#dates.format(requirement.createTime, 'yyyy-MM-dd')}">
+                        <td   th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>完成人</th>
+                        <td   th:utext="${task.finisherName}">
                         </td>
                     </tr>
                     <tr>
@@ -103,63 +129,7 @@
 </main>
 
 <script>
-    var myEditor = null;
-    function save() {
-        if (!$('#dataform').valid()) return;
 
-        // 同步编辑器内容
-        myEditor.sync();
-        var data = $('#dataform').serializeJson();
-        $.post('/project/requirement/update', data, function(result) {
-            location.href = '/project/requirement';
-        })
-    }
-
-    $(function () {
-        $('#priority_select').picker();
-        $('#plan_select').picker();
-        $('#isRevie_select').picker();
-        $('#module_select').picker();
-
-
-        // 加载模块
-        $('#project_select').picker().on('change', function(e, a) {
-            $.post('/project/module/list',{
-                projectId: a.value
-            }, function(rst) {
-                var data = rst.data;
-                var list = [];
-                for (var i = 0; i < data.length; i++) {
-                    var item = data[i];
-                    var name = item.name;
-                    if (item.parentName) {
-                        name = parentName + '/' + name;
-                    }
-                    list.push({text:item.name, value:item.id})
-                }
-
-                $('#module_select').data('zui.picker').destroy();
-                $('#module_select').picker({list:list});
-            })
-        });
-
-        $("#dataform").validate();
-
-        // editor
-        myEditor = KindEditor.create('textarea.kindeditorSimple', {
-            basePath: '/lib/zui/lib/kindeditor/',
-            bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
-            cssPath: '/lib/zui/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
-            ]
-        });
-    })
 </script>
 
 <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>

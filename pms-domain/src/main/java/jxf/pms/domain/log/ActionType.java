@@ -7,6 +7,8 @@ public enum ActionType {
     active("激活"),
     pause("暂停"),
     block("阻塞"),
+    finish("完成"),
+    cancel("取消"),
 
     ref_bug("关联bug"),
     ref_testcase("关联bug"),

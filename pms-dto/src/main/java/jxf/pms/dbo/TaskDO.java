@@ -5,21 +5,28 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class RequirementDO {
+public class TaskDO {
     private Integer id;
     private String name;
+    private String taskType;
     private Integer projectId;
     private Integer moduleId;
+    private Integer requirementId;
     private String describe;
-    private String acceptanceCriteria;
     private Integer priority;
+    private Date beginDate;
+    private Date endDate;
+    private Integer handler;
+    private Integer finisher;
     private Integer createBy;
     private Date createTime;
-    private String requirementPhase;
-    private String requirementStatus;
+    private Integer estimateHours;
+    private Integer costHours;
+    private String taskStatus;
     private String createByName;
-    private Integer handleBy;
-    private String handleByName;
+    private String handlerName;
+    private String finisherName;
     private String projectName;
     private String moduleName;
+    private String requirementName;
 }

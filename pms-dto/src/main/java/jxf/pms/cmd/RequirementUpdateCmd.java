@@ -12,7 +12,6 @@ public class RequirementUpdateCmd extends BaseCmd {
     private String name;
     private Integer projectId;
     private Integer moduleId;
-    private Integer planId;
     private String describe;
     private String acceptanceCriteria;
     private Integer priority;

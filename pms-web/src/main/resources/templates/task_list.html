@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <style>
+    </style>
+    <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <form id="list_form">
+    <div class="panel">
+        <div class="panel-body">
+            <table class="table table-form table-fixed search-table">
+                <tbody>
+                <tr class="input-control has-label-left">
+                    <td>
+                        <input type="text" name="id" class="form-control" placeholder="任务ID">
+                    </td>
+                    <td>
+                        <input type="text" name="name" class="form-control" placeholder="任务名称">
+                    </td>
+                    <td>
+                        <select name="handler" class="form-control" data-placeholder="指派人">
+                            <option value=""></option>
+                            <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="createBy" class="form-control" data-placeholder="创建人">
+                            <option value=""></option>
+                            <option th:each="user,i:${users}" th:value="${user.id}" th:text="${user.name}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="projectId" class="form-control" data-placeholder="所属项目">
+                            <option value=""></option>
+                            <option th:each="project,i:${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="taskStatus" class="form-control" data-placeholder="任务状态">
+                            <option value=""></option>
+                            <option>未开始</option>
+                            <option>进行中</option>
+                            <option>已完成</option>
+                            <option>已暂停</option>
+                            <option>已取消</option>
+                            <option>已关闭</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="taskType" class="form-control" data-placeholder="任务类型">
+                            <option value=""></option>
+                            <option>设计</option>
+                            <option>开发</option>
+                            <option>测试</option>
+                            <option>研究</option>
+                            <option>界面</option>
+                            <option>事务</option>
+                            <option>其他</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8" class="text-center form-actions">
+                        <button id="submit" class="btn btn-primary" onclick="javascript:table.getList();return false;" data-loading="稍候...">搜索</button>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="btn-toolbar pull-right" style="margin-top: 10px; margin-right: 15px;">
+            <a th:if="${permissionCodes.contains('task_add')}"  href="/project/task/add" class="btn btn-primary"><i class="icon icon-plus"></i> 添加任务</a>
+        </div>
+        <div class="panel-body">
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>任务名称</th>
+                    <th>优先级</th>
+                    <th>指派人</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>预估工时</th>
+                    <th>任务状态</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="i in list">
+                    <td>{{i.id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.priority}}</td>
+                    <td>{{i.handlerName}}</td>
+                    <td>{{i.beginDate}}</td>
+                    <td>{{i.endDate}}</td>
+                    <td>{{i.estimateHours}}</td>
+                    <td>{{i.taskStatus}}</td>
+                    <td>{{i.createByName}}</td>
+                    <td>{{i.createTime}}</td>
+                    <td>
+                        <a th:if="${permissionCodes.contains('task_info')}"  :href="'/project/task/info?id=' + i.id" >查看</a>
+                        <a th:if="${permissionCodes.contains('task_update')}"  :href="'/project/task/update?id=' + i.id" >修改</a>
+                        <a th:if="${permissionCodes.contains('task_start')}" v-if="i.taskStatus=='未开始'" :href="'javascript:start(' + i.id + ', \'' + i.name + '\');'">开始</a>
+                        <a th:if="${permissionCodes.contains('task_pause')}" v-if="i.taskStatus=='进行中'" :href="'javascript:pause(' + i.id + ', \'' + i.name + '\');'">暂停</a>
+                        <a th:if="${permissionCodes.contains('task_finish')}" v-if="i.taskStatus=='进行中'" :href="'javascript:finish(' + i.id + ', \'' + i.name + '\');'">完成</a>
+                        <a th:if="${permissionCodes.contains('task_close')}" v-if="i.taskStatus=='已完成'" :href="'javascript:close(' + i.id + ', \'' + i.name + '\');'">关闭</a>
+                        <a th:if="${permissionCodes.contains('task_cancel')}" v-if="i.taskStatus=='未开始' || i.taskStatus=='进行中' || i.taskStatus=='已暂停'" :href="'javascript:cancel(' + i.id + ', \'' + i.name + '\');'">取消</a>
+                        <a th:if="${permissionCodes.contains('task_active')}" v-if="i.taskStatus=='已关闭'" :href="'javascript:active(' + i.id + ', \'' + i.name + '\');'">激活</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <ul class="pager" id="pager"></ul>
+            </div>
+        </div>
+    </div>
+    </form>
+</main>
+
+<script>
+    var table = new Vue({
+        el: '#table',
+        data: {
+            list:[]
+        },
+        created: function() {
+            $('#pager').pager({
+                onPageChange: function(state, oldState) {
+                    table.pageIndex = state.page;
+                    table.getList();
+                }
+            });
+        },
+        methods: {
+            getList: function() {
+                var data = $('#list_form').serializeJson();
+                data.pageIndex = table.pageIndex;
+                $.post('/project/task/list', data, function(result) {
+                    table.list = result.data;
+                    $('#pager').data('zui.pager').set(null, result.totalCount, result.pageSize);
+                })
+                return false;
+            }
+        }
+    });
+
+    function start(id, name) {
+        $.post('/project/task/start', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function close(id, name) {
+        $.post('/project/task/close', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function finish(id, name) {
+        var costHours = prompt('完成任务实际消耗工时：')
+        $.post('/project/task/finish', {id:id,costHours:costHours}, function(result) {
+            table.getList();
+        })
+    }
+
+    function pause(id, name) {
+        $.post('/project/task/pause', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    function cancel(id, name) {
+        $.post('/project/task/cancel', {id:id}, function(result) {
+            table.getList();
+        })
+    }
+
+    $(function () {
+        table.getList();
+        $('select').picker();
+    })
+</script>
+
+<script src="/js/common.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+</body>
+</html>
+
+

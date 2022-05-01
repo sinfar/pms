@@ -39,15 +39,15 @@
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        insert into requirement(name, project_id, module_id, plan_id, "describe", acceptance_criteria, priority,
+        insert into requirement(name, project_id, module_id,  "describe", acceptance_criteria, priority,
             create_by, create_time, requirement_phase, requirement_status, handle_by)
-        VALUES ( #{name},  #{projectId}, #{moduleId}, #{planId}, #{describe}, #{acceptanceCriteria}, #{priority},
+        VALUES ( #{name},  #{projectId}, #{moduleId},  #{describe}, #{acceptanceCriteria}, #{priority},
             #{createBy}, #{createTime},'${requirementPhase}','${requirementStatus}', #{handleBy})
     </insert>
 
     <update id="update">
         update "requirement" set
-        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, plan_id = #{planId}, describe = #{describe}, acceptance_criteria = #{acceptanceCriteria},
+        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, describe = #{describe}, acceptance_criteria = #{acceptanceCriteria},
         priority = #{priority}, requirement_phase = '${requirementPhase}',  handle_by=#{handleBy}
         where id = #{id}
     </update>
@@ -55,12 +55,11 @@
     <select id="getById" resultType="jxf.pms.dbo.RequirementDO">
         select
             a.id, a.name, a.project_id, a.module_id, a.plan_id, a."describe", a.acceptance_criteria, a.priority,
-            a.create_by, a.handle_by, a.create_time, a.requirement_phase, a.requirement_status, b.name project_name, c.name moduleName, d.name planName,
+            a.create_by, a.handle_by, a.create_time, a.requirement_phase, a.requirement_status, b.name project_name, c.name moduleName,
             e.name handle_by_name, f.name create_by_name
         from "requirement" a
         left join  project b on a.project_id = b.id
         left join  module c on c.id = a.module_id
-        left join  plan d on a.plan_id = d.id
         left join  "user" e on e.id = a.handle_by
         left join  "user" f on f.id = a.create_by
         where a.id=#{id}

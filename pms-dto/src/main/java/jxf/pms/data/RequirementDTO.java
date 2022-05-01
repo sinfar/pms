@@ -24,7 +24,6 @@ public class RequirementDTO {
     private Integer handleBy;
     private String handleByName;
     private String projectName;
-    private String planName;
     private String moduleName;
 
     @Override

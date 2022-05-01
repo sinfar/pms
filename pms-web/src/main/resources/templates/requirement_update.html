@@ -78,17 +78,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>所属计划</th>
-                        <td class="">
-                            <div>
-                                <select id="plan_select" name="planId" class="form-control" data-multi="false">
-                                    <option></option>
-                                    <option th:each="plan,i:${plans}" th:value="${plan.id}" th:text="${plan.name}" th:selected="${requirement.planId==plan.id}"></option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
                         <th>指派人</th>
                         <td class="required">
                             <div>
@@ -156,7 +145,6 @@
 
     $(function () {
         $('#priority_select').picker();
-        $('#plan_select').picker();
         $('#isRevie_select').picker();
         $('#module_select').picker();
 

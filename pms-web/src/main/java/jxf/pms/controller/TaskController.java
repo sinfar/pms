@@ -1,6 +1,7 @@
 package jxf.pms.controller;
 
 import jxf.pms.cmd.ModuleListQry;
+import jxf.pms.cmd.RequirementListQry;
 import jxf.pms.data.*;
 import jxf.pms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class RequirementController {
+public class TaskController {
 
     @Autowired
-    private RequirementService requirementService;
+    private TaskService taskService;
     @Autowired
     private ProjectService projectService;
     @Autowired
@@ -24,8 +25,10 @@ public class RequirementController {
     private ModuleService moduleService;
     @Autowired
     private PlanService planService;
+    @Autowired
+    private RequirementService requirementService;
 
-    @GetMapping("/project/requirement")
+    @GetMapping("/project/task")
     public String list(Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
@@ -35,10 +38,10 @@ public class RequirementController {
 
         model.addAttribute("users", users);
         model.addAttribute("projects", projects);
-        return "requirement_list";
+        return "task_list";
     }
 
-    @GetMapping("/project/requirement/add")
+    @GetMapping("/project/task/add")
     public String add(Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
@@ -48,10 +51,10 @@ public class RequirementController {
         List<ProjectDTO> projects = projectService.all();
         model.addAttribute("projects", projects);
 
-        return "requirement_add";
+        return "task_add";
     }
 
-    @GetMapping("/project/requirement/update")
+    @GetMapping("/project/task/update")
     public String update(@RequestParam Integer id, Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
@@ -61,30 +64,36 @@ public class RequirementController {
         List<ProjectDTO> projects = projectService.all();
         model.addAttribute("projects", projects);
 
-        // 需求
-        RequirementDTO requirement = requirementService.getById(id).getData();
-        model.addAttribute("requirement", requirement);
+        // 任务
+        TaskDTO task = taskService.getById(id).getData();
+        model.addAttribute("task", task);
 
         // 当前模块
         ModuleListQry qry = new ModuleListQry();
-        qry.setProjectId(requirement.getProjectId());
+        qry.setProjectId(task.getProjectId());
         List<ModuleDTO> modules = moduleService.list(qry).getData();
         model.addAttribute("modules", modules);
 
-        return "requirement_update";
+        // 当前需求
+        RequirementListQry reqQry = new RequirementListQry();
+        reqQry.setProjectId(task.getProjectId());
+        List<RequirementDTO> requirements = requirementService.list(reqQry).getData();
+        model.addAttribute("requirements", requirements);
+
+        return "task_update";
     }
 
 
-    @GetMapping("/project/requirement/info")
+    @GetMapping("/project/task/info")
     public String info(@RequestParam Integer id, Model model){
         // 所有用户
         List<UserBaseDTO>  users =  userService.all().getData();
         model.addAttribute("users", users);
 
-        RequirementDTO requirement = requirementService.getById(id).getData();
-        model.addAttribute("requirement", requirement);
+        TaskDTO task = taskService.getById(id).getData();
+        model.addAttribute("task", task);
 
-        return "requirement_info";
+        return "task_info";
     }
 
 }

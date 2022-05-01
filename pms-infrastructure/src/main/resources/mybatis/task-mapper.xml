@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.TaskMapper">
+
+    <select id="list" resultType="jxf.pms.dbo.TaskDO">
+        <if test="name != null and name != ''">
+            <bind name="name" value="'%' + name + '%'" />
+        </if>
+        select
+            a.id, a.name, a.task_type, a.task_status, a.create_time, a.priority, b.name create_by_name, c.name handler_name,a.begin_date, a.end_date, a.estimate_hours
+            from "task" a
+            join  "user" b on b.id = a.create_by
+            left join  "user" c on c.id = a.handler
+         where 1 = 1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+        <if test="projectId != null">
+            and a.project_id = #{projectId}
+        </if>
+        <if test="createBy != null">
+            and a.create_by = #{createBy}
+        </if>
+        <if test="handler != null">
+            and a.handler = #{handler}
+        </if>
+        <if test="name != null and name != ''">
+            and a.name like #{name}
+        </if>
+        <if test="taskStatus != null and taskStatus != ''">
+            and a.task_status = '${taskStatus}'
+        </if>
+        <if test="taskType != null and taskType != ''">
+            and a.task_type = '${taskType}'
+        </if>
+        order by a.id desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into task(name, task_type, project_id, module_id, requirement_id, "describe", priority, begin_date, end_date, handler, finisher, create_by, create_time, estimate_hours, task_status)
+        VALUES ( #{name},  '${taskType}', #{projectId}, #{moduleId}, #{requirementId}, #{describe},  #{priority}, #{beginDate},#{endDate},#{handler},#{finisher},
+            #{createBy}, #{createTime}, #{estimateHours},'${taskStatus}')
+    </insert>
+
+    <update id="update">
+        update "task" set
+        name = #{name}, project_id = #{projectId}, module_id = #{moduleId}, requirement_id = #{requirementId}, priority = #{priority}, describe = #{describe}, begin_date = #{beginDate}, end_date=#{endDate},
+        handler = #{handler}, task_status = '${taskStatus}',  estimate_hours=#{estimateHours}
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultType="jxf.pms.dbo.TaskDO">
+        select
+            a.id, a.name, a.task_type, a.project_id, a.module_id, a.requirement_id, a."describe", a.priority, a.begin_date, a.end_date, a.handler, a.finisher, a.create_by, a.create_time, a.estimate_hours, a.cost_hours, a.task_status,
+            b.name project_name, c.name moduleName, g.name requirementName,
+            e.name handler_name, f.name create_by_name, h.name finisher_name
+        from "task" a
+        left join  project b on a.project_id = b.id
+        left join  module c on c.id = a.module_id
+        left join  requirement g on g.id = a.requirement_id
+        left join  "user" e on e.id = a.handler
+        left join  "user" f on f.id = a.create_by
+        left join  "user" h on h.id = a.finisher
+        where a.id=#{id}
+    </select>
+
+    <update id="updateTaskStatus">
+        update "task" set task_status = '${taskStatus}'
+        <if test="taskStatus = '完成'">,finisher=#{operateUserId},cost_hours=#{costHours}</if>
+        where id = #{id}
+    </update>
+</mapper>
