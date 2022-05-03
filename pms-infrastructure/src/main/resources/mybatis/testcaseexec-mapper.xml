@@ -5,13 +5,11 @@
 <mapper namespace="jxf.pms.mapper.TestCaseExecMapper">
 
     <select id="list" resultType="jxf.pms.dbo.TestCaseExecDO">
-        <bind name="name" value="'%' + name + '%'" />
-
         select
-        a.id, test_result, "describe", create_by, create_time, test_case_Id, b.name create_by_name
+        a.id, a.test_result, a."describe", a.create_by, a.create_time, test_case_id, b.name create_by_name
         from "test_case_exec" a
         join  "user" b on b.id = a.create_by
-        where a.test
+        where a.test_case_id = #{testCaseId}
         order by a.id desc
     </select>
 

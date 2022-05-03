@@ -8,7 +8,8 @@
         <bind name="name" value="'%' + name + '%'" />
 
         select
-        a.id, a.name, a.test_case_type, a.create_time,  a.test_time, a.test_by, b.name create_by_name, c.name test_by_name
+        a.id, a.name, a.test_case_type, a.create_time,  a.test_time, a.test_by, a.test_case_result,b.name create_by_name, c.name test_by_name,
+        (select count(*) from test_case_exec x where x.test_case_Id = a.id) exec_cnt
         from "test_case" a
         join  "user" b on b.id = a.create_by
         left join  "user" c on c.id = a.test_by

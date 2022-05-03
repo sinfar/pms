@@ -110,7 +110,7 @@
                     <tbody>
                     <tr th:each="exec,i:${testCaseExecs}" >
                         <td th:text="${#dates.format(exec.createTime, 'yyyy-MM-dd HH:mm:dd')}"></td>
-                        <td th:text="${exec.createByName">"</td>
+                        <td th:text="${exec.createByName}">"</td>
                         <td th:text="${exec.testResult}"></td>
                         <td th:text="${exec.describe}"></td>
                     </tr>

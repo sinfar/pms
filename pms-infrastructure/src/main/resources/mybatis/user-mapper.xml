@@ -60,4 +60,13 @@
         select id, name from "user" where status != '删除'
         order by id desc
     </select>
+
+    <select id="getMyTaskStat" resultType="jxf.pms.dbo.MyTaskStatDO">
+        select id,
+        (select count(distinct x.id) from project x left join project_member y on y.project_id = x.id where x.leader = a.id or y.user_id = a.id and x.project_status != '已关闭') projectCnt,
+        (select count(*) from requirement x where x.requirement_status != '已关闭' and x.handle_by = a.id) requirementCnt,
+        (select count(*) from bug x where x.bug_status != '已关闭' and x.handler = a.id) bugCnt,
+        (select count(*) from task x where x.task_status not in ('已关闭', '已取消') and x.handler = a.id) taskCnt
+        from "user" a where a.id = #{userId}
+    </select>
 </mapper>

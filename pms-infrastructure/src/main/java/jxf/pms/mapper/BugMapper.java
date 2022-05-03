@@ -3,6 +3,7 @@ package jxf.pms.mapper;
 import jxf.pms.cmd.BugListQry;
 import jxf.pms.cmd.BugResolveCmd;
 import jxf.pms.dbo.BugDO;
+import jxf.pms.dbo.BugStatusStatDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,6 @@ public interface BugMapper {
     List<BugDO> all(@Param("projectId")Integer projectId);
 
     void resolve(BugResolveCmd cmd);
+
+    BugStatusStatDO getStatusStat();
 }

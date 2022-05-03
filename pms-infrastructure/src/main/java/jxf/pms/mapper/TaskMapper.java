@@ -2,6 +2,7 @@ package jxf.pms.mapper;
 
 import jxf.pms.cmd.TaskListQry;
 import jxf.pms.dbo.TaskDO;
+import jxf.pms.dbo.TaskStatusStatDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,6 @@ public interface TaskMapper {
     void updateTaskStatus(@Param("id") Integer id, @Param("taskStatus") String taskStatus,
                           @Param("operateUserId") Integer operateUserId,
                           @Param("costHours") Integer costHours);
+
+    TaskStatusStatDO getStatusStat();
 }

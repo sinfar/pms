@@ -4,6 +4,7 @@ import jxf.pms.cmd.ProjectListQry;
 import jxf.pms.cmd.RequirementListQry;
 import jxf.pms.dbo.ProjectDO;
 import jxf.pms.dbo.RequirementDO;
+import jxf.pms.dbo.RequirementStatusStatDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,6 @@ public interface RequirementMapper {
     RequirementDO getById(Integer id);
 
     void updateRequirementStatus(@Param("id") Integer id, @Param("requirementStatus") String requirementStatus);
+
+    RequirementStatusStatDO getStatusStat();
 }

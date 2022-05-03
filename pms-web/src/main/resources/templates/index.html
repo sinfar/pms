@@ -13,10 +13,322 @@
 <body class="m-my-index">
 <header id="header" th:replace="/common/header::#header"></header>
 <main id="main" class="in">
+    <div class="container">
+        <div class="dashboard auto-fade-in fade in" id="dashboard">
+            <div class="row">
+                <div class="col-main">
+                    <div class="panel block-welcome" id="block148" data-id="148" data-name="欢迎" data-order="0" data-url="/block-printBlock-148-my.html">
+                        <div class="panel-heading" style=" background-color: initial;">
+                            <div class="panel-title">我的待办</div>
+
+                        </div>
+
+                        <style>
+                            .block-welcome .col-left {width: 25%;}
+                            .block-welcome .col-left > h4 {margin: 5px 0;line-height: 30px;}
+                            .block-welcome .col-left .timeline {margin: 10px 0 0;font-size: 12px;}
+                            .block-welcome .col-right > h4 {font-weight: normal;}
+                            .block-welcome .col-right > h4 small {display: inline-block;margin-right: 8px;font-size: 14px;}
+                            .block-welcome .col-right .tiles {padding: 10px 0 0 16px;}
+                            .block-welcome .col-right .tile {width: 25%;}
+                            .block-welcome .panel-body {padding-top: 15px;}
+                            .block-welcome .user-notification-icon {position: relative;display: inline-block;margin-left: 5px;}
+                            .block-welcome .user-notification-icon .label-badge {position: absolute;top: 1px;right: -8px;min-width: 16px;padding: 2px;font-size: 12px;font-weight: normal;}
+                            .block-welcome.block-sm .col-right {padding: 0;}
+                            .block-welcome.block-sm .col-right .tiles {border-left: none; padding-left: 0}
+                            .block-welcome.block-sm .tile-title {font-size: 12px; margin: 0 -10px;}
+                        </style>
+
+                        <div class="panel-body conatiner-fluid">
+                            <div class="table-row">
+
+                                <div class="col col-right">
+
+                                    <div class="row tiles">
+                                        <div class="col tile">
+                                            <div class="tile-title">我的任务</div>
+                                            <div class="tile-amount"><a href="/project/task" th:text="${mytaskStat.taskCnt}">0</a></div>
+                                        </div>
+                                        <div class="col tile">
+                                            <div class="tile-title">我的BUG</div>
+                                            <div class="tile-amount"><a href="/test/bug" th:text="${mytaskStat.bugCnt}">0</a></div>
+                                        </div>
+                                        <div class="col tile">
+                                            <div class="tile-title">我的需求</div>
+                                            <div class="tile-amount"><a href="/project/requirement" th:text="${mytaskStat.requirementCnt}">0</a></div>
+                                        </div>
+                                        <div class="col tile">
+                                            <div class="tile-title">我的项目</div>
+                                            <div class="tile-amount"><a href="/project/project" th:text="${mytaskStat.projectCnt}">0</a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel block-flowchart" id="block150" data-id="150" data-name="项目统计" data-order="1" data-url="/block-printBlock-150-my.html">
+                        <div class="panel-heading" style=" background-color: initial;">
+                            <div class="panel-title">项目统计</div>
+                        </div>
+                        <div class="panel-body scrollbar-hover" style="min-height: 200px;">
+                            <table id="table" class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>项目名称</th>
+                                    <th>激活需求</th>
+                                    <th>草稿需求</th>
+                                    <th>未过期计划</th>
+                                    <th>未开始任务</th>
+                                    <th>进行中任务</th>
+                                    <th>激活BUG</th>
+                                    <th>未关闭BUG</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="p,i:${projectStats}">
+                                    <td th:text="${p.id}">1</td>
+                                    <td th:text="${p.name}">1</td>
+                                    <td th:text="${p.activeReqCnt}">1</td>
+                                    <td th:text="${p.draftReqCnt}">1</td>
+                                    <td th:text="${p.unexpiredPlanCnt}">5</td>
+                                    <td th:text="${p.unstartTaskCnt}">1</td>
+                                    <td th:text="${p.doingTaskCnt}">2</td>
+                                    <td th:text="${p.activeBugCnt}">3</td>
+                                    <td th:text="${p.uncloseBugCnt}">4</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <style>
+                            .block-flowchart .panel-body {padding: 0 30px 0 20px;}
+                            .flow-item {float: left; width: 16.66667%; max-width: 180px; text-align: center; margin-bottom: 9px; padding-right: 15px;}
+                            .flow-item > div {position: relative; padding: 5px 0 5px 8px; line-height: 20px; background: #E8EBEF; white-space:nowrap; overflow: visible; color: #3c4353}
+                            .flow-item > div:before, .flow-item > div:after {content: ' '; display: block; width: 0; height: 0; border-style: solid; border-width: 15px 0 15px 10px; border-color: transparent transparent transparent #E8EBEF; position: absolute; left: 0; top: 0;}
+                            .ie-8 .flow-item > div:before {display: none}
+                            .flow-item > div:before {border-left-color: #fff; z-index: 1}
+                            .flow-item > div:after {left: auto; right: -10px; z-index: 2}
+                            .ie-8 .flow-item > div {margin-right: 10px}
+                            .flow-item-0 > div {color: #838A9D; font-weight: bold; padding-left: 0;}
+                            .flow-item-0 > div:before {display: none}
+                            .flow-item-1 > div {background: #E3F2FD}
+                            .flow-item-1 > div:after {border-left-color: #E3F2FD}
+                            .flow-item-2 > div {background: #E8F5E9}
+                            .flow-item-2 > div:after {border-left-color: #E8F5E9}
+                            .flow-item-3 > div {background: #FFF3E0}
+                            .flow-item-3 > div:after {border-left-color: #FFF3E0}
+                            .flow-item-4 > div {background: #FFEBEE}
+                            .flow-item-4 > div:after {border-left-color: #FFEBEE}
+                            .flow-item-5 > div {background: #F3E5F5}
+                            .flow-item-5 > div:after {border-left-color: #F3E5F5}
+                            .flow-item-1 > div:hover {background: #1565C0; color: #fff;}
+                            .flow-item-1 > div:hover:after {border-left-color: #1565C0}
+                            .flow-item-2 > div:hover {background: #43A047; color: #fff;}
+                            .flow-item-2 > div:hover:after {border-left-color: #43A047}
+                            .flow-item-3 > div:hover {background: #EF6C00; color: #fff;}
+                            .flow-item-3 > div:hover:after {border-left-color: #EF6C00}
+                            .flow-item-4 > div:hover {background: #E53935; color: #fff;}
+                            .flow-item-4 > div:hover:after {border-left-color: #E53935}
+                            .flow-item-5 > div:hover {background: #9C27B0; color: #fff;}
+                            .flow-item-5 > div:hover:after {border-left-color: #9C27B0}
+
+                            .block-sm .flow-item {padding-right: 5px}
+                            .block-sm .flow-item > div:before, .block-sm .flow-item > div:after {border-width: 15px 0 15px 6px;}
+                            .block-sm .row-3 .flow-item-1, .block-sm .row-3 .flow-item-3 {width: 25%}
+                            .block-sm .flow-item > div:after {right: -6px;}
+                        </style>
+                    </div>
+
+                    <div class="panel block-sm block-dynamic" id="block149" data-id="149" data-name="状态分布统计" data-order="4" data-url="/block-printBlock-149-my.html">
+                        <div class="panel-heading" style=" background-color: initial;">
+                            <div class="panel-title">状态分布统计</div>
+
+                        </div>
+                        <style>
+                            .block-dynamic .timeline > li .timeline-text {display: block; overflow: hidden; text-overflow: ellipsis; max-height: 20px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+                            .block-dynamic .panel-body {padding-top: 0;}
+                        </style>
+                        <div class="panel-body scrollbar-hover" >
+                            <div class="col" style="width: 33%;padding-top: 18px;">
+                                <div id="taskStatusStat" style="width: 80%;height: 300px;"></div>
+                            </div>
+                            <div class="col" style="width: 33%;padding-top: 18px;">
+                                <div id="reqStatusStat"  style="width: 80%;height: 300px;"></div>
+                            </div>
+                            <div class="col" style="width: 33%;padding-top: 18px;">
+                                <div id="bugStatusStat"  style="width: 80%;height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>    </div>
+
 </main>
 
 <script src="http://cdn.bootcdn.net/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
 <script src="/lib/zui/js/zui.min.js"></script>
+<script src="/lib/echarts/echarts.min.js"></script>
+
+<script>
+$(function() {
+    $.post('/index/getTaskStatusStat', null, function(result) {
+        var stat = result.data;
+
+        var data = [{
+            value: stat.unstartCnt,
+            name: "未开始"
+        }, {
+            value: stat.doingCnt,
+            name: "进行中"
+        }, {
+            value: stat.finishCnt,
+            name: "完成"
+        }, {
+            value: stat.pauseCnt,
+            name: "暂停"
+        }, {
+            value: stat.cancelCnt,
+            name: "取消"
+        }, {
+            value: stat.closeCnt,
+            name: "已关闭"
+        }];
+
+        var option = {
+            title: {
+                text: '任务状态分布图',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: '任务状态',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        var myChart = echarts.init(document.getElementById('taskStatusStat'));
+        myChart.setOption(option);
+    })
+
+
+    $.post('/index/getRequirementStatusStat', null, function(result) {
+        var stat = result.data;
+
+        var data = [{
+            value: stat.draftCnt,
+            name: "草稿"
+        }, {
+            value: stat.activeCnt,
+            name: "激活"
+        }, {
+            value: stat.closeCnt,
+            name: "已关闭"
+        }];
+
+        var option = {
+            title: {
+                text: '需求状态分布图',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: '需求状态',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        var myChart = echarts.init(document.getElementById('reqStatusStat'));
+        myChart.setOption(option);
+    })
+
+    $.post('/index/getBugStatusStat', null, function(result) {
+        var stat = result.data;
+
+        var data = [{
+            value: stat.activeCnt,
+            name: "激活"
+        }, {
+            value: stat.fixedCnt,
+            name: "已解决"
+        }, {
+            value: stat.closeCnt,
+            name: "已关闭"
+        }];
+
+        var option = {
+            title: {
+                text: 'Bug状态分布图',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Bug状态',
+                    type: 'pie',
+                    radius: '50%',
+                    data: data,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        var myChart = echarts.init(document.getElementById('bugStatusStat'));
+        myChart.setOption(option);
+    })
+})
+</script>
 </body>
 </html>
 

@@ -71,4 +71,14 @@
         <if test="taskStatus = '完成'">,finisher=#{operateUserId},cost_hours=#{costHours}</if>
         where id = #{id}
     </update>
+
+    <select id="getStatusStat" resultType="jxf.pms.dbo.TaskStatusStatDO">
+        select sum(case when x.task_status = '未开始' then 1 else 0 end) unstartCnt,
+                sum(case when x.task_status = '进行中' then 1 else 0 end) doingCnt,
+                sum(case when x.task_status = '已完成' then 1 else 0 end) finishCnt,
+                sum(case when x.task_status = '已暂停' then 1 else 0 end) pauseCnt,
+                sum(case when x.task_status = '已取消' then 1 else 0 end) cancelCnt,
+                sum(case when x.task_status = '已关闭' then 1 else 0 end) closeCnt
+                from task x
+    </select>
 </mapper>

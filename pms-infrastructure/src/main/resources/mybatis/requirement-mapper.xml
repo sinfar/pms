@@ -70,4 +70,13 @@
         <if test="requirementStatus = '已关闭'">,requirement_phase='已关闭'</if>
         where id = #{id}
     </update>
+
+
+    <select id="getStatusStat" resultType="jxf.pms.dbo.RequirementStatusStatDO">
+        select
+                sum(case when x.requirement_status = '草稿' then 1 else 0 end) draftCnt,
+                sum(case when x.requirement_status = '已激活' then 1 else 0 end) activeCnt,
+                sum(case when x.requirement_status = '已关闭' then 1 else 0 end) closeCnt
+                from requirement x
+    </select>
 </mapper>

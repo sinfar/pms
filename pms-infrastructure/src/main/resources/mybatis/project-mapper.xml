@@ -79,4 +79,46 @@
         update "project" set project_status = '${projectStatus}'
         where id = #{id}
     </update>
+
+    <select id="getProjectStat" resultType="jxf.pms.dbo.ProjectStatDO">
+        select
+            a.id, a."name",
+						coalesce(b.activeReqCnt, 0) activeReqCnt,
+						coalesce(b.draftReqCnt, 0) draftReqCnt,
+						coalesce(c.unstartTaskCnt, 0) unstartTaskCnt,
+						coalesce(c.doingTaskCnt, 0) doingTaskCnt,
+						coalesce(d.unexpiredPlanCnt, 0) unexpiredPlanCnt,
+						coalesce(e.activeBugCnt, 0) activeBugCnt,
+						coalesce(e.uncloseBugCnt, 0) uncloseBugCnt
+            from "project" a
+
+            left join
+            (select x.project_id,
+                sum(case when x.requirement_status = '已激活' then 1 else 0 end) activeReqCnt,
+                sum(case when x.requirement_status = '草稿' then 1 else 0 end) draftReqCnt
+                from requirement x where x.requirement_status in ('已激活','草稿')
+                group by x.project_id) b on b.project_id = a.id
+
+            left join
+            (select x.project_id,
+                sum(case when x.task_status = '未开始' then 1 else 0 end) unstartTaskCnt,
+                sum(case when x.task_status = '进行中' then 1 else 0 end) doingTaskCnt
+                from task x where x.task_status in ('未开始','进行中')
+                group by x.project_id) c on c.project_id = a.id
+
+            left join
+            (select x.project_id,
+                sum(case when x.plan_status = '未过期' then 1 else 0 end) unexpiredPlanCnt
+                from plan x where x.plan_status in ('未过期')
+                group by x.project_id) d on d.project_id = a.id
+
+            left join
+            (select x.project_id,
+                sum(case when x.bug_status = '激活' then 1 else 0 end) activeBugCnt,
+                sum(case when x.bug_status = '已解决' then 1 else 0 end) uncloseBugCnt
+                from bug x where x.bug_status in ('激活','已解决')
+                group by x.project_id) e on e.project_id = a.id
+        where a.project_status != '已关闭'
+        order by a.id desc
+    </select>
 </mapper>

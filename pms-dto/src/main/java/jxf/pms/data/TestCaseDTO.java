@@ -27,4 +27,7 @@ public class TestCaseDTO {
     private String testByName;
     private String createByName;
     private List<TestStepDTO> testSteps;
+
+    private Integer execCnt;
+
 }

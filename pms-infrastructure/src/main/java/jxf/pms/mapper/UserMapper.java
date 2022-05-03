@@ -1,6 +1,7 @@
 package jxf.pms.mapper;
 
 import jxf.pms.cmd.UserListQry;
+import jxf.pms.dbo.MyTaskStatDO;
 import jxf.pms.dbo.UserBaseDO;
 import jxf.pms.dbo.UserDO;
 import jxf.pms.dbo.LoginUserDO;
@@ -30,4 +31,6 @@ public interface UserMapper {
     void updatePassword(@Param("id") Integer userId, @Param("password") String password);
 
     List<UserBaseDO> all();
+
+    MyTaskStatDO getMyTaskStat(Integer userId);
 }

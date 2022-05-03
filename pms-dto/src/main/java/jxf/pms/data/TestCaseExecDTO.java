@@ -9,7 +9,7 @@ import java.util.Date;
 public class TestCaseExecDTO {
 
   private Integer id;
-  private Integer testResult;
+  private String testResult;
   private String describe;
   private Integer createBy;
   private Date createTime;

@@ -2,6 +2,7 @@ package jxf.pms.mapper;
 
 import jxf.pms.cmd.ProjectListQry;
 import jxf.pms.dbo.ProjectDO;
+import jxf.pms.dbo.ProjectStatDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,6 @@ public interface ProjectMapper {
     void updateProjectStatus(@Param("id") Integer id, @Param("projectStatus") String projectStatus);
 
     List<ProjectDO> all();
+
+    List<ProjectStatDO> getProjectStat();
 }

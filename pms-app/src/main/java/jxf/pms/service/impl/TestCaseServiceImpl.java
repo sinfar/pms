@@ -121,6 +121,7 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     @Override
     public List<TestCaseExecDTO> gettTestCaseExecs(Integer id) {
-       return ObjectUtils.copyList(testCaseExecMapper.list(id), TestCaseExecDTO.class);
+        List<TestCaseExecDO> testCaseExecs = testCaseExecMapper.list(id);
+       return ObjectUtils.copyList(testCaseExecs, TestCaseExecDTO.class);
     }
 }

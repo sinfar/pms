@@ -27,4 +27,6 @@ public class TestCaseDO {
   private String requirementName;
   private String testByName;
   private String createByName;
+
+  private Integer execCnt;
 }
