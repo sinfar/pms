@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                <span class="label label-id" th:text="${testCase.id}"></span>
+                <span th:text="${testCase.name}">标题</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="">
+                <div class="">
+                    <h4>添加执行结果</h4>
+                </div>
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <input type="hidden" name="id" th:value="${testCase.id}">
+                <table class="table table-form" style="width: 100%;">
+                    <tbody>
+                    <tr>
+                        <th>用例步骤</th>
+                        <td colspan="2">
+                            <table class="table table-form mg-0 table-bordered">
+                                <thead>
+                                <tr>
+                                    <th class="w-50px text-center">编号</th>
+                                    <th width="45%">步骤</th>
+                                    <th>预期</th>
+                                </tr>
+                                </thead>
+                                <tbody id="steps">
+                                <tr  th:each="step,i:${testCase.testSteps}">
+                                    <td rownum th:text="${i.index+1}">1</td>
+                                    <td th:text="${step.name}">
+                                    </td>
+                                    <td th:text="${step.expect}">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>执行结果</th>
+                        <td class="required">
+                            <div>
+                                <select name="testResult" class="form-control" data-multi="false" required>
+                                    <option>通过</option>
+                                    <option>失败</option>
+                                    <option>阻塞</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>描述</th>
+                        <td>
+                            <textarea class="form-control" name="describe" maxlength="100"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <button type="submit" id="submit" class="btn btn-wide btn-primary" data-loading="稍候..." data-dismiss="modal">保存</button>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+            </div>
+
+            <div class="">
+                <div class="">
+                    <h4>执行记录</h4>
+                </div>
+                <table class="table table-form" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>执行时间</th>
+                        <th>执行人</th>
+                        <th>执行结果</th>
+                        <th>描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="exec,i:${testCaseExecs}" >
+                        <td th:text="${#dates.format(exec.createTime, 'yyyy-MM-dd HH:mm:dd')}"></td>
+                        <td th:text="${exec.createByName">"</td>
+                        <td th:text="${exec.testResult}"></td>
+                        <td th:text="${exec.describe}"></td>
+                    </tr>
+                    </tbody></table>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function save() {
+        if (!$('#dataform').valid()) return;
+
+        var data = $('#dataform').serializeJson();
+        $.post('/test/testCase/addExec', data, function(result) {
+            window.parent.table.getList();
+        })
+    }
+
+    $(function () {
+        $('select').picker();
+        $("#dataform").validate();
+    })
+</script>
+
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

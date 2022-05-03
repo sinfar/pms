@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.TestCaseExecMapper">
+
+    <select id="list" resultType="jxf.pms.dbo.TestCaseExecDO">
+        <bind name="name" value="'%' + name + '%'" />
+
+        select
+        a.id, test_result, "describe", create_by, create_time, test_case_Id, b.name create_by_name
+        from "test_case_exec" a
+        join  "user" b on b.id = a.create_by
+        where a.test
+        order by a.id desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "test_case_exec" (test_result, "describe", create_by, create_time, test_case_Id)
+        VALUES ('${testResult}',  #{describe}, #{createBy}, #{createTime}, #{testCaseId})
+    </insert>
+</mapper>

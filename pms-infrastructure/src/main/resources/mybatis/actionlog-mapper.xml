@@ -31,6 +31,9 @@
         <if test="operateObject == 'bug'">
             select name  from "bug" where id = #{objectId}
         </if>
+        <if test="operateObject == '测试用例'">
+            select name  from "test_case" where id = #{objectId}
+        </if>
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id">

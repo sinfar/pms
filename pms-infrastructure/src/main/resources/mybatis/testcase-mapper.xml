@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jxf.pms.mapper.TestCaseMapper">
+
+    <select id="list" resultType="jxf.pms.dbo.TestCaseDO">
+        <bind name="name" value="'%' + name + '%'" />
+
+        select
+        a.id, a.name, a.test_case_type, a.create_time,  a.test_time, a.test_by, b.name create_by_name, c.name test_by_name
+        from "test_case" a
+        join  "user" b on b.id = a.create_by
+        left join  "user" c on c.id = a.test_by
+        where 1 = 1
+        <if test="id != null">
+            and a.id = #{id}
+        </if>
+        <if test="projectId != null">
+            and a.project_id = #{projectId}
+        </if>
+        <if test="requirementId != null">
+            and a.requirement_id = #{requirementId}
+        </if>
+        <if test="name != null and name != ''">
+            and a.name like #{name}
+        </if>
+        <if test="testCaseType != null and testCaseType != ''">
+            and a.test_case_type = '${testCaseType}'
+        </if>
+        <if test="createBy != null">
+            and a.create_by = #{createBy}
+        </if>
+        <if test="testBy != null">
+            and a.test_by = #{testBy}
+        </if>
+        order by a.id desc
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO "test_case" (name, precondition, module_id, project_id, requirement_id, create_by, create_time, test_case_type, test_phase)
+        VALUES ( #{name},  #{precondition}, #{moduleId}, #{projectId}, #{requirementId}, #{createBy},
+            #{createTime},'${testCaseType}','${testPhase}');
+    </insert>
+
+    <update id="update">
+        update "test_case" set
+        name = #{name}, precondition = #{precondition}, module_id = #{moduleId}, requirement_id = #{requirementId}, project_id = #{projectId},
+        test_case_type = '${testCaseType}', test_phase = '${testPhase}'
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultType="jxf.pms.dbo.TestCaseDO">
+        select
+            a.id, a.name, a.precondition, a.module_id, a.project_id, a.requirement_id, a.create_by, a."create_time", a.test_case_type, a.test_phase, a.test_by,
+            a.create_by, a.create_time, a.test_time,
+            b.name project_name, c.name module_name, g.name requirement_name,
+            e.name test_by_name, f.name create_by_name
+        from "test_case" a
+        left join  project b on a.project_id = b.id
+        left join  module c on c.id = a.module_id
+        left join  requirement g on g.id = a.requirement_id
+        left join  "user" e on e.id = a.test_by
+        left join  "user" f on f.id = a.create_by
+        where a.id=#{id}
+    </select>
+
+    <update id="updateTestCaseStatus">
+        update "test_case" set test_case_result = '${testCaseResult}', test_by = '${testBy}',  test_time = #{testTime}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IT项目管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="/lib/zui/lib/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="/lib/zui/css/zui.css">
+    <link rel="stylesheet" href="/css/default.css" type="text/css" media="screen">
+    <link href="/lib/zui/lib/picker/zui.picker.css" rel="stylesheet">
+
+    <link href="/lib/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+    <script src="/lib/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+
+    <script src="/lib/zui/lib/kindeditor/kindeditor.js"></script>
+
+
+
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/zui/js/zui.min.js"></script>
+</head>
+<body>
+<header id="header" th:replace="/common/header::#header"></header>
+<main id="main" class="in">
+    <div id="mainContent" class="main-content">
+        <div class="center-block">
+            <div class="main-header">
+                <h2>查看测试用例</h2>
+            </div>
+            <form class="main-form form-ajax" id="dataform" onsubmit="save();" action="javascript:;">
+                <input type="hidden" name="id" th:value="${testCase.id}">
+                <table class="table table-form" style="width: 80%;">
+                    <tbody>
+                    <tr>
+                        <th>测试用例名称</th>
+                        <td class="required" width="30%;" th:text="${testCase.name}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>测试用例类型</th>
+                        <td class="required" th:text="${testCase.testCaseType}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>适用阶段</th>
+                        <td class="required" th:text="${testCase.testPhase}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属项目</th>
+                        <td class="required" th:text="${testCase.projectName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属模块</th>
+                        <td class="" th:text="${testCase.moduleName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>所属需求</th>
+                        <td class=""  th:text="${testCase.requirementName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>前置条件</th>
+                        <td class=""   th:text="${testCase.precondition}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>用例步骤</th>
+                        <td colspan="2">
+                            <table class="table table-form mg-0 table-bordered">
+                                <thead>
+                                <tr>
+                                    <th class="w-50px text-center">编号</th>
+                                    <th width="45%">步骤</th>
+                                    <th>预期</th>
+                                </tr>
+                                </thead>
+                                <tbody id="steps">
+                                <tr  th:each="step,i:${testCase.testSteps}">
+                                    <td rownum th:text="${i.index+1}">1</td>
+                                    <td th:text="${step.name}">
+                                    </td>
+                                    <td th:text="${step.expect}">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>执行人</th>
+                        <td th:text="${testCase.testByName}"></td>
+                    </tr>
+                    <tr>
+                        <th>执行时间</th>
+                        <td th:text="${#dates.format(testCase.testByName, 'yyyy-MM-dd HH:mm:dd')}"></td>
+                    </tr>
+                    <tr>
+                        <th>执行结果</th>
+                        <td th:text="${testCase.testCaseResult}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center form-actions">
+                            <input type="hidden" id="uid" name="uid" value="624c47933a14c">            <a href="javascript:history.go(-1);" class="btn btn-back btn-wide">返回</a>          </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+</main>
+
+
+
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="/lib/validate/messages_zh.js"></script>
+<script src="/lib/zui/lib/picker/zui.picker.js"></script>
+
+
+<script src="/js/common.js"></script>
+</body>
+</html>
+
+

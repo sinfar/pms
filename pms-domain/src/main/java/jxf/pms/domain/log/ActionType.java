@@ -23,6 +23,7 @@ public enum ActionType {
     disabled("禁用"),
     enabled("启用"),
     resetpassword("重置密码"),
+    addExec("添加执行结果"),
 
     rename("重命名");
 
