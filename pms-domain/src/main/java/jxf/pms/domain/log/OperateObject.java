@@ -8,7 +8,6 @@ public enum OperateObject {
     module("模块"),
 
     testCase("测试用例"),
-    testSheet("测试单"),
     bug("bug"),
 
     user("用户"),
