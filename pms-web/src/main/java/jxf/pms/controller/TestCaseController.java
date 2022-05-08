@@ -25,8 +25,6 @@ public class TestCaseController {
     private RequirementService requirementService;
     @Autowired
     private TestCaseService testCaseService;
-    @Autowired
-    private TaskService taskService;
 
     @GetMapping("/test/testCase")
     public String list(Model model){

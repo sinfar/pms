@@ -96,6 +96,6 @@
                 sum(case when x.bug_status = '激活' then 1 else 0 end) activeCnt,
                 sum(case when x.bug_status = '已解决' then 1 else 0 end) fixedCnt,
                 sum(case when x.bug_status = '已关闭' then 1 else 0 end) closeCnt
-                from bug x
+        from bug x
     </select>
 </mapper>
