@@ -75,9 +75,9 @@ public class PlanController {
         qry.setPageIndex(1);
         qry.setPageSize(Integer.MAX_VALUE);
         qry.setProjectId(plan.getProjectId());
-        List<RequirementDTO> allRrequirements = requirementService.list(qry).getData();
-        allRrequirements.removeAll(requirements);
-        model.addAttribute("allRrequirements", allRrequirements);
+        List<RequirementDTO> allRequirements = requirementService.list(qry).getData();
+        allRequirements.removeAll(requirements);
+        model.addAttribute("allRequirements", allRequirements);
 
         return "plan_requirement";
     }

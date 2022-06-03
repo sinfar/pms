@@ -44,8 +44,8 @@
         select
             a.id,a.name
             from "bug" a
-        <if test="bugId != null">
-            where a.bug_id = #{bugId}
+        <if test="projectId != null">
+            where a.project_id = #{projectId}
         </if>
         order by a.id desc
     </select>

@@ -22,7 +22,7 @@
             color: red;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="/lib/vue/vue.js"></script>
     <script src="/lib/zui/js/zui.min.js"></script>
 </head>
 <body>
@@ -39,9 +39,9 @@
                 <tbody>
                 <tr class="input-control has-label-left">
                     <td width="80%">
-                        <select name="bugIds" class="form-control" data-placeholder="选择需求" multiple data-multi="true">
+                        <select name="requirementIds" class="form-control" data-placeholder="选择需求" multiple data-multi="true">
                             <option value=""></option>
-                            <option th:each="bug,i:${allBugs}" th:value="${bug.id}" th:text="${bug.name}"></option>
+                            <option th:each="req,i:${allRequirements}" th:value="${req.id}" th:text="${req.name}"></option>
                         </select>
                     </td>
                     <td class="text-center form-actions">
@@ -64,10 +64,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="bug,i:${bugs}" >
+                    <tr th:each="req,i:${requirements}" >
                         <td><a th:text="${i.index+1}"></a></td>
-                        <td><a th:text="${bug.id}"</a></td>
-                        <td><a th:text="${bug.name}"</a></td>
+                        <td><a th:text="${req.id}"</a></td>
+                        <td><a th:text="${req.name}"</a></td>
                     </tr>
                     </tbody></table>
         </div>
@@ -79,8 +79,8 @@
         if (!$('#dataform').valid()) return;
 
         var data = $('#dataform').serializeJson();
-        if (data.bugIds && !Array.isArray(data.bugIds)) data.bugIds = [data.bugIds];
-        $.post('/project/plan/addBugs', data, function(result) {
+        if (data.requirementIds && !Array.isArray(data.requirementIds)) data.requirementIds = [data.requirementIds];
+        $.post('/project/plan/addRequirements', data, function(result) {
             location.href = '/project/plan';
         })
     }
