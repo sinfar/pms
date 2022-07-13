@@ -18,4 +18,4 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 
 cd start 
 echo `pwd`
-java -jar target/start-${VERSION}.jar
+java -jar /var/jenkins_home/workspace/pms_master/start/target/start-${VERSION}.jar
