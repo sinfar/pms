@@ -18,5 +18,6 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 
 cd start 
 echo `pwd`
+chmod 777 /var/jenkins_home/workspace/pms_master/start/target
 chmod 777 /var/jenkins_home/workspace/pms_master/start/target/start-1.0.0-SNAPSHOT.jar
 java -jar /var/jenkins_home/workspace/pms_master/start/target/start-1.0.0-SNAPSHOT.jar
