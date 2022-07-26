@@ -199,6 +199,14 @@
                     <configuration>
                         <fork>true</fork>
                     </configuration>
+                    <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
