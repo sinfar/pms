@@ -19,4 +19,4 @@ echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 cd start/target 
 echo `pwd`
 echo `ls`
-java -jar start-1.0.0-SNAPSHOT.jar
+java -jar ./start-1.0.0-SNAPSHOT.jar
