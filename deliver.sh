@@ -16,9 +16,7 @@ VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
 echo 'The following command runs and outputs the execution of your Java'
 echo 'application (which Jenkins built using Maven) to the Jenkins UI.'
 
-cd start 
+cd start/target 
 echo `pwd`
 echo `ls`
-chmod 777 /var/jenkins_home/workspace/pms_master/start/target
-chmod 777 /var/jenkins_home/workspace/pms_master/start/target/start-1.0.0-SNAPSHOT.jar
-java -jar /var/jenkins_home/workspace/pms_master/start/target/start-1.0.0-SNAPSHOT.jar
+java -jar start-1.0.0-SNAPSHOT.jar
